@@ -1,0 +1,7 @@
+CREATE TABLE user (
+  id       INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(32) NOT NULL,
+  password VARCHAR(64) NOT NULL,
+  salt     VARCHAR(32) NOT NULL
+)
+  ENGINE =innodb;
