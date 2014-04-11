@@ -7,6 +7,9 @@
 
 <body>
 <h1>Welcome!!</h1>
-<pre><?php var_dump($data, $page); ?></pre>
+
+<?php if (!empty($view)) {
+   $this->load->view($view, $data);
+} ?>
 </body>
 </html>

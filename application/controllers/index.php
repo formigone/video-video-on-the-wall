@@ -11,7 +11,8 @@ class Index extends CI_Controller {
          'page' => array(
             'title' => 'Easy Learn Tutorial: Free Programming Lessons'
          ),
-         'data' => array()
+         'data' => array(),
+         'view' => false
       );
    }
 
@@ -24,13 +25,18 @@ class Index extends CI_Controller {
    }
 
    protected function setView($view) {
+      $this->view['view'] = $view;
+   }
+
+   protected function setLayout($view) {
       $this->load->view($view, $this->view);
    }
 
    /**
     */
    public function index() {
-      $this->setData('test', array(1, 2, 3));
-      $this->setView('layout/bootstrap');
+      $this->setData('test', 'data from ctrl');
+      $this->setView('simple');
+      $this->setLayout('layout/bootstrap');
    }
 }
