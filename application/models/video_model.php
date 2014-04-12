@@ -3,10 +3,12 @@
 class Video_model extends CI_Model {
    public function __construct() {
       parent::__construct();
+
+      $this->load->database();
    }
 
    /**
-    * @return string
+    * @return array
     */
    public function getMockSeries() {
       return array(
@@ -15,5 +17,12 @@ class Video_model extends CI_Model {
          'PHP Design Patterns',
          'Nintendo Game Development'
       );
+   }
+
+   /**
+    *
+    */
+   public function testDb() {
+      return $this->db->query('select * from series');
    }
 }

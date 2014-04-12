@@ -13,11 +13,24 @@ class VideoService {
     */
    protected $db;
 
-   public function __construct($params){
+   /**
+    * @param array $params
+    */
+   public function __construct(array $params){
       $this->db = $params[0];
    }
 
+   /**
+    * @return array
+    */
    public function getMockSeries() {
       return $this->db->getMockSeries();
+   }
+
+   /**
+    *
+    */
+   public function testDb(){
+      return $this->db->testDb();
    }
 }

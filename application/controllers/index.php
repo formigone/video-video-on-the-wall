@@ -19,7 +19,8 @@ class Index extends Fmg_Controller {
 
       $this->setData('series', $lib->getMockSeries());
       $this->setActive('home');
-      $this->setView('home');
+      $this->setTitle('Easy Learn Tutorial | Free Programming Lessons');
+      $this->setView('scripts/index/index');
       $this->setLayout('layout/bootstrap');
    }
 }

@@ -20,7 +20,7 @@ class Fmg_Controller extends CI_Controller {
 
       $this->view = array(
          'page' => array(
-            'title' => 'Easy Learn Tutorial: Free Programming Lessons',
+            'title' => 'Powered by Formigone',
             'active' => ''
          ),
          'data' => array(),
