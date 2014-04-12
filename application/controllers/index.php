@@ -7,18 +7,19 @@ class Index extends Fmg_Controller {
    }
 
    /**
+    *
     */
    public function index() {
       $this->load->model('Video_model');
-      $this->load->library('Fmg/SomeLib', array($this->Video_model), 'SomeLib');
+      $this->load->library('Fmg/VideoService', array($this->Video_model), 'VideoService');
       /**
-       * @type SomeLib $lib
+       * @type VideoService $lib
        */
-      $lib = $this->SomeLib;
+      $lib = $this->VideoService;
 
-      $msg = $lib->greet('Ro');
-      $this->setData('test', $msg);
-      $this->setView('simple');
+      $this->setData('series', $lib->getMockSeries());
+      $this->setActive('home');
+      $this->setView('home');
       $this->setLayout('layout/bootstrap');
    }
 }

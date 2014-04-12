@@ -5,7 +5,10 @@ class Video_model extends CI_Model {
       parent::__construct();
    }
 
-   public function getGreeting(){
-      return 'Hello!!';
+   /**
+    * @return string
+    */
+   public function getMockSeries(){
+      return array('GWT', 'JavaScript');
    }
 }

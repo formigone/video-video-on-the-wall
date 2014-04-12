@@ -1,7 +1,10 @@
 <?php if (!defined('BASEPATH')) exit('All your direct script access are belong to us');
 
 /**
- * Class Fmg_Controller Copyright (c) 2014 Formigone. @author Rodrigo Silveira
+ * Class Fmg_Controller
+ *
+ * @author Rodrigo Silveira
+ * Copyright (c) 2014 Formigone.
  */
 class Fmg_Controller extends CI_Controller {
    /**
@@ -17,7 +20,8 @@ class Fmg_Controller extends CI_Controller {
 
       $this->view = array(
          'page' => array(
-            'title' => 'Easy Learn Tutorial: Free Programming Lessons'
+            'title' => 'Easy Learn Tutorial: Free Programming Lessons',
+            'active' => ''
          ),
          'data' => array(),
          'view' => false
@@ -32,6 +36,13 @@ class Fmg_Controller extends CI_Controller {
     */
    protected function setData($key, $val) {
       $this->view['data'][$key] = $val;
+   }
+
+   /**
+    * @param string $page Page type to mark active on main nav
+    */
+   protected function setActive($page) {
+      $this->view['page']['active'] = $page;
    }
 
    /**

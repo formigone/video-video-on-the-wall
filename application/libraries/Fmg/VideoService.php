@@ -1,6 +1,12 @@
 <?php if (!defined('BASEPATH')) exit('All your direct script access are belong to us');
 
-class SomeLib {
+/**
+ * Class VideoService
+ *
+ * @author Rodrigo Silveira
+ * Copyright (c) 2014 Formigone.
+ */
+class VideoService {
 
    /**
     * @var Video_model $db
@@ -11,7 +17,7 @@ class SomeLib {
       $this->db = $params[0];
    }
 
-   public function greet($name) {
-      return sprintf('%s, %s', $this->db->getGreeting(), $name);
+   public function getMockSeries() {
+      return $this->db->getMockSeries();
    }
 }
