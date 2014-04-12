@@ -2,6 +2,7 @@ CREATE TABLE series (
   id          INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   alias       VARCHAR(128) NOT NULL,
   title       VARCHAR(128) NOT NULL,
+  img         VARCHAR(256) NOT NULL,
   description TEXT         NOT NULL,
 
   UNIQUE (alias)
