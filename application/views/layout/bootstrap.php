@@ -17,6 +17,7 @@
    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
    <script src="/public/js/chart.js"></script>
 
+   <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
 
    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
    <!--[if lt IE 9]>
@@ -36,7 +37,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
          </button>
-         <a class="navbar-brand" href="#"><i class="fa fa-bolt"></i></a>
+<!--         <a class="navbar-brand" href="#"><i class="fa fa-puzzle-piece"></i></a>-->
+         <a class="navbar-brand" href="/"><i class="fa fa-bookmark-o"></i></a>
       </div>
       <div class="navbar-collapse collapse">
          <ul class="nav navbar-nav navbar-right">
