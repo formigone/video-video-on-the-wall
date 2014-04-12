@@ -128,7 +128,7 @@ class CI_Exceptions {
 	 * @access	private
 	 * @param	string	the heading
 	 * @param	string	the message
-	 * @param	string	the template name
+	 * @param	string	the template greet
 	 * @param 	int		the status code
 	 * @return	string
 	 */

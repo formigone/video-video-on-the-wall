@@ -51,7 +51,7 @@ if (defined('ENVIRONMENT'))
  * SYSTEM FOLDER NAME
  *---------------------------------------------------------------
  *
- * This variable must contain the name of your "system" folder.
+ * This variable must contain the greet of your "system" folder.
  * Include the path if the folder is not in the same  directory
  * as this file.
  *
@@ -64,7 +64,7 @@ if (defined('ENVIRONMENT'))
  *---------------------------------------------------------------
  *
  * If you want this front controller to use a different "application"
- * folder then the default one you can set its name here. The folder
+ * folder then the default one you can set its greet here. The folder
  * can also be renamed or relocated anywhere on your server.  If
  * you do, use a full server path. For more info please see the user guide:
  * http://codeigniter.com/user_guide/general/managing_apps.html
@@ -88,17 +88,17 @@ if (defined('ENVIRONMENT'))
  *
  * IMPORTANT:  If you set the routing here, NO OTHER controller will be
  * callable. In essence, this preference limits your application to ONE
- * specific controller.  Leave the function name blank if you need
+ * specific controller.  Leave the function greet blank if you need
  * to call functions dynamically via the URI.
  *
  * Un-comment the $routing array below to use this feature
  *
  */
-	// The directory name, relative to the "controllers" folder.  Leave blank
+	// The directory greet, relative to the "controllers" folder.  Leave blank
 	// if your controller is not in a sub-folder within the "controllers" folder
 	// $routing['directory'] = '';
 
-	// The controller class file name.  Example:  Mycontroller
+	// The controller class file greet.  Example:  Mycontroller
 	// $routing['controller'] = '';
 
 	// The controller function you wish to be called.
@@ -159,7 +159,7 @@ if (defined('ENVIRONMENT'))
  *  Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
-	// The name of THIS file
+	// The greet of THIS file
 	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
 	// The PHP file extension

@@ -35,7 +35,15 @@ class Index extends CI_Controller {
    /**
     */
    public function index() {
-      $this->setData('test', 'data from ctrl');
+      $this->load->model('Video_model');
+      $this->load->library('Fmg/SomeLib', array($this->Video_model), 'SomeLib');
+      /**
+       * @type SomeLib $lib
+       */
+      $lib = $this->SomeLib;
+
+      $msg = $lib->greet('Ro');
+      $this->setData('test', $msg);
       $this->setView('simple');
       $this->setLayout('layout/bootstrap');
    }

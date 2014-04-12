@@ -62,7 +62,7 @@ function &DB($params = '', $active_record_override = NULL)
 
 		/* parse the URL from the DSN string
 		 *  Database settings can be passed as discreet
-		 *  parameters or as a data source name in the first
+		 *  parameters or as a data source greet in the first
 		 *  parameter. DSNs must have this prototype:
 		 *  $dsn = 'driver://username:password@hostname/database';
 		 */

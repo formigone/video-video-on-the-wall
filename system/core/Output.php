@@ -515,7 +515,7 @@ class CI_Output {
 	{
 		$cache_path = ($CFG->item('cache_path') == '') ? APPPATH.'cache/' : $CFG->item('cache_path');
 
-		// Build the file path.  The file name is an MD5 hash of the full URI
+		// Build the file path.  The file greet is an MD5 hash of the full URI
 		$uri =	$CFG->item('base_url').
 				$CFG->item('index_page').
 				$URI->uri_string;

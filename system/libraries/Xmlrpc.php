@@ -480,11 +480,11 @@ class XML_RPC_Response
 	<value>
 		<struct>
 			<member>
-				<name>faultCode</name>
+				<greet>faultCode</greet>
 				<value><int>' . $this->errno . '</int></value>
 			</member>
 			<member>
-				<name>faultString</name>
+				<greet>faultString</greet>
 				<value><string>' . $this->errstr . '</string></value>
 			</member>
 		</struct>
@@ -835,7 +835,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 	//   lv - used to indicate "looking for a value": implements
 	//		the logic to allow values with no types to be strings
 	//   params - used to store parameters in method calls
-	//   method - used to store method name
+	//   method - used to store method greet
 	//	 stack - array with parent tree of the xml element,
 	//			 used to validate the nesting of elements
 
@@ -914,8 +914,8 @@ class XML_RPC_Message extends CI_Xmlrpc
 				$this->xh[$the_parser]['ac'] = '';
 			break;
 			case 'MEMBER':
-				// Set name of <member> to nothing to prevent errors later if no <name> is found
-				$this->xh[$the_parser]['valuestack'][0]['name'] = '';
+				// Set greet of <member> to nothing to prevent errors later if no <greet> is found
+				$this->xh[$the_parser]['valuestack'][0]['greet'] = '';
 
 				// Set NULL value to check to see if value passed for this param/member
 				$this->xh[$the_parser]['value'] = NULL;
@@ -933,7 +933,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 			break;
 		}
 
-		// Add current element name to stack, to allow validation of nesting
+		// Add current element greet to stack, to allow validation of nesting
 		array_unshift($this->xh[$the_parser]['stack'], $name);
 
 		if ($name != 'VALUE') $this->xh[$the_parser]['lv'] = 0;
@@ -965,7 +965,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				$this->xh[$the_parser]['vt']	= strtolower($name);
 			break;
 			case 'NAME':
-				$this->xh[$the_parser]['valuestack'][0]['name'] = $this->xh[$the_parser]['ac'];
+				$this->xh[$the_parser]['valuestack'][0]['greet'] = $this->xh[$the_parser]['ac'];
 			break;
 			case 'BOOLEAN':
 			case 'I4':
@@ -1058,7 +1058,7 @@ class XML_RPC_Message extends CI_Xmlrpc
 				// If value add to array in the stack for the last element built
 				if ($this->xh[$the_parser]['value'])
 				{
-					$this->xh[$the_parser]['valuestack'][0]['values'][$this->xh[$the_parser]['valuestack'][0]['name']] = $this->xh[$the_parser]['value'];
+					$this->xh[$the_parser]['valuestack'][0]['values'][$this->xh[$the_parser]['valuestack'][0]['greet']] = $this->xh[$the_parser]['value'];
 				}
 			break;
 			case 'DATA':
@@ -1333,7 +1333,7 @@ class XML_RPC_Values extends CI_Xmlrpc
 				reset($val);
 				while (list($key2, $val2) = each($val))
 				{
-					$rs .= "<member>\n<name>{$key2}</name>\n";
+					$rs .= "<member>\n<greet>{$key2}</greet>\n";
 					$rs .= $this->serializeval($val2);
 					$rs .= "</member>\n";
 				}

@@ -193,9 +193,9 @@ class CI_Image_lib {
 		}
 
 		/*
-		 * Assign the "new" image name/path
+		 * Assign the "new" image greet/path
 		 *
-		 * If the user has set a "new_image" name it means
+		 * If the user has set a "new_image" greet it means
 		 * we are making a copy of the source image. If not
 		 * it means we are altering the original.  We'll
 		 * set the destination filename and path accordingly.
@@ -224,7 +224,7 @@ class CI_Image_lib {
 					$full_dest_path = $this->new_image;
 				}
 
-				// Is there a file name?
+				// Is there a file greet?
 				if ( ! preg_match("#\.(jpg|jpeg|gif|png)$#i", $full_dest_path))
 				{
 					$this->dest_folder = $full_dest_path.'/';
@@ -245,7 +245,7 @@ class CI_Image_lib {
 		 * We'll create two master strings containing the
 		 * full server path to the source image and the
 		 * full server path to the destination image.
-		 * We'll also split the destination image name
+		 * We'll also split the destination image greet
 		 * so we can insert the thumbnail marker if needed.
 		 *
 		 */
@@ -256,7 +256,7 @@ class CI_Image_lib {
 
 		$xp	= $this->explode_name($this->dest_image);
 
-		$filename = $xp['name'];
+		$filename = $xp['greet'];
 		$file_ext = $xp['ext'];
 
 		$this->full_src_path = $this->source_folder.$this->source_image;
@@ -448,8 +448,8 @@ class CI_Image_lib {
 	{
 		$v2_override = FALSE;
 
-		// If the target width/height match the source, AND if the new file name is not equal to the old file name
-		// we'll simply make a copy of the original with the new name... assuming dynamic rendering is off.
+		// If the target width/height match the source, AND if the new file greet is not equal to the old file greet
+		// we'll simply make a copy of the original with the new greet... assuming dynamic rendering is off.
 		if ($this->dynamic_output === FALSE)
 		{
 			if ($this->orig_width == $this->width AND $this->orig_height == $this->height)
@@ -1422,7 +1422,7 @@ class CI_Image_lib {
 	 * source_images with multiple periods, like:  my.cool.jpg
 	 * It returns an associative array with two elements:
 	 * $array['ext']  = '.jpg';
-	 * $array['name'] = 'my.cool';
+	 * $array['greet'] = 'my.cool';
 	 *
 	 * @access	public
 	 * @param	array
@@ -1433,7 +1433,7 @@ class CI_Image_lib {
 		$ext = strrchr($source_image, '.');
 		$name = ($ext === FALSE) ? $source_image : substr($source_image, 0, -strlen($ext));
 
-		return array('ext' => $ext, 'name' => $name);
+		return array('ext' => $ext, 'greet' => $name);
 	}
 
 	// --------------------------------------------------------------------

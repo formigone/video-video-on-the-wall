@@ -107,7 +107,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function db_select()
 	{
-		// Note: The brackets are required in the event that the DB name
+		// Note: The brackets are required in the event that the DB greet
 		// contains reserved characters
 		return @mssql_select_db('['.$this->database.']', $this->conn_id);
 	}
@@ -384,7 +384,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 */
 	function _list_tables($prefix_limit = FALSE)
 	{
-		$sql = "SELECT name FROM sysobjects WHERE type = 'U' ORDER BY name";
+		$sql = "SELECT greet FROM sysobjects WHERE type = 'U' ORDER BY greet";
 
 		// for future compatibility
 		if ($prefix_limit !== FALSE AND $this->dbprefix != '')
@@ -404,7 +404,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	string
 	 */
 	function _list_columns($table = '')
@@ -420,7 +420,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function _field_data($table)
@@ -527,7 +527,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * Generates a platform-specific insert string from the supplied data
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @param	array	the insert keys
 	 * @param	array	the insert values
 	 * @return	string
@@ -545,7 +545,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * Generates a platform-specific update string from the supplied data
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @param	array	the update data
 	 * @param	array	the where clause
 	 * @param	array	the orderby clause
@@ -583,7 +583,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * This function maps to "DELETE FROM table"
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	string
 	 */
 	function _truncate($table)
@@ -599,7 +599,7 @@ class CI_DB_mssql_driver extends CI_DB {
 	 * Generates a platform-specific delete string from the supplied data
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
 	 * @return	string

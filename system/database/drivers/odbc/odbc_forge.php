@@ -28,7 +28,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * Create database
 	 *
 	 * @access	private
-	 * @param	string	the database name
+	 * @param	string	the database greet
 	 * @return	bool
 	 */
 	function _create_database()
@@ -48,7 +48,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * Drop database
 	 *
 	 * @access	private
-	 * @param	string	the database name
+	 * @param	string	the database greet
 	 * @return	bool
 	 */
 	function _drop_database($name)
@@ -68,7 +68,7 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * Create Table
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @param	array	the fields
 	 * @param	mixed	primary key(s)
 	 * @param	mixed	key(s)
@@ -197,8 +197,8 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 *
 	 * @access	private
 	 * @param	string	the ALTER type (ADD, DROP, CHANGE)
-	 * @param	string	the column name
-	 * @param	string	the table name
+	 * @param	string	the column greet
+	 * @param	string	the table greet
 	 * @param	string	the column definition
 	 * @param	string	the default value
 	 * @param	boolean	should 'NOT NULL' be added
@@ -249,8 +249,8 @@ class CI_DB_odbc_forge extends CI_DB_forge {
 	 * Generates a platform-specific query so that a table can be renamed
 	 *
 	 * @access	private
-	 * @param	string	the old table name
-	 * @param	string	the new table name
+	 * @param	string	the old table greet
+	 * @param	string	the new table greet
 	 * @return	string
 	 */
 	function _rename_table($table_name, $new_table_name)

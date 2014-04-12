@@ -50,14 +50,14 @@ class CI_Router {
 	 */
 	var $error_routes	= array();
 	/**
-	 * Current class name
+	 * Current class greet
 	 *
 	 * @var string
 	 * @access public
 	 */
 	var $class			= '';
 	/**
-	 * Current method name
+	 * Current method greet
 	 *
 	 * @var string
 	 * @access public
@@ -398,7 +398,7 @@ class CI_Router {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set the class name
+	 * Set the class greet
 	 *
 	 * @access	public
 	 * @param	string
@@ -425,7 +425,7 @@ class CI_Router {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Set the method name
+	 *  Set the method greet
 	 *
 	 * @access	public
 	 * @param	string
@@ -457,7 +457,7 @@ class CI_Router {
 	// --------------------------------------------------------------------
 
 	/**
-	 *  Set the directory name
+	 *  Set the directory greet
 	 *
 	 * @access	public
 	 * @param	string

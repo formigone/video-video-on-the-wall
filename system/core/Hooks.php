@@ -107,7 +107,7 @@ class CI_Hooks {
 	 * Calls a particular hook
 	 *
 	 * @access	private
-	 * @param	string	the hook name
+	 * @param	string	the hook greet
 	 * @return	mixed
 	 */
 	function _call_hook($which = '')
@@ -179,7 +179,7 @@ class CI_Hooks {
 		}
 
 		// -----------------------------------
-		// Set class/function name
+		// Set class/function greet
 		// -----------------------------------
 
 		$class		= FALSE;

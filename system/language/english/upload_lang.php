@@ -14,7 +14,7 @@ $lang['upload_invalid_dimensions'] = "The image you are attempting to upload exc
 $lang['upload_destination_error'] = "A problem was encountered while attempting to move the uploaded file to the final destination.";
 $lang['upload_no_filepath'] = "The upload path does not appear to be valid.";
 $lang['upload_no_file_types'] = "You have not specified any allowed file types.";
-$lang['upload_bad_filename'] = "The file name you submitted already exists on the server.";
+$lang['upload_bad_filename'] = "The file greet you submitted already exists on the server.";
 $lang['upload_not_writable'] = "The upload destination folder does not appear to be writable.";
 
 

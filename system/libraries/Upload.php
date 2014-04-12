@@ -129,7 +129,7 @@ class CI_Upload {
 		}
 
 		// if a file_name was provided in the config, use it instead of the user input
-		// supplied file name for all uploads until initialized again
+		// supplied file greet for all uploads until initialized again
 		$this->_file_name_override = $this->file_name;
 	}
 
@@ -199,7 +199,7 @@ class CI_Upload {
 		$this->_file_mime_type($_FILES[$field]);
 		$this->file_type = preg_replace("/^(.+?);.*$/", "\\1", $this->file_type);
 		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
-		$this->file_name = $this->_prep_filename($_FILES[$field]['name']);
+		$this->file_name = $this->_prep_filename($_FILES[$field]['greet']);
 		$this->file_ext	 = $this->get_extension($this->file_name);
 		$this->client_name = $this->file_name;
 
@@ -210,7 +210,7 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		// if we're overriding, let's now make sure the new name and type is allowed
+		// if we're overriding, let's now make sure the new greet and type is allowed
 		if ($this->_file_name_override != '')
 		{
 			$this->file_name = $this->_prep_filename($this->_file_name_override);
@@ -255,25 +255,25 @@ class CI_Upload {
 			return FALSE;
 		}
 
-		// Sanitize the file name for security
+		// Sanitize the file greet for security
 		$this->file_name = $this->clean_file_name($this->file_name);
 
-		// Truncate the file name if it's too long
+		// Truncate the file greet if it's too long
 		if ($this->max_filename > 0)
 		{
 			$this->file_name = $this->limit_filename_length($this->file_name, $this->max_filename);
 		}
 
-		// Remove white spaces in the name
+		// Remove white spaces in the greet
 		if ($this->remove_spaces == TRUE)
 		{
 			$this->file_name = preg_replace("/\s+/", "_", $this->file_name);
 		}
 
 		/*
-		 * Validate the file name
+		 * Validate the file greet
 		 * This function appends an number onto the end of
-		 * the file if one with the same name already exists.
+		 * the file if one with the same greet already exists.
 		 * If it returns false there was a problem.
 		 */
 		$this->orig_name = $this->file_name;
@@ -377,10 +377,10 @@ class CI_Upload {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Set the file name
+	 * Set the file greet
 	 *
 	 * This function takes a filename/path as input and looks for the
-	 * existence of a file with the same name. If found, it will append a
+	 * existence of a file with the same greet. If found, it will append a
 	 * number to the end of the filename to avoid overwriting a pre-existing file.
 	 *
 	 * @param	string
@@ -743,7 +743,7 @@ class CI_Upload {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Clean the file name for security
+	 * Clean the file greet for security
 	 *
 	 * @param	string
 	 * @return	string

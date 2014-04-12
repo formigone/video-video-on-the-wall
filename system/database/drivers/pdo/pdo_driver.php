@@ -456,7 +456,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	string
 	 */
 	function _list_columns($table = '')
@@ -472,7 +472,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function _field_data($table)
@@ -580,7 +580,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * Generates a platform-specific insert string from the supplied data
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @param	array	the insert keys
 	 * @param	array	the insert values
 	 * @return	string
@@ -598,7 +598,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * Generates a platform-specific insert string from the supplied data
 	 *
 	 * @access  public
-	 * @param   string  the table name
+	 * @param   string  the table greet
 	 * @param   array   the insert keys
 	 * @param   array   the insert values
 	 * @return  string
@@ -616,7 +616,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * Generates a platform-specific update string from the supplied data
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @param	array	the update data
 	 * @param	array	the where clause
 	 * @param	array	the orderby clause
@@ -651,7 +651,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * Generates a platform-specific batch update string from the supplied data
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @param	array	the update data
 	 * @param	array	the where clause
 	 * @return	string
@@ -706,7 +706,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * This function maps to "DELETE FROM table"
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	string
 	 */
 	function _truncate($table)
@@ -722,7 +722,7 @@ class CI_DB_pdo_driver extends CI_DB {
 	 * Generates a platform-specific delete string from the supplied data
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
 	 * @return	string

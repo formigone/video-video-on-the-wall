@@ -43,7 +43,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 * Generates a platform-specific query so that a table can be optimized
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function _optimize_table($table)
@@ -59,7 +59,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 	 * Generates a platform-specific query so that a table can be repaired
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function _repair_table($table)
@@ -98,7 +98,7 @@ class CI_DB_mysql_utility extends CI_DB_utility {
 			// Get the table schema
 			$query = $this->db->query("SHOW CREATE TABLE `".$this->db->database.'`.`'.$table.'`');
 
-			// No result means the table name was invalid
+			// No result means the table greet was invalid
 			if ($query === FALSE)
 			{
 				continue;

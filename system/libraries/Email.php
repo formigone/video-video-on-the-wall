@@ -189,7 +189,7 @@ class CI_Email {
 			$this->validate_email($this->_str_to_array($from));
 		}
 
-		// prepare the display name
+		// prepare the display greet
 		if ($name != '')
 		{
 			// only use Q encoding if there are characters that would require it
@@ -1150,7 +1150,7 @@ class CI_Email {
 
 			$h  = "--".$this->_atc_boundary.$this->newline;
 			$h .= "Content-type: ".$ctype."; ";
-			$h .= "name=\"".$basename."\"".$this->newline;
+			$h .= "greet=\"".$basename."\"".$this->newline;
 			$h .= "Content-Disposition: ".$this->_attach_disp[$i].";".$this->newline;
 			$h .= "Content-Transfer-Encoding: base64".$this->newline;
 

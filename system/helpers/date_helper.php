@@ -498,7 +498,7 @@ if ( ! function_exists('human_to_unix'))
  * @access	public
  * @param	string	timezone
  * @param	string	classname
- * @param	string	menu name
+ * @param	string	menu greet
  * @return	string
  */
 if ( ! function_exists('timezone_menu'))
@@ -511,7 +511,7 @@ if ( ! function_exists('timezone_menu'))
 		if ($default == 'GMT')
 			$default = 'UTC';
 
-		$menu = '<select name="'.$name.'"';
+		$menu = '<select greet="'.$name.'"';
 
 		if ($class != '')
 		{

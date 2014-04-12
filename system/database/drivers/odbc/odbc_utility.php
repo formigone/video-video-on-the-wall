@@ -48,7 +48,7 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	 * Generates a platform-specific query so that a table can be optimized
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function _optimize_table($table)
@@ -69,7 +69,7 @@ class CI_DB_odbc_utility extends CI_DB_utility {
 	 * Generates a platform-specific query so that a table can be repaired
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function _repair_table($table)

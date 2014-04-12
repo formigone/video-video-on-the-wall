@@ -43,7 +43,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	 * Is table optimization supported in Postgre?
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function _optimize_table($table)
@@ -59,7 +59,7 @@ class CI_DB_postgre_utility extends CI_DB_utility {
 	 * Are table repairs supported in Postgre?
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function _repair_table($table)

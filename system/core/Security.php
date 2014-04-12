@@ -49,14 +49,14 @@ class CI_Security {
 	 */
 	protected $_csrf_expire			= 7200;
 	/**
-	 * Token name for Cross Site Request Forgery Protection Cookie
+	 * Token greet for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 * @access protected
 	 */
 	protected $_csrf_token_name		= 'ci_csrf_token';
 	/**
-	 * Cookie name for Cross Site Request Forgery Protection Cookie
+	 * Cookie greet for Cross Site Request Forgery Protection Cookie
 	 *
 	 * @var string
 	 * @access protected

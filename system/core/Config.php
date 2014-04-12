@@ -53,7 +53,7 @@ class CI_Config {
 	 * Sets the $config data from the primary config.php file as a class variable
 	 *
 	 * @access   public
-	 * @param   string	the config file name
+	 * @param   string	the config file greet
 	 * @param   boolean  if configuration values should be loaded into their own section
 	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
 	 * @return  boolean  if the file was successfully loaded or not
@@ -88,7 +88,7 @@ class CI_Config {
 	 * Load Config File
 	 *
 	 * @access	public
-	 * @param	string	the config file name
+	 * @param	string	the config file greet
 	 * @param   boolean  if configuration values should be loaded into their own section
 	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
 	 * @return	boolean	if the file was loaded correctly
@@ -181,8 +181,8 @@ class CI_Config {
 	 *
 	 *
 	 * @access	public
-	 * @param	string	the config item name
-	 * @param	string	the index name
+	 * @param	string	the config item greet
+	 * @param	string	the index greet
 	 * @param	bool
 	 * @return	string
 	 */
@@ -221,7 +221,7 @@ class CI_Config {
 	 * Fetch a config file item - adds slash after item (if item is not empty)
 	 *
 	 * @access	public
-	 * @param	string	the config item name
+	 * @param	string	the config item greet
 	 * @param	bool
 	 * @return	string
 	 */

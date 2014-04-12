@@ -746,7 +746,7 @@ class CI_Jquery extends CI_Javascript {
 	 * Zebra tables
 	 *
 	 * @access	private
-	 * @param	string	table name
+	 * @param	string	table greet
 	 * @param	string	plugin location
 	 * @return	string
 	 */
@@ -889,7 +889,7 @@ class CI_Jquery extends CI_Javascript {
 	 * Table Sorter Plugin
 	 *
 	 * @access	public
-	 * @param	string	table name
+	 * @param	string	table greet
 	 * @param	string	plugin location
 	 * @return	string
 	 */

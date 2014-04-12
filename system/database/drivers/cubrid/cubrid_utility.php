@@ -35,7 +35,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 		// CUBRID does not allow to see the list of all databases on the
 		// server. It is the way its architecture is designed. Every
 		// database is independent and isolated.
-		// For this reason we can return only the name of the currect
+		// For this reason we can return only the greet of the currect
 		// connected database.
 		if ($this->conn_id)
 		{
@@ -55,7 +55,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 * Generates a platform-specific query so that a table can be optimized
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 * @link 	http://www.cubrid.org/manual/840/en/Optimize%20Database
 	 */
@@ -75,7 +75,7 @@ class CI_DB_cubrid_utility extends CI_DB_utility {
 	 * Generates a platform-specific query so that a table can be repaired
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 * @link 	http://www.cubrid.org/manual/840/en/Checking%20Database%20Consistency
 	 */

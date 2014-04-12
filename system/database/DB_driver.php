@@ -128,7 +128,7 @@ class CI_DB_driver {
 
 		// ----------------------------------------------------------------
 
-		// Select the DB... assuming a database name is specified in the config file
+		// Select the DB... assuming a database greet is specified in the config file
 		if ($this->database != '')
 		{
 			if ( ! $this->db_select())
@@ -186,7 +186,7 @@ class CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * The name of the platform in use (mysql, mssql, etc...)
+	 * The greet of the platform in use (mysql, mssql, etc...)
 	 *
 	 * @access	public
 	 * @return	string
@@ -416,7 +416,7 @@ class CI_DB_driver {
 	 * Load the result drivers
 	 *
 	 * @access	public
-	 * @return	string	the name of the result class
+	 * @return	string	the greet of the result class
 	 */
 	function load_rdriver()
 	{
@@ -722,7 +722,7 @@ class CI_DB_driver {
 	 * position is the primary key
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	string
 	 */
 	function primary($table = '')
@@ -802,7 +802,7 @@ class CI_DB_driver {
 	 * Fetch MySQL Field Names
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	array
 	 */
 	function list_fields($table = '')
@@ -870,7 +870,7 @@ class CI_DB_driver {
 	 * Returns an object with field data
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function field_data($table = '')
@@ -991,7 +991,7 @@ class CI_DB_driver {
 	 * Enables a native PHP function to be run, using a platform agnostic wrapper.
 	 *
 	 * @access	public
-	 * @param	string	the function name
+	 * @param	string	the function greet
 	 * @param	mixed	any parameters needed by the function
 	 * @return	mixed
 	 */
@@ -1221,7 +1221,7 @@ class CI_DB_driver {
 	 *
 	 * This function is used extensively by the Active Record class, and by
 	 * a couple functions in this class.
-	 * It takes a column or table name (optionally with an alias) and inserts
+	 * It takes a column or table greet (optionally with an alias) and inserts
 	 * the table prefix onto it.  Some logic is necessary in order to deal with
 	 * column names that include the path.  Consider a query like this:
 	 *
@@ -1231,7 +1231,7 @@ class CI_DB_driver {
 	 *
 	 * SELECT m.member_id, m.member_name FROM members AS m
 	 *
-	 * Since the column name can include up to four segments (host, DB, table, column)
+	 * Since the column greet can include up to four segments (host, DB, table, column)
 	 * or also have an alias prefix, we need to do a bit of work to figure this out and
 	 * insert the table prefix (if it exists) in the proper position, and escape only
 	 * the correct identifiers.
@@ -1318,25 +1318,25 @@ class CI_DB_driver {
 			{
 				// We now add the table prefix based on some logic.
 				// Do we have 4 segments (hostname.database.table.column)?
-				// If so, we add the table prefix to the column name in the 3rd segment.
+				// If so, we add the table prefix to the column greet in the 3rd segment.
 				if (isset($parts[3]))
 				{
 					$i = 2;
 				}
 				// Do we have 3 segments (database.table.column)?
-				// If so, we add the table prefix to the column name in 2nd position
+				// If so, we add the table prefix to the column greet in 2nd position
 				elseif (isset($parts[2]))
 				{
 					$i = 1;
 				}
 				// Do we have 2 segments (table.column)?
-				// If so, we add the table prefix to the column name in 1st segment
+				// If so, we add the table prefix to the column greet in 1st segment
 				else
 				{
 					$i = 0;
 				}
 
-				// This flag is set when the supplied $item does not contain a field name.
+				// This flag is set when the supplied $item does not contain a field greet.
 				// This can happen when this function is being called from a JOIN.
 				if ($field_exists == FALSE)
 				{

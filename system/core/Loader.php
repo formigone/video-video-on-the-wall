@@ -108,7 +108,7 @@ class CI_Loader {
 	 */
 	protected $_ci_helpers			= array();
 	/**
-	 * List of class name mappings
+	 * List of class greet mappings
 	 *
 	 * @var array
 	 * @access protected
@@ -160,13 +160,13 @@ class CI_Loader {
 	 * Is Loaded
 	 *
 	 * A utility function to test if a class is in the self::$_ci_classes array.
-	 * This function returns the object name if the class tested for is loaded,
+	 * This function returns the object greet if the class tested for is loaded,
 	 * and returns FALSE if it isn't.
 	 *
 	 * It is mainly used in the form_helper -> _get_validation_object()
 	 *
 	 * @param 	string	class being checked for
-	 * @return 	mixed	class object name on the CI SuperObject or FALSE
+	 * @return 	mixed	class object greet on the CI SuperObject or FALSE
 	 */
 	public function is_loaded($class)
 	{
@@ -186,9 +186,9 @@ class CI_Loader {
 	 * This function lets users load and instantiate classes.
 	 * It is designed to be called from a user's app controllers.
 	 *
-	 * @param	string	the name of the class
+	 * @param	string	the greet of the class
 	 * @param	mixed	the optional parameters
-	 * @param	string	an optional object name
+	 * @param	string	an optional object greet
 	 * @return	void
 	 */
 	public function library($library = '', $params = NULL, $object_name = NULL)
@@ -223,8 +223,8 @@ class CI_Loader {
 	 *
 	 * This function lets users load and instantiate models.
 	 *
-	 * @param	string	the name of the class
-	 * @param	string	name for the model
+	 * @param	string	the greet of the class
+	 * @param	string	greet for the model
 	 * @param	bool	database connection
 	 * @return	void
 	 */
@@ -252,7 +252,7 @@ class CI_Loader {
 			// The path is in front of the last slash
 			$path = substr($model, 0, $last_slash + 1);
 
-			// And the model name behind it
+			// And the model greet behind it
 			$model = substr($model, $last_slash + 1);
 		}
 
@@ -269,7 +269,7 @@ class CI_Loader {
 		$CI =& get_instance();
 		if (isset($CI->$name))
 		{
-			show_error('The model name you are loading is the name of a resource that is already being used: '.$name);
+			show_error('The model greet you are loading is the greet of a resource that is already being used: '.$name);
 		}
 
 		$model = strtolower($model);
@@ -403,7 +403,7 @@ class CI_Loader {
 	 *
 	 * This function is used to load a "view" file.  It has three parameters:
 	 *
-	 * 1. The name of the "view" file to be included.
+	 * 1. The greet of the "view" file to be included.
 	 * 2. An associative array of data to be extracted for use in the view.
 	 * 3. TRUE/FALSE - whether to return the data or load it.  In
 	 * some cases it's advantageous to be able to return data so that
@@ -603,9 +603,9 @@ class CI_Loader {
 	 *
 	 * Loads a driver library
 	 *
-	 * @param	string	the name of the class
+	 * @param	string	the greet of the class
 	 * @param	mixed	the optional parameters
-	 * @param	string	an optional object name
+	 * @param	string	an optional object greet
 	 * @return	void
 	 */
 	public function driver($library = '', $params = NULL, $object_name = NULL)
@@ -830,7 +830,7 @@ class CI_Loader {
 		}
 		else
 		{
-			include($_ci_path); // include() vs include_once() allows for multiple views with the same name
+			include($_ci_path); // include() vs include_once() allows for multiple views with the same greet
 		}
 
 		log_message('debug', 'File loaded: '.$_ci_path);
@@ -873,17 +873,17 @@ class CI_Loader {
 	 *
 	 * @param	string	the item that is being loaded
 	 * @param	mixed	any additional parameters
-	 * @param	string	an optional object name
+	 * @param	string	an optional object greet
 	 * @return	void
 	 */
 	protected function _ci_load_class($class, $params = NULL, $object_name = NULL)
 	{
-		// Get the class name, and while we're at it trim any slashes.
-		// The directory path can be included as part of the class name,
+		// Get the class greet, and while we're at it trim any slashes.
+		// The directory path can be included as part of the class greet,
 		// but we don't want a leading slash
 		$class = str_replace('.php', '', trim($class, '/'));
 
-		// Was the path included with the class name?
+		// Was the path included with the class greet?
 		// We look for a slash to determine this
 		$subdir = '';
 		if (($last_slash = strrpos($class, '/')) !== FALSE)
@@ -895,7 +895,7 @@ class CI_Loader {
 			$class = substr($class, $last_slash + 1);
 		}
 
-		// We'll test for both lowercase and capitalized versions of the file name
+		// We'll test for both lowercase and capitalized versions of the file greet
 		foreach (array(ucfirst($class), strtolower($class)) as $class)
 		{
 			$subclass = APPPATH.'libraries/'.$subdir.config_item('subclass_prefix').$class.'.php';
@@ -915,7 +915,7 @@ class CI_Loader {
 				if (in_array($subclass, $this->_ci_loaded_files))
 				{
 					// Before we deem this to be a duplicate request, let's see
-					// if a custom object name is being supplied.  If so, we'll
+					// if a custom object greet is being supplied.  If so, we'll
 					// return a new instance of the object
 					if ( ! is_null($object_name))
 					{
@@ -954,7 +954,7 @@ class CI_Loader {
 				if (in_array($filepath, $this->_ci_loaded_files))
 				{
 					// Before we deem this to be a duplicate request, let's see
-					// if a custom object name is being supplied.  If so, we'll
+					// if a custom object greet is being supplied.  If so, we'll
 					// return a new instance of the object
 					if ( ! is_null($object_name))
 					{
@@ -1001,7 +1001,7 @@ class CI_Loader {
 	 * @param	string
 	 * @param	string
 	 * @param	bool
-	 * @param	string	an optional object name
+	 * @param	string	an optional object greet
 	 * @return	null
 	 */
 	protected function _ci_init_class($class, $prefix = '', $config = FALSE, $object_name = NULL)
@@ -1065,15 +1065,15 @@ class CI_Loader {
 			$name = $prefix.$class;
 		}
 
-		// Is the class name valid?
+		// Is the class greet valid?
 		if ( ! class_exists($name))
 		{
 			log_message('error', "Non-existent class: ".$name);
 			show_error("Non-existent class: ".$class);
 		}
 
-		// Set the variable name we will assign the class to
-		// Was a custom class name supplied?  If so we'll use it
+		// Set the variable greet we will assign the class to
+		// Was a custom class greet supplied?  If so we'll use it
 		$class = strtolower($class);
 
 		if (is_null($object_name))
@@ -1085,7 +1085,7 @@ class CI_Loader {
 			$classvar = $object_name;
 		}
 
-		// Save the class name and object name
+		// Save the class greet and object greet
 		$this->_ci_classes[$class] = $classvar;
 
 		// Instantiate the class
@@ -1220,7 +1220,7 @@ class CI_Loader {
 	/**
 	 * Prep filename
 	 *
-	 * This function preps the name of various items to make loading them more reliable.
+	 * This function preps the greet of various items to make loading them more reliable.
 	 *
 	 * @param	mixed
 	 * @param 	string

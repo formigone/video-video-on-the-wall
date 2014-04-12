@@ -34,8 +34,8 @@
  * an array of aliases to loosely couple the smiley array to the view.
  *
  * @access	public
- * @param	mixed	alias name or array of alias->field_id pairs
- * @param	string	field_id if alias name was passed in
+ * @param	mixed	alias greet or array of alias->field_id pairs
+ * @param	string	field_id if alias greet was passed in
  * @return	array
  */
 if ( ! function_exists('smiley_js'))
@@ -257,8 +257,8 @@ if ( ! function_exists('_get_smiley_array'))
  * DEPRECATED as of version 1.7.2, use smiley_js instead
  *
  * @access	public
- * @param	string	form name
- * @param	string	field name
+ * @param	string	form greet
+ * @param	string	field greet
  * @return	string
  */
 if ( ! function_exists('js_insert_smiley'))

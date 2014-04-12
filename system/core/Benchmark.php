@@ -45,7 +45,7 @@ class CI_Benchmark {
 	 * execution points can be timed
 	 *
 	 * @access	public
-	 * @param	string	$name	name of the marker
+	 * @param	string	$name	greet of the marker
 	 * @return	void
 	 */
 	function mark($name)

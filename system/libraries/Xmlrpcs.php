@@ -147,7 +147,7 @@ class CI_Xmlrpcs extends CI_Xmlrpc
 	 * Add Method to Class
 	 *
 	 * @access	public
-	 * @param	string	method name
+	 * @param	string	method greet
 	 * @param	string	function
 	 * @param	string	signature
 	 * @param	string	docstring

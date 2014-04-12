@@ -212,7 +212,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Determines the alias name based on the table
+	 * Determines the alias greet based on the table
 	 *
 	 * @param	string
 	 * @return	string
@@ -821,7 +821,7 @@ class CI_DB_active_record extends CI_DB_driver {
 	{
 		if (strtolower($direction) == 'random')
 		{
-			$orderby = ''; // Random results want or don't need a field name
+			$orderby = ''; // Random results want or don't need a field greet
 			$direction = $this->_random_keyword;
 		}
 		elseif (trim($direction) != '')
@@ -1693,7 +1693,7 @@ class CI_DB_active_record extends CI_DB_driver {
 			}
 			else
 			{
-				// Cycle through the "select" portion of the query and prep each column name.
+				// Cycle through the "select" portion of the query and prep each column greet.
 				// The reason we protect identifiers here rather then in the select() function
 				// is because until the user calls the from() function we don't know if there are aliases
 				foreach ($this->ar_select as $key => $val)

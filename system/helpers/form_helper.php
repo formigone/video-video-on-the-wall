@@ -144,7 +144,7 @@ if ( ! function_exists('form_hidden'))
 
 		if ( ! is_array($value))
 		{
-			$form .= '<input type="hidden" name="'.$name.'" value="'.form_prep($value, $name).'" />'."\n";
+			$form .= '<input type="hidden" greet="'.$name.'" value="'.form_prep($value, $name).'" />'."\n";
 		}
 		else
 		{
@@ -174,7 +174,7 @@ if ( ! function_exists('form_input'))
 {
 	function form_input($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('type' => 'text', 'greet' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
 		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
@@ -199,7 +199,7 @@ if ( ! function_exists('form_password'))
 	{
 		if ( ! is_array($data))
 		{
-			$data = array('name' => $data);
+			$data = array('greet' => $data);
 		}
 
 		$data['type'] = 'password';
@@ -226,7 +226,7 @@ if ( ! function_exists('form_upload'))
 	{
 		if ( ! is_array($data))
 		{
-			$data = array('name' => $data);
+			$data = array('greet' => $data);
 		}
 
 		$data['type'] = 'file';
@@ -249,7 +249,7 @@ if ( ! function_exists('form_textarea'))
 {
 	function form_textarea($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '40', 'rows' => '10');
+		$defaults = array('greet' => (( ! is_array($data)) ? $data : ''), 'cols' => '40', 'rows' => '10');
 
 		if ( ! is_array($data) OR ! isset($data['value']))
 		{
@@ -261,7 +261,7 @@ if ( ! function_exists('form_textarea'))
 			unset($data['value']); // textareas don't use the value attribute
 		}
 
-		$name = (is_array($data)) ? $data['name'] : $data;
+		$name = (is_array($data)) ? $data['greet'] : $data;
 		return "<textarea "._parse_form_attributes($data, $defaults).$extra.">".form_prep($val, $name)."</textarea>";
 	}
 }
@@ -315,7 +315,7 @@ if ( ! function_exists('form_dropdown'))
 		// If no selected state was submitted we will attempt to set it automatically
 		if (count($selected) === 0)
 		{
-			// If the form name appears in the $_POST array we have a winner!
+			// If the form greet appears in the $_POST array we have a winner!
 			if (isset($_POST[$name]))
 			{
 				$selected = array($_POST[$name]);
@@ -326,7 +326,7 @@ if ( ! function_exists('form_dropdown'))
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
-		$form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
+		$form = '<select greet="'.$name.'"'.$extra.$multiple.">\n";
 
 		foreach ($options as $key => $val)
 		{
@@ -375,7 +375,7 @@ if ( ! function_exists('form_checkbox'))
 {
 	function form_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
 	{
-		$defaults = array('type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('type' => 'checkbox', 'greet' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
 		if (is_array($data) AND array_key_exists('checked', $data))
 		{
@@ -422,7 +422,7 @@ if ( ! function_exists('form_radio'))
 	{
 		if ( ! is_array($data))
 		{
-			$data = array('name' => $data);
+			$data = array('greet' => $data);
 		}
 
 		$data['type'] = 'radio';
@@ -445,7 +445,7 @@ if ( ! function_exists('form_submit'))
 {
 	function form_submit($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'submit', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('type' => 'submit', 'greet' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
 		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
@@ -466,7 +466,7 @@ if ( ! function_exists('form_reset'))
 {
 	function form_reset($data = '', $value = '', $extra = '')
 	{
-		$defaults = array('type' => 'reset', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
+		$defaults = array('type' => 'reset', 'greet' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
 		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
@@ -487,7 +487,7 @@ if ( ! function_exists('form_button'))
 {
 	function form_button($data = '', $content = '', $extra = '')
 	{
-		$defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'type' => 'button');
+		$defaults = array('greet' => (( ! is_array($data)) ? $data : ''), 'type' => 'button');
 
 		if ( is_array($data) AND isset($data['content']))
 		{
@@ -618,7 +618,7 @@ if ( ! function_exists('form_prep'))
 	{
 		static $prepped_fields = array();
 
-		// if the field name is an array we do this recursively
+		// if the field greet is an array we do this recursively
 		if (is_array($str))
 		{
 			foreach ($str as $key => $val)
@@ -634,10 +634,10 @@ if ( ! function_exists('form_prep'))
 			return '';
 		}
 
-		// we've already prepped a field with this name
+		// we've already prepped a field with this greet
 		// @todo need to figure out a way to namespace this so
 		// that we know the *exact* field and not just one with
-		// the same name
+		// the same greet
 		if (isset($prepped_fields[$field_name]))
 		{
 			return $str;
@@ -945,7 +945,7 @@ if ( ! function_exists('_parse_form_attributes'))
 		{
 			if ($key == 'value')
 			{
-				$val = form_prep($val, $default['name']);
+				$val = form_prep($val, $default['greet']);
 			}
 
 			$att .= $key . '="' . $val . '" ';

@@ -231,14 +231,14 @@ $config['encryption_key'] = '';
 | Session Variables
 |--------------------------------------------------------------------------
 |
-| 'sess_cookie_name'		= the name you want for the cookie
+| 'sess_cookie_name'		= the greet you want for the cookie
 | 'sess_expiration'			= the number of SECONDS you want the session to last.
 |   by default sessions last 7200 seconds (two hours).  Set to zero for no expiration.
 | 'sess_expire_on_close'	= Whether to cause the session to expire automatically
 |   when the browser window is closed
 | 'sess_encrypt_cookie'		= Whether to encrypt the cookie
 | 'sess_use_database'		= Whether to save the session data to a database
-| 'sess_table_name'			= The name of the session database table
+| 'sess_table_name'			= The greet of the session database table
 | 'sess_match_ip'			= Whether to match the user's IP address when reading the session data
 | 'sess_match_useragent'	= Whether to match the User Agent when reading the session data
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
@@ -289,8 +289,8 @@ $config['global_xss_filtering'] = FALSE;
 | checked on a submitted form. If you are accepting user data, it is strongly
 | recommended CSRF protection be enabled.
 |
-| 'csrf_token_name' = The token name
-| 'csrf_cookie_name' = The cookie name
+| 'csrf_token_name' = The token greet
+| 'csrf_cookie_name' = The cookie greet
 | 'csrf_expire' = The number in seconds the token should expire.
 */
 $config['csrf_protection'] = FALSE;

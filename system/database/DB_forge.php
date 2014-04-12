@@ -49,7 +49,7 @@ class CI_DB_forge {
 	 * Create database
 	 *
 	 * @access	public
-	 * @param	string	the database name
+	 * @param	string	the database greet
 	 * @return	bool
 	 */
 	function create_database($db_name)
@@ -70,7 +70,7 @@ class CI_DB_forge {
 	 * Drop database
 	 *
 	 * @access	public
-	 * @param	string	the database name
+	 * @param	string	the database greet
 	 * @return	bool
 	 */
 	function drop_database($db_name)
@@ -175,14 +175,14 @@ class CI_DB_forge {
 	 * Create Table
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	bool
 	 */
 	function create_table($table = '', $if_not_exists = FALSE)
 	{
 		if ($table == '')
 		{
-			show_error('A table name is required for that operation.');
+			show_error('A table greet is required for that operation.');
 		}
 
 		if (count($this->fields) == 0)
@@ -202,7 +202,7 @@ class CI_DB_forge {
 	 * Drop Table
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	bool
 	 */
 	function drop_table($table_name)
@@ -223,15 +223,15 @@ class CI_DB_forge {
 	 * Rename Table
 	 *
 	 * @access	public
-	 * @param	string	the old table name
-	 * @param	string	the new table name
+	 * @param	string	the old table greet
+	 * @param	string	the new table greet
 	 * @return	bool
 	 */
 	function rename_table($table_name, $new_table_name)
 	{
 		if ($table_name == '' OR $new_table_name == '')
 		{
-			show_error('A table name is required for that operation.');
+			show_error('A table greet is required for that operation.');
 		}
 
 		$sql = $this->_rename_table($this->db->dbprefix.$table_name, $this->db->dbprefix.$new_table_name);
@@ -244,8 +244,8 @@ class CI_DB_forge {
 	 * Column Add
 	 *
 	 * @access	public
-	 * @param	string	the table name
-	 * @param	string	the column name
+	 * @param	string	the table greet
+	 * @param	string	the column greet
 	 * @param	string	the column definition
 	 * @return	bool
 	 */
@@ -253,7 +253,7 @@ class CI_DB_forge {
 	{
 		if ($table == '')
 		{
-			show_error('A table name is required for that operation.');
+			show_error('A table greet is required for that operation.');
 		}
 
 		// add field info into field array, but we can only do one at a time
@@ -288,8 +288,8 @@ class CI_DB_forge {
 	 * Column Drop
 	 *
 	 * @access	public
-	 * @param	string	the table name
-	 * @param	string	the column name
+	 * @param	string	the table greet
+	 * @param	string	the column greet
 	 * @return	bool
 	 */
 	function drop_column($table = '', $column_name = '')
@@ -297,12 +297,12 @@ class CI_DB_forge {
 
 		if ($table == '')
 		{
-			show_error('A table name is required for that operation.');
+			show_error('A table greet is required for that operation.');
 		}
 
 		if ($column_name == '')
 		{
-			show_error('A column name is required for that operation.');
+			show_error('A column greet is required for that operation.');
 		}
 
 		$sql = $this->_alter_table('DROP', $this->db->dbprefix.$table, $column_name);
@@ -316,8 +316,8 @@ class CI_DB_forge {
 	 * Column Modify
 	 *
 	 * @access	public
-	 * @param	string	the table name
-	 * @param	string	the column name
+	 * @param	string	the table greet
+	 * @param	string	the column greet
 	 * @param	string	the column definition
 	 * @return	bool
 	 */
@@ -325,7 +325,7 @@ class CI_DB_forge {
 	{
 		if ($table == '')
 		{
-			show_error('A table name is required for that operation.');
+			show_error('A table greet is required for that operation.');
 		}
 
 		// add field info into field array, but we can only do one at a time
@@ -333,10 +333,10 @@ class CI_DB_forge {
 
 		foreach ($field as $k => $v)
 		{
-			// If no name provided, use the current name
-			if ( ! isset($field[$k]['name']))
+			// If no greet provided, use the current greet
+			if ( ! isset($field[$k]['greet']))
 			{
-				$field[$k]['name'] = $k;
+				$field[$k]['greet'] = $k;
 			}
 
 			$this->add_field(array($k => $field[$k]));

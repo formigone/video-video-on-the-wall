@@ -103,7 +103,7 @@ class CI_DB_utility extends CI_DB_forge {
 	 * Optimize Table
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	bool
 	 */
 	function optimize_table($table_name)
@@ -166,7 +166,7 @@ class CI_DB_utility extends CI_DB_forge {
 	 * Repair Table
 	 *
 	 * @access	public
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	bool
 	 */
 	function repair_table($table_name)
@@ -292,7 +292,7 @@ class CI_DB_utility extends CI_DB_forge {
 	{
 		// If the parameters have not been submitted as an
 		// array then we know that it is simply the table
-		// name, which is a valid short cut.
+		// greet, which is a valid short cut.
 		if (is_string($params))
 		{
 			$params = array('tables' => $params);

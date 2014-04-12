@@ -91,7 +91,7 @@ class CI_Form_validation {
 					continue;
 				}
 
-				// If the field label wasn't passed we use the field name
+				// If the field label wasn't passed we use the field greet
 				$label = ( ! isset($row['label'])) ? $row['field'] : $row['label'];
 
 				// Here we go!
@@ -106,11 +106,11 @@ class CI_Form_validation {
 			return $this;
 		}
 
-		// If the field label wasn't passed we use the field name
+		// If the field label wasn't passed we use the field greet
 		$label = ($label == '') ? $field : $label;
 
-		// Is the field name an array?  We test for the existence of a bracket "[" in
-		// the field name to determine this.  If it is an array, we break it apart
+		// Is the field greet an array?  We test for the existence of a bracket "[" in
+		// the field greet to determine this.  If it is an array, we break it apart
 		// into its components so that we can fetch the corresponding POST data later
 		if (strpos($field, '[') !== FALSE AND preg_match_all('/\[(.*?)\]/', $field, $matches))
 		{
@@ -155,7 +155,7 @@ class CI_Form_validation {
 	 * Set Error Message
 	 *
 	 * Lets users set their own error messages on the fly.  Note:  The key
-	 * name has to match the  function name that it corresponds to.
+	 * greet has to match the  function greet that it corresponds to.
 	 *
 	 * @access	public
 	 * @param	string
@@ -202,7 +202,7 @@ class CI_Form_validation {
 	 * Gets the error message associated with a particular field
 	 *
 	 * @access	public
-	 * @param	string	the field name
+	 * @param	string	the field greet
 	 * @return	void
 	 */
 	public function error($field = '', $prefix = '', $suffix = '')
@@ -324,7 +324,7 @@ class CI_Form_validation {
 		foreach ($this->_field_data as $field => $row)
 		{
 			// Fetch the data from the corresponding $_POST array and cache it in the _field_data array.
-			// Depending on whether the field name is an array or a string will determine where we get it from.
+			// Depending on whether the field greet is an array or a string will determine where we get it from.
 
 			if ($row['is_array'] == TRUE)
 			{
@@ -654,7 +654,7 @@ class CI_Form_validation {
 				{
 					if (FALSE === ($line = $this->CI->lang->line($rule)))
 					{
-						$line = 'Unable to access an error message corresponding to your field name.';
+						$line = 'Unable to access an error message corresponding to your field greet.';
 					}
 				}
 				else
@@ -662,7 +662,7 @@ class CI_Form_validation {
 					$line = $this->_error_messages[$rule];
 				}
 
-				// Is the parameter we are inserting into the error message the name
+				// Is the parameter we are inserting into the error message the greet
 				// of another field?  If so we need to grab its "field label"
 				if (isset($this->_field_data[$param]) AND isset($this->_field_data[$param]['label']))
 				{
@@ -688,22 +688,22 @@ class CI_Form_validation {
 	// --------------------------------------------------------------------
 
 	/**
-	 * Translate a field name
+	 * Translate a field greet
 	 *
 	 * @access	private
-	 * @param	string	the field name
+	 * @param	string	the field greet
 	 * @return	string
 	 */
 	protected function _translate_fieldname($fieldname)
 	{
-		// Do we need to translate the field name?
+		// Do we need to translate the field greet?
 		// We look for the prefix lang: to determine this
 		if (substr($fieldname, 0, 5) == 'lang:')
 		{
 			// Grab the variable
 			$line = substr($fieldname, 5);
 
-			// Were we able to translate the field name?  If not we use $line
+			// Were we able to translate the field greet?  If not we use $line
 			if (FALSE === ($fieldname = $this->CI->lang->line($line)))
 			{
 				return $line;
@@ -722,7 +722,7 @@ class CI_Form_validation {
 	 * with, or, if that value doesn't exist, with the default
 	 *
 	 * @access	public
-	 * @param	string	the field name
+	 * @param	string	the field greet
 	 * @param	string
 	 * @return	void
 	 */
@@ -734,7 +734,7 @@ class CI_Form_validation {
 		}
 
 		// If the data is an array output them one at a time.
-		//     E.g: form_input('name[]', set_value('name[]');
+		//     E.g: form_input('greet[]', set_value('greet[]');
 		if (is_array($this->_field_data[$field]['postdata']))
 		{
 			return array_shift($this->_field_data[$field]['postdata']);

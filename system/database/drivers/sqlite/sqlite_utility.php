@@ -52,7 +52,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 * Is optimization even supported in SQLite?
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function _optimize_table($table)
@@ -68,7 +68,7 @@ class CI_DB_sqlite_utility extends CI_DB_utility {
 	 * Are table repairs even supported in SQLite?
 	 *
 	 * @access	private
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	object
 	 */
 	function _repair_table($table)

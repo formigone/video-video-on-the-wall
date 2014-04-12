@@ -382,18 +382,18 @@ if ( ! function_exists('link_tag'))
  */
 if ( ! function_exists('meta'))
 {
-	function meta($name = '', $content = '', $type = 'name', $newline = "\n")
+	function meta($name = '', $content = '', $type = 'greet', $newline = "\n")
 	{
 		// Since we allow the data to be passes as a string, a simple array
 		// or a multidimensional one, we need to do a little prepping.
 		if ( ! is_array($name))
 		{
-			$name = array(array('name' => $name, 'content' => $content, 'type' => $type, 'newline' => $newline));
+			$name = array(array('greet' => $name, 'content' => $content, 'type' => $type, 'newline' => $newline));
 		}
 		else
 		{
 			// Turn single array into multidimensional
-			if (isset($name['name']))
+			if (isset($name['greet']))
 			{
 				$name = array($name);
 			}
@@ -402,8 +402,8 @@ if ( ! function_exists('meta'))
 		$str = '';
 		foreach ($name as $meta)
 		{
-			$type		= ( ! isset($meta['type']) OR $meta['type'] == 'name') ? 'name' : 'http-equiv';
-			$name		= ( ! isset($meta['name']))		? ''	: $meta['name'];
+			$type		= ( ! isset($meta['type']) OR $meta['type'] == 'greet') ? 'greet' : 'http-equiv';
+			$name		= ( ! isset($meta['greet']))		? ''	: $meta['greet'];
 			$content	= ( ! isset($meta['content']))	? ''	: $meta['content'];
 			$newline	= ( ! isset($meta['newline']))	? "\n"	: $meta['newline'];
 

@@ -55,7 +55,7 @@ class CI_Lang {
 	 * Load a language file
 	 *
 	 * @access	public
-	 * @param	mixed	the name of the language file to be loaded. Can be an array
+	 * @param	mixed	the greet of the language file to be loaded. Can be an array
 	 * @param	string	the language (english, etc.)
 	 * @param	bool	return loaded array of translations
 	 * @param 	bool	add suffix to $langfile

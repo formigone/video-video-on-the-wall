@@ -57,7 +57,7 @@ class CI_Zip  {
 	 * Lets you add a virtual directory into which you can place files.
 	 *
 	 * @access	public
-	 * @param	mixed	the directory name. Can be string or array
+	 * @param	mixed	the directory greet. Can be string or array
 	 * @return	void
 	 */
 	function add_dir($directory)
@@ -102,7 +102,7 @@ class CI_Zip  {
 	 * Add Directory
 	 *
 	 * @access	private
-	 * @param	string	the directory name
+	 * @param	string	the directory greet
 	 * @return	void
 	 */
 	function _add_dir($dir, $file_mtime, $file_mdate)
@@ -183,7 +183,7 @@ class CI_Zip  {
 	 * Add Data to Zip
 	 *
 	 * @access	private
-	 * @param	string	the file name/path
+	 * @param	string	the file greet/path
 	 * @param	string	the data to be encoded
 	 * @return	void
 	 */
@@ -352,7 +352,7 @@ class CI_Zip  {
 	 * Lets you write a file
 	 *
 	 * @access	public
-	 * @param	string	the file name
+	 * @param	string	the file greet
 	 * @return	bool
 	 */
 	function archive($filepath)
@@ -376,7 +376,7 @@ class CI_Zip  {
 	 * Download
 	 *
 	 * @access	public
-	 * @param	string	the file name
+	 * @param	string	the file greet
 	 * @param	string	the data to be encoded
 	 * @return	bool
 	 */

@@ -231,7 +231,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * params array keys
 	 *
 	 * KEY	  OPTIONAL	NOTES
-	 * name		no		the name of the parameter should be in :<param_name> format
+	 * greet		no		the greet of the parameter should be in :<param_name> format
 	 * value	no		the value of the parameter.  If this is an OUT or IN OUT parameter,
 	 *					this should be a reference to a variable
 	 * type		yes		the type of the parameter
@@ -255,7 +255,7 @@ class CI_DB_oci8_driver extends CI_DB {
 		$have_cursor = FALSE;
 		foreach ($params as $param)
 		{
-			$sql .= $param['name'] . ",";
+			$sql .= $param['greet'] . ",";
 
 			if (array_key_exists('type', $param) && ($param['type'] === OCI_B_CURSOR))
 			{
@@ -287,7 +287,7 @@ class CI_DB_oci8_driver extends CI_DB {
 
 		foreach ($params as $param)
 		{
-			foreach (array('name', 'value', 'type', 'length') as $val)
+			foreach (array('greet', 'value', 'type', 'length') as $val)
 			{
 				if ( ! isset($param[$val]))
 				{
@@ -295,7 +295,7 @@ class CI_DB_oci8_driver extends CI_DB {
 				}
 			}
 
-			oci_bind_by_name($this->stmt_id, $param['name'], $param['value'], $param['length'], $param['type']);
+			oci_bind_by_name($this->stmt_id, $param['greet'], $param['value'], $param['length'], $param['type']);
 		}
 	}
 
@@ -505,7 +505,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific query string so that the column names can be fetched
 	 *
 	 * @access  protected
-	 * @param   string  the table name
+	 * @param   string  the table greet
 	 * @return  string
 	 */
 	protected function _list_columns($table = '')
@@ -521,7 +521,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific query so that the column data can be retrieved
 	 *
 	 * @access  public
-	 * @param   string  the table name
+	 * @param   string  the table greet
 	 * @return  object
 	 */
 	protected function _field_data($table)
@@ -631,7 +631,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific insert string from the supplied data
 	 *
 	 * @access  public
-	 * @param   string  the table name
+	 * @param   string  the table greet
 	 * @param   array   the insert keys
 	 * @param   array   the insert values
 	 * @return  string
@@ -649,7 +649,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific insert string from the supplied data
 	 *
 	 * @access      protected
-	 * @param       string  the table name
+	 * @param       string  the table greet
 	 * @param       array   the insert keys
 	 * @param       array   the insert values
 	 * @return      string
@@ -677,7 +677,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific update string from the supplied data
 	 *
 	 * @access	protected
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @param	array	the update data
 	 * @param	array	the where clause
 	 * @param	array	the orderby clause
@@ -714,7 +714,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * This function maps to "DELETE FROM table"
 	 *
 	 * @access	protected
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @return	string
 	 */
 	protected function _truncate($table)
@@ -730,7 +730,7 @@ class CI_DB_oci8_driver extends CI_DB {
 	 * Generates a platform-specific delete string from the supplied data
 	 *
 	 * @access	protected
-	 * @param	string	the table name
+	 * @param	string	the table greet
 	 * @param	array	the where clause
 	 * @param	string	the limit clause
 	 * @return	string

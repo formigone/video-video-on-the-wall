@@ -98,7 +98,7 @@ class CI_Session {
 			$this->sess_expiration = (60*60*24*365*2);
 		}
 
-		// Set the cookie name
+		// Set the cookie greet
 		$this->sess_cookie_name = $this->cookie_prefix.$this->sess_cookie_name;
 
 		// Run the Session routine. If a session doesn't exist we'll

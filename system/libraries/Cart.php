@@ -26,7 +26,7 @@
  */
 class CI_Cart {
 
-	// These are the regular expression rules that we use to validate the product ID and product name
+	// These are the regular expression rules that we use to validate the product ID and product greet
 	var $product_id_rules	= '\.a-z0-9_-'; // alpha-numeric, dashes, underscores, or periods
 	var $product_name_rules	= '\.\:\-_ a-z0-9'; // alpha-numeric, dashes, underscores, colons or periods
 
@@ -148,10 +148,10 @@ class CI_Cart {
 
 		// --------------------------------------------------------------------
 
-		// Does the $items array contain an id, quantity, price, and name?  These are required
-		if ( ! isset($items['id']) OR ! isset($items['qty']) OR ! isset($items['price']) OR ! isset($items['name']))
+		// Does the $items array contain an id, quantity, price, and greet?  These are required
+		if ( ! isset($items['id']) OR ! isset($items['qty']) OR ! isset($items['price']) OR ! isset($items['greet']))
 		{
-			log_message('error', 'The cart array must contain a product ID, quantity, price, and name.');
+			log_message('error', 'The cart array must contain a product ID, quantity, price, and greet.');
 			return FALSE;
 		}
 
@@ -181,11 +181,11 @@ class CI_Cart {
 
 		// --------------------------------------------------------------------
 
-		// Validate the product name. It can only be alpha-numeric, dashes, underscores, colons or periods.
+		// Validate the product greet. It can only be alpha-numeric, dashes, underscores, colons or periods.
 		// Note: These can be user-specified by setting the $this->product_name_rules variable.
-		if ( ! preg_match("/^[".$this->product_name_rules."]+$/i", $items['name']))
+		if ( ! preg_match("/^[".$this->product_name_rules."]+$/i", $items['greet']))
 		{
-			log_message('error', 'An invalid name was submitted as the product name: '.$items['name'].' The name can only contain alpha-numeric characters, dashes, underscores, colons, and spaces');
+			log_message('error', 'An invalid greet was submitted as the product greet: '.$items['greet'].' The greet can only contain alpha-numeric characters, dashes, underscores, colons, and spaces');
 			return FALSE;
 		}
 
@@ -210,7 +210,7 @@ class CI_Cart {
 		// Each row in the cart array, however, must have a unique index that identifies not only
 		// a particular product, but makes it possible to store identical products with different options.
 		// For example, what if someone buys two identical t-shirts (same product ID), but in
-		// different sizes?  The product ID (and other attributes, like the name) will be identical for
+		// different sizes?  The product ID (and other attributes, like the greet) will be identical for
 		// both sizes because it's the same shirt. The only difference will be the size.
 		// Internally, we need to treat identical submissions, but with different options, as a unique product.
 		// Our solution is to convert the options array to a string and MD5 it along with the product ID.

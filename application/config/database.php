@@ -15,11 +15,11 @@
 |	['hostname'] The hostname of your database server.
 |	['username'] The username used to connect to the database
 |	['password'] The password used to connect to the database
-|	['database'] The name of the database you want to connect to
+|	['database'] The greet of the database you want to connect to
 |	['dbdriver'] The database type. ie: mysql.  Currently supported:
 				 mysql, mysqli, postgre, odbc, mssql, sqlite, oci8
 |	['dbprefix'] You can add an optional prefix, which will be added
-|				 to the table name when using the  Active Record class
+|				 to the table greet when using the  Active Record class
 |	['pconnect'] TRUE/FALSE - Whether to use a persistent connection
 |	['db_debug'] TRUE/FALSE - Whether database errors should be displayed.
 |	['cache_on'] TRUE/FALSE - Enables/disables query caching
