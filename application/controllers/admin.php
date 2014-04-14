@@ -11,24 +11,24 @@ class Admin extends Fmg_Controller {
     */
    public function index() {
       $this->load->library('session');
-      $this->load->library('Fmg/SessionContainer', array($this->session), 'SessionContainer');
+      $this->load->library('Fmg/AuthService', array($this->session), 'AuthService');
 
       /**
-       * @var SessionContainer $sessionContainer
+       * @var AuthService $AuthService
        */
-      $sessionContainer = $this->SessionContainer;
+      $AuthService = $this->AuthService;
 
       $this->setActive('admin');
 
-      if ($sessionContainer->isLoggedIn()) {
+      if ($AuthService->isLoggedIn()) {
          $this->setTitle('Welcome, Master!');
       } else {
          $this->setTitle('Easy Learn Tutorial: Admin Dash');
       }
 
-      $sessionContainer->login('rokko', '123');
-var_dump($sessionContainer->getUser());exit;
-      $this->setData('user', $sessionContainer->getUser());
+      $AuthService->login('rokko', '123');
+var_dump($AuthService->getUser());exit;
+      $this->setData('user', $AuthService->getUser());
       $this->setView('scripts/admin/index');
       $this->setLayout('layout/bootstrap');
    }
