@@ -26,7 +26,7 @@ $config['base_url'] = '';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -247,7 +247,7 @@ $config['encryption_key'] = md5(md5('video video on the wall where is the encryp
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 7200;
 $config['sess_expire_on_close'] = FALSE;
-$config['sess_encrypt_cookie'] = FALSE;
+$config['sess_encrypt_cookie'] = true;
 $config['sess_use_database'] = true;
 $config['sess_table_name'] = 'ci_sessions';
 $config['sess_match_ip'] = FALSE;

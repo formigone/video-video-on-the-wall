@@ -53,9 +53,11 @@
             ?>
 
             <?php foreach ($_pages as $_page): ?>
-               <li class="<?= $_page['type'] !== $page['active'] ? : 'active'; ?>">
-                  <a href="<?= $_page['href']; ?>"><?= $_page['title']; ?></a>
-               </li>
+               <?php if (!$_page['auth'] || ($_page['auth'] && $isLoggedIn)): ?>
+                  <li class="<?= $_page['type'] !== $page['active'] ? : 'active'; ?>">
+                     <a href="<?= $_page['href']; ?>"><?= $_page['title']; ?></a>
+                  </li>
+               <?php endif; ?>
             <?php endforeach; ?>
          </ul>
       </div>

@@ -48,7 +48,8 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'mysql:host=localhost;database=elt_2_0';
+$db['default']['hostname'] = 'mysql:host=localhost;dbname=elt_2_0';
+$db['default']['database'] = 'elt_2_0';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
 $db['default']['dbdriver'] = 'pdo';

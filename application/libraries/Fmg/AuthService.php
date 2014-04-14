@@ -1,7 +1,5 @@
 <?php if (!defined('BASEPATH')) exit('All your direct script access are belong to us');
 
-require_once('User.php');
-
 /**
  * Class AuthService
  *
@@ -16,8 +14,7 @@ class AuthService {
    protected $session;
 
    const SESS_MAX_ATTEMPTS = 3;
-   const SESS_LOCK_TIMEOUT_SEC = 300 /* 5 min */
-   ;
+   const SESS_LOCK_TIMEOUT_SEC = 300;
 
    const SESS_KEY_USER = 'user';
    const SESS_KEY_ATTEMPTS = 'attempts';
@@ -35,7 +32,7 @@ class AuthService {
     * @return bool
     */
    public function isLoggedIn() {
-      return $this->session->userdata('user');
+      return $this->session->userdata(self::SESS_KEY_USER);
    }
 
    /**
@@ -57,7 +54,7 @@ class AuthService {
          }
 
          $this->resetAttempts();
-         $this->session->set_userdata(self::SESS_KEY_USER, new \Fmg\User(1, 'rokko'));
+         $this->session->set_userdata(self::SESS_KEY_USER, new \Fmg\User(1, $username));
 
          return true;
       }
@@ -151,6 +148,6 @@ class AuthService {
     * @return bool
     */
    protected function validate($username, $password) {
-      return true;
+      return $username == 'user' && $password == 'password';
    }
 }

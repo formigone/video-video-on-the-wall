@@ -13,10 +13,18 @@ class Fmg_Controller extends CI_Controller {
    protected $view;
 
    /**
+    * @var Injector
+    */
+   protected $inj;
+
+   /**
     *
     */
    public function __construct() {
       parent::__construct();
+
+      $this->load->library('Fmg/Injector', null, 'Injector');
+      $this->inj = $this->Injector;
 
       $this->view = array(
          'page' => array(
@@ -24,7 +32,9 @@ class Fmg_Controller extends CI_Controller {
             'active' => ''
          ),
          'data' => array(),
-         'view' => false
+         'view' => false,
+         'inj' => &$this->inj,
+         'isLoggedIn' => $this->inj->getService('auth')->getUser() instanceof Fmg\User
       );
    }
 

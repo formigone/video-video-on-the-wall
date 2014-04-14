@@ -10,26 +10,48 @@ class Admin extends Fmg_Controller {
     *
     */
    public function index() {
-      $this->load->library('session');
-      $this->load->library('Fmg/AuthService', array($this->session), 'AuthService');
-
       /**
-       * @var AuthService $AuthService
+       * @var AuthService $authService
        */
-      $AuthService = $this->AuthService;
+      $authService = $this->inj->getService('Auth');
 
-      $this->setActive('admin');
-
-      if ($AuthService->isLoggedIn()) {
+      if ($authService->isLoggedIn()) {
          $this->setTitle('Welcome, Master!');
       } else {
          $this->setTitle('Easy Learn Tutorial: Admin Dash');
       }
 
-      $AuthService->login('rokko', '123');
-var_dump($AuthService->getUser());exit;
-      $this->setData('user', $AuthService->getUser());
+      $this->setData('user', $authService->getUser());
+      $this->setActive('admin');
       $this->setView('scripts/admin/index');
       $this->setLayout('layout/bootstrap');
+   }
+
+   public function logout(){
+      $this->load->helper('url');
+
+      /**
+       * @var AuthService $authService
+       */
+      $authService = $this->inj->getService('Auth');
+      $authService->logout();
+
+      redirect('/admin');
+   }
+
+   public function login() {
+      /**
+       * @var AuthService $authService
+       */
+      $authService = $this->inj->getService('Auth');
+      $this->load->helper('url');
+
+      $post = $this->input->post();
+
+      if (!empty($post)) {
+         $authService->login($post['user'], $post['password']);
+      }
+
+      return redirect('/admin');
    }
 }
