@@ -15,10 +15,19 @@ class Admin extends Fmg_Controller {
        */
       $authService = $this->inj->getService('Auth');
 
+      /**
+       * @var VideoService $videoServivce
+       */
+      $videoService = $this->inj->getService('Video');
+
       if ($authService->isLoggedIn()) {
+         $series = $videoService->listSeries();
          $this->setTitle('Welcome, Master!');
+         $this->setData('series', $series);
+         $this->loadSubview('admin', 'scripts/admin/dash');
       } else {
          $this->setTitle('Easy Learn Tutorial: Admin Dash');
+         $this->loadSubview('admin', 'scripts/admin/login');
       }
 
       $this->setData('user', $authService->getUser());
@@ -27,6 +36,9 @@ class Admin extends Fmg_Controller {
       $this->setLayout('layout/bootstrap');
    }
 
+   /**
+    *
+    */
    public function logout(){
       $this->load->helper('url');
 
@@ -39,6 +51,9 @@ class Admin extends Fmg_Controller {
       redirect('/admin');
    }
 
+   /**
+    *
+    */
    public function login() {
       /**
        * @var AuthService $authService
@@ -53,5 +68,31 @@ class Admin extends Fmg_Controller {
       }
 
       return redirect('/admin');
+   }
+
+   public function addSeries(){
+      /**
+       * @var AuthService $authService
+       */
+      $authService = $this->inj->getService('Auth');
+
+      /**
+       * @var VideoService $videoServivce
+       */
+      $videoService = $this->inj->getService('Video');
+
+      if ($authService->isLoggedIn()) {
+         $series = $videoService->listSeries();
+         $this->setTitle('Welcome, Master!');
+         $this->setData('series', $series);
+      } else {
+         $this->load->helper('url');
+         return redirect('/admin');
+      }
+
+      $this->setData('user', $authService->getUser());
+      $this->setActive('admin');
+      $this->setView('scripts/admin/index');
+      $this->setLayout('layout/bootstrap');
    }
 }

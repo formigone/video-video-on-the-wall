@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH')) exit('All your direct script access are belong to us');
+<?php if (!defined('BASEPATH')) {
+   exit('All your direct script access are belong to us');
+}
 
 /**
  * Class AuthService
@@ -32,7 +34,9 @@ class AuthService {
     * @return bool
     */
    public function isLoggedIn() {
-      return $this->session->userdata(self::SESS_KEY_USER);
+      $user = $this->session->userdata(self::SESS_KEY_USER);
+
+      return !empty($user);
    }
 
    /**
@@ -54,7 +58,8 @@ class AuthService {
          }
 
          $this->resetAttempts();
-         $this->session->set_userdata(self::SESS_KEY_USER, new \Fmg\User(1, $username));
+//         $this->session->set_userdata(self::SESS_KEY_USER, new \Fmg\User(1, $username));
+         $this->session->set_userdata(self::SESS_KEY_USER, array('id' => 1, 'username' => $username));
 
          return true;
       }

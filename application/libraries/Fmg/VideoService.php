@@ -23,8 +23,8 @@ class VideoService {
    /**
     * @return array
     */
-   public function getMockSeries() {
-      return $this->db->getMockSeries();
+   public function listSeries() {
+      return $this->db->listSeries();
    }
 
    /**

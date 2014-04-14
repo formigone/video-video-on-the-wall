@@ -10,19 +10,9 @@ class Video_model extends CI_Model {
    /**
     * @return array
     */
-   public function getMockSeries() {
-      return array(
-         'Google Web Toolkit',
-         'JavaScript for Beginners',
-         'PHP Design Patterns',
-         'Nintendo Game Development'
-      );
-   }
-
-   /**
-    *
-    */
-   public function testDb() {
-      return $this->db->query('select * from series');
+   public function listSeries() {
+      return $this->db->query('
+         select * from series order by alias
+      ')->result_array();
    }
 }

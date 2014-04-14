@@ -25,16 +25,19 @@ class Fmg_Controller extends CI_Controller {
 
       $this->load->library('Fmg/Injector', null, 'Injector');
       $this->inj = $this->Injector;
+      $user = $this->inj->getService('auth')->getUser();
 
       $this->view = array(
          'page' => array(
             'title' => 'Powered by Formigone',
             'active' => ''
          ),
-         'data' => array(),
+         'data' => array(
+            'subviews' => array()
+         ),
          'view' => false,
          'inj' => &$this->inj,
-         'isLoggedIn' => $this->inj->getService('auth')->getUser() instanceof Fmg\User
+         'isLoggedIn' => !empty($user)
       );
    }
 
@@ -67,6 +70,14 @@ class Fmg_Controller extends CI_Controller {
     */
    protected function setView($view) {
       $this->view['view'] = $view;
+   }
+
+   /**
+    * @param string $key Name of subview
+    * @param string $view Path to some view file
+    */
+   protected function loadSubview($key, $view) {
+      $this->view['data']['subviews'][$key] = $this->load->view($view, $this->view, true);
    }
 
    /**

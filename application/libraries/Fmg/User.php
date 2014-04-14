@@ -44,4 +44,18 @@ class User {
    public function getUsername() {
       return $this->username;
    }
+
+   /**
+    * @param int $id
+    */
+   public function setId($id) {
+      $this->id = $id;
+   }
+
+   /**
+    * @param string $username
+    */
+   public function setUsername($username) {
+      $this->username = $username;
+   }
 }

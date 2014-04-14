@@ -1,7 +1,5 @@
 <?php if (!defined('BASEPATH')) exit('All your direct script access are belong to us');
 
-require_once('User.php');
-
 /**
  * Class Injector
  *
@@ -39,7 +37,7 @@ class Injector {
 
    /**
     * @param string $service
-    * @return AuthService $AuthService
+    * @return AuthService
     */
    protected function makeAuth($service){
       $CI =& get_instance();
@@ -49,5 +47,19 @@ class Injector {
       $this->services[$service] = $CI->AuthService;
 
       return $CI->AuthService;
+   }
+
+   /**
+    * @param string $service
+    * @return VideoService
+    */
+   protected function makeVideo($service){
+      $CI =& get_instance();
+      $CI->load->model('Video_model', 'video');
+      $CI->load->library('Fmg/VideoService', array($CI->video), 'VideoService');
+
+      $this->services[$service] = $CI->VideoService;
+
+      return $CI->VideoService;
    }
 }
