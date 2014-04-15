@@ -30,7 +30,6 @@ class Admin extends Fmg_Controller {
          $this->loadSubview('admin', 'scripts/admin/login');
       }
 
-      $this->setData('user', $authService->getUser());
       $this->setActive('admin');
       $this->setView('scripts/admin/index');
       $this->setLayout('layout/bootstrap');
@@ -82,15 +81,13 @@ class Admin extends Fmg_Controller {
       $videoService = $this->inj->getService('Video');
 
       if ($authService->isLoggedIn()) {
-         $series = $videoService->listSeries();
-         $this->setTitle('Welcome, Master!');
-         $this->setData('series', $series);
+         $this->setTitle('Add Series');
+         $this->loadSubview('admin', 'scripts/admin/addSeries');
       } else {
          $this->load->helper('url');
          return redirect('/admin');
       }
 
-      $this->setData('user', $authService->getUser());
       $this->setActive('admin');
       $this->setView('scripts/admin/index');
       $this->setLayout('layout/bootstrap');
