@@ -7,19 +7,15 @@
 
    <title><?= $page['title']; ?></title>
 
-   <!-- Bootstrap core CSS -->
    <link href="/public/css/bootstrap.css" rel="stylesheet">
-
-   <!-- Custom styles for this template -->
    <link href="/public/css/main.css" rel="stylesheet">
    <link href="/public/css/font-awesome.min.css" rel="stylesheet">
 
    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+   <script src="/public/js/bootstrap.js"></script>
    <script src="/public/js/chart.js"></script>
-
    <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
 
-   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
    <!--[if lt IE 9]>
    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
    <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
@@ -28,7 +24,6 @@
 
 <body>
 
-<!-- Fixed navbar -->
 <div class="navbar navbar-default navbar-fixed-top">
    <div class="container">
       <div class="navbar-header">
@@ -37,7 +32,6 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
          </button>
-<!--         <a class="navbar-brand" href="#"><i class="fa fa-puzzle-piece"></i></a>-->
          <a class="navbar-brand" href="/"><i class="fa fa-bookmark-o"></i></a>
       </div>
       <div class="navbar-collapse collapse">
@@ -77,9 +71,22 @@
    </div>
 </div>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="/public/js/bootstrap.js"></script>
+<script>
+   (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+         (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+         m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+   })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+   ga('create', 'UA-36191661-1', 'easylearntutorial.com');
+   ga('send', 'pageview');
+
+</script>
 </body>
 </html>

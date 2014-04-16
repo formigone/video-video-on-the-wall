@@ -17,7 +17,7 @@ class Index extends Fmg_Controller {
        */
       $lib = $this->VideoService;
 
-      $this->setData('series', $lib->getMockSeries());
+      $this->setData('series', $lib->listSeries());
       $this->setActive('home');
       $this->setTitle('Easy Learn Tutorial | Free Programming Lessons');
       $this->setView('scripts/index/index');
