@@ -1,46 +1,33 @@
 <?php if (!defined('BASEPATH')) exit('All your direct script access are belong to us');
 
 /**
- * Class VideoService
+ * Class Youtube
  *
  * @author Rodrigo Silveira
  * Copyright (c) 2014 Formigone.
  */
-class VideoService {
+class YoutubeService {
 
-   /**
-    * @var Video_model $db
-    */
-   protected $db;
+   const URL = 'https://www.googleapis.com/youtube/v3/';
+   const ACTION_PLAYLIST = 'playlists';
+
+   /** @var string $key */
+   protected $key;
 
    /**
     * @param array $params
     */
    public function __construct(array $params){
-      $this->db = $params[0];
+      $this->key = $params[0];
    }
 
    /**
-    * @return array
-    */
-   public function listSeries() {
-      return $this->db->listSeries();
-   }
-
-   /**
-    *
-    */
-   public function testDb(){
-      return $this->db->testDb();
-   }
-
-   /**
-    * @param string $key
     * @param string $channel
     *
     * @return array
     */
-   public function listPlaylists($key, $channel){
+   public function listPlaylists($channel){
+      'https://www.googleapis.com/youtube/v3/';
       $action = 'playlists?part=id%2Csnippet&channelId=UCOmFcwNbdxxRXR6Xza0m4Ew&maxResults=2&fields=pageInfo%2Citems(id%2Csnippet(title%2Cdescription%2Cthumbnails(default)))&key={YOUR_API_KEY}';
 
       $cmd = 'https://www.googleapis.com/youtube/v3/playlists?part=id%2Csnippet&channelId='.$channel.'&maxResults=3&key='.$key;
@@ -50,6 +37,18 @@ class VideoService {
       curl_close($ch);
 
       return json_decode($resp, true);
+   }
+
+   /**
+    * @param string $action
+    * @param string $parts
+    * @param string $fields
+    * @param int $max
+    *
+    * @return string
+    */
+   protected function buildUrl($action, $parts, $fields, $max) {
+      return '';
    }
 
    /**

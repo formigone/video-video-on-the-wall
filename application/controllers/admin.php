@@ -2,7 +2,7 @@
 
 class Admin extends Fmg_Controller {
 
-   public function __construct(){
+   public function __construct() {
       parent::__construct();
    }
 
@@ -38,7 +38,7 @@ class Admin extends Fmg_Controller {
    /**
     *
     */
-   public function logout(){
+   public function logout() {
       $this->load->helper('url');
 
       /**
@@ -69,7 +69,10 @@ class Admin extends Fmg_Controller {
       return redirect('/admin');
    }
 
-   public function addSeries(){
+   /**
+    *
+    */
+   public function addSeries() {
       /**
        * @var AuthService $authService
        */
@@ -85,11 +88,32 @@ class Admin extends Fmg_Controller {
          $this->loadSubview('admin', 'scripts/admin/addSeries');
       } else {
          $this->load->helper('url');
+
          return redirect('/admin');
       }
 
       $this->setActive('admin');
       $this->setView('scripts/admin/index');
       $this->setLayout('layout/bootstrap');
+   }
+
+   public function pull() {
+      /**
+       * @var VideoService $videoServivce
+       */
+      $videoService = $this->inj->getService('Video');
+
+      $key = $videoService->loadKey('/usr/local/keys/youtube-api.key');
+      $channel = $videoService->loadKey('/usr/local/ids/youtube-easylearntutorial.id');
+      $data = $videoService->apiCall($key, $channel);
+
+      var_dump($data);exit;
+
+      $this->setActive('admin');
+      $this->setLayout('layout/bootstrap');
+   }
+
+   public function callback(){
+      
    }
 }
