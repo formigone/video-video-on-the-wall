@@ -23,16 +23,20 @@ class YoutubeService {
 
    /**
     * @param string $channel
+    * @param int (optional) $max
     *
     * @return array
     */
-   public function listPlaylists($channel){
-      'https://www.googleapis.com/youtube/v3/';
-      $action = 'playlists?part=id%2Csnippet&channelId=UCOmFcwNbdxxRXR6Xza0m4Ew&maxResults=2&fields=pageInfo%2Citems(id%2Csnippet(title%2Cdescription%2Cthumbnails(default)))&key={YOUR_API_KEY}';
+   public function fetchPlaylists($channel, $max = 3){
+//      return json_decode('{ "pageInfo": { "totalResults": 21, "resultsPerPage": 2 }, "items": [ { "id": "PLGJDCzBP5j3y3uxsElO_HYvPpkjnu-UNW", "snippet": { "title": "Dependency Injection", "description": "", "thumbnails": { "default": { "url": "https://i.ytimg.com/vi/egONoRg_Gjg/default.jpg" } } } }, { "id": "PLGJDCzBP5j3wU-jFiUPrRs_pHhIO7WRkU", "snippet": { "title": "AngularJS Game Development Tutorials", "description": "Learn how to create 2D games using Angular.js and HTML5. The Tile-based map editor created in this tutorials is open-source, and is a built-in (but standalone) component of the RokkoJS game engine. Check out the JavaScript game framework Git repository at https://github.com/formigone/rokkojs", "thumbnails": { "default": { "url": "https://i.ytimg.com/vi/jt5a9aXn4lg/default.jpg" } } } } ] }', true);
 
-      $cmd = 'https://www.googleapis.com/youtube/v3/playlists?part=id%2Csnippet&channelId='.$channel.'&maxResults=3&key='.$key;
+      $parts = 'id,snippet';
+      $fields = 'pageInfo,items(id,snippet(title,description,thumbnails(default)))';
+
+      $cmd = $this->buildUrl($channel, self::ACTION_PLAYLIST, $parts, $fields, $max);
+
       $ch = curl_init($cmd);
-
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       $resp = curl_exec($ch);
       curl_close($ch);
 
@@ -40,6 +44,7 @@ class YoutubeService {
    }
 
    /**
+    * @param string $channel
     * @param string $action
     * @param string $parts
     * @param string $fields
@@ -47,8 +52,13 @@ class YoutubeService {
     *
     * @return string
     */
-   protected function buildUrl($action, $parts, $fields, $max) {
-      return '';
+   protected function buildUrl($channel, $action, $parts, $fields, $max) {
+      $parts = urlencode($parts);
+      $fields = urlencode($fields);
+
+      return sprintf('%s%s?channelId=%s&part=%s&fields=%s&maxResults=%d&key=%s',
+         self::URL, $action, $channel, $parts, $fields, $max, $this->key
+      );
    }
 
    /**

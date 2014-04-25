@@ -10,17 +10,12 @@ class Admin extends Fmg_Controller {
     *
     */
    public function index() {
-      /**
-       * @var AuthService $authService
-       */
-      $authService = $this->inj->getService('Auth');
+      if ($this->isLoggedIn()) {
+         /**
+          * @var VideoService $videoServivce
+          */
+         $videoService = $this->inj->getService('Video');
 
-      /**
-       * @var VideoService $videoServivce
-       */
-      $videoService = $this->inj->getService('Video');
-
-      if ($authService->isLoggedIn()) {
          $series = $videoService->listSeries();
          $this->setTitle('Welcome, Master!');
          $this->setData('series', $series);
@@ -73,6 +68,8 @@ class Admin extends Fmg_Controller {
     *
     */
    public function addSeries() {
+      $this->gotoIfNotLoggedIn('/admin');
+
       /**
        * @var AuthService $authService
        */
@@ -97,23 +94,23 @@ class Admin extends Fmg_Controller {
       $this->setLayout('layout/bootstrap');
    }
 
-   public function pull() {
+   /**
+    *
+    */
+   public function syncSeries() {
+      $this->gotoIfNotLoggedIn('/admin');
+
       /**
        * @var VideoService $videoServivce
        */
       $videoService = $this->inj->getService('Video');
 
-      $key = $videoService->loadKey('/usr/local/keys/youtube-api.key');
-      $channel = $videoService->loadKey('/usr/local/ids/youtube-easylearntutorial.id');
-      $data = $videoService->apiCall($key, $channel);
+      $channel = $this->inj->loadKey('/usr/local/ids/youtube-easylearntutorial.id');
+      $data = $videoService->fetchPlaylists($channel, 50);
 
-      var_dump($data);exit;
+      $videoService->saveSeries($data['items'], true);
 
-      $this->setActive('admin');
-      $this->setLayout('layout/bootstrap');
-   }
-
-   public function callback(){
-      
+      $this->load->helper('url');
+      return redirect('/admin');
    }
 }

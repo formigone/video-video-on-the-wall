@@ -54,12 +54,27 @@ class Injector {
     * @return VideoService
     */
    protected function makeVideo($service){
+      $key = $this->loadKey('/usr/local/keys/youtube-api.key');
+
       $CI =& get_instance();
       $CI->load->model('Video_model', 'video');
-      $CI->load->library('Fmg/VideoService', array($CI->video), 'VideoService');
+      $CI->load->library('Fmg/YoutubeService', array($key), 'yt');
+      $CI->load->library('Fmg/VideoService', array($CI->video, $CI->yt), 'VideoService');
 
       $this->services[$service] = $CI->VideoService;
 
       return $CI->VideoService;
+   }
+
+   /**
+    * @param string $filename
+    *
+    * @return string
+    */
+   public function loadKey($filename) {
+      $data = file_get_contents($filename);
+      $data = str_replace('\n', '', $data);
+
+      return trim($data);
    }
 }

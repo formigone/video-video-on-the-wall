@@ -86,4 +86,20 @@ class Fmg_Controller extends CI_Controller {
    protected function setLayout($view) {
       $this->load->view($view, $this->view);
    }
+
+   protected function isLoggedIn(){
+      /**
+       * @var AuthService $authService
+       */
+      $authService = $this->inj->getService('Auth');
+
+      return $authService->isLoggedIn();
+   }
+
+   protected function gotoIfNotLoggedIn($uri){
+      if (!$this->isLoggedIn()) {
+         $this->load->helper('url');
+         return redirect($uri);
+      }
+   }
 }
