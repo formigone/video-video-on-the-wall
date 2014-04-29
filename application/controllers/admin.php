@@ -110,7 +110,9 @@ class Admin extends Fmg_Controller {
        */
       $videoService = $this->inj->getService('Video');
 
-      $data = $videoService->fetchPlaylistVideos($alias, 50);
+      // TODO: LIST videoSeriesAssets
+//      $data = $videoService->fetchPlaylistVideos($alias, 50);
+      $data = array();
       $this->setData('videos', $data);
 
       $this->setActive('admin');
@@ -132,7 +134,30 @@ class Admin extends Fmg_Controller {
       $channel = $this->inj->loadKey('/usr/local/ids/youtube-easylearntutorial.id');
       $data = $videoService->fetchPlaylists($channel, 50);
 
-      $videoService->saveSeries($data['items'], true);
+      $videoService->saveSeries($data['items'], false);
+
+      $this->load->helper('url');
+      return redirect('/admin');
+   }
+
+   /**
+    *
+    */
+   public function syncVideoSeries() {
+      $this->gotoIfNotLoggedIn('/admin');
+
+      /**
+       * @var VideoService $videoServivce
+       */
+      $videoService = $this->inj->getService('Video');
+      $this->load->helper('url');
+
+      $id = $this->input->get('id', 0);
+      $alias = $this->input->get('alias', 0);
+
+      $data = $videoService->fetchPlaylistVideos($alias, 50);
+
+      $res = $videoService->saveVideoSeries($id, $alias, $data['items'], false);
 
       $this->load->helper('url');
       return redirect('/admin');

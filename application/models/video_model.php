@@ -13,7 +13,8 @@ class Video_model extends CI_Model {
    public function listSeries() {
       return $this->db->query('
          select * from series order by alias
-      ')->result_array();
+      '
+      )->result_array();
    }
 
    /**
@@ -25,7 +26,19 @@ class Video_model extends CI_Model {
       $this->db->select('id');
       $res = $this->db->get_where('series', array('alias' => $alias), 1);
 
-      return array_pop($res->result_array()) ?: array();
+      return array_pop($res->result_array()) ? : array();
+   }
+
+   /**
+    * @param int $alias
+    *
+    * @return array
+    */
+   public function findVideo($alias) {
+      $this->db->select('id');
+      $res = $this->db->get_where('video', array('alias' => $alias), 1);
+
+      return array_pop($res->result_array()) ? : array();
    }
 
    /**
@@ -35,11 +48,28 @@ class Video_model extends CI_Model {
     */
    public function insertSeries(array $data) {
       return $this->db->insert('series', array(
-         'alias' => $data['id'],
-         'title' => $data['snippet']['title'],
-         'description' => $data['snippet']['description'],
-         'img' => $data['snippet']['thumbnails']['default']['url']
-      ));
+            'alias' => $data['id'],
+            'title' => $data['snippet']['title'],
+            'description' => $data['snippet']['description'],
+            'img' => $data['snippet']['thumbnails']['default']['url']
+         )
+      );
+   }
+
+   /**
+    * @param array $data
+    *
+    * @return bool
+    */
+   public function insertVideo(array $data) {
+      return $this->db->insert('video', array(
+            'alias' => $data['id'],
+            'title' => $data['snippet']['title'],
+            'description' => $data['snippet']['description'],
+            'img' => $data['snippet']['thumbnails']['default']['url'],
+            'created' => $data['snippet']['publishedAt']
+         )
+      );
    }
 
    /**
@@ -56,6 +86,50 @@ class Video_model extends CI_Model {
             'title' => $data['snippet']['title'],
             'description' => $data['snippet']['description'],
             'img' => $data['snippet']['thumbnails']['default']['url']
-         ));
+         )
+      );
+   }
+
+   /**
+    * @param int $id
+    * @param array $data
+    *
+    * @return bool
+    */
+   public function updateVideo($id, array $data) {
+      $this->db->where('id', $id);
+
+      return $this->db->update('video', array(
+            'alias' => $data['id'],
+            'title' => $data['snippet']['title'],
+            'description' => $data['snippet']['description'],
+            'img' => $data['snippet']['thumbnails']['default']['url']
+         )
+      );
+   }
+
+   /**
+    * @param string $videoAlias
+    * @param string $seriesAlias
+    * @param int $seriesId
+    * @param int $seq
+    *
+    * @return mixed
+    */
+   public function addVideoToSeries($videoAlias, $seriesAlias, $seriesId, $seq) {
+      $video = array_pop(
+         $this->db->query('select id from video where alias = "' . $videoAlias . '" limit 1')->result_array()
+      ) ? : array();
+      $series = array_pop(
+         $this->db->query('select id from series where alias = "' . $seriesAlias . '" and id = ' . $seriesId . ' limit 1')->result_array()
+      ) ? : array();
+
+      // Not the most elegant solution, but CI inserts records twice if db->query(insert) has a subquery in it to locate some FK...
+      return $this->db->insert('video_series', array(
+            'video_id' => $video['id'],
+            'series_id' => $series['id'],
+            'seq' => $seq
+         )
+      );
    }
 }

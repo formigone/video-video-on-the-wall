@@ -76,7 +76,7 @@ class YoutubeService {
     */
    public function fetchPlaylistVideos($playlist, $max = 3, $pageToken = '', array $_data = array()){
       $parts = 'id,snippet';
-      $fields = 'nextPageToken,pageInfo,items(id,snippet(title,position,description,thumbnails(default)))';
+      $fields = 'nextPageToken,pageInfo,items(id,snippet(publishedAt,title,position,description,thumbnails(default)))';
       $extra = 'playlistId='.$playlist;
 
       if (!empty($pageToken)) {
@@ -103,7 +103,10 @@ class YoutubeService {
       }
 
       $res = $data;
-      $res['items'] = array_merge($res['items'], $_data['items']);
+
+      if (!empty($_data['items'])) {
+         $res['items'] = array_merge($res['items'], $_data['items']);
+      }
 
       return $res;
    }

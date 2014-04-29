@@ -95,6 +95,37 @@ class VideoService {
    }
 
    /**
+    * @param int $id
+    * @param string $alias
+    * @param array $data
+    * @param bool (optional) $override
+    *
+    * @return bool
+    */
+   public function saveVideoSeries($id, $alias, array $data, $override = false) {
+      $status = true;
+
+      foreach ($data as $video) {
+         $_video = $this->db->findVideo($video['id']);
+
+         if (empty($_video)) {
+            if (!$this->db->insertVideo($video)) {
+               $status = false;
+               continue;
+            }
+         } else {
+            if ($override) {
+               $this->db->updateVideo($_video['id'], $video);
+            }
+         }
+
+         $this->db->addVideoToSeries($video['id'], $alias, $id, $video['snippet']['position']);
+      }
+
+      return $status;
+   }
+
+   /**
     * @param int $alias
     * @param int (optional) $max
     *
