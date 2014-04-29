@@ -71,7 +71,7 @@ class VideoService {
 
    /**
     * @param array $data
-    * @param bool $override
+    * @param bool (optional) $override
     *
     * @return bool
     */
@@ -93,5 +93,15 @@ class VideoService {
       }
 
       return $status;
+   }
+
+   /**
+    * @param int $alias
+    * @param int (optional) $max
+    *
+    * @return array
+    */
+   public function fetchPlaylistVideos($alias, $max = 3) {
+      return $this->yt->fetchPlaylistVideos($alias, $max);
    }
 }

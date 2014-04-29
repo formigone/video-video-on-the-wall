@@ -97,6 +97,30 @@ class Admin extends Fmg_Controller {
    /**
     *
     */
+   public function editSeries() {
+      $this->gotoIfNotLoggedIn('/admin');
+
+      $this->load->helper('url');
+
+      $id = $this->input->get('id', 0);
+      $alias = $this->input->get('alias', 0);
+
+      /**
+       * @var VideoService $videoServivce
+       */
+      $videoService = $this->inj->getService('Video');
+
+      $data = $videoService->fetchPlaylistVideos($alias, 3);
+      $this->setData('videos', $data);
+
+      $this->setActive('admin');
+      $this->setView('scripts/admin/edit');
+      $this->setLayout('layout/bootstrap');
+   }
+
+   /**
+    *
+    */
    public function syncSeries() {
       $this->gotoIfNotLoggedIn('/admin');
 

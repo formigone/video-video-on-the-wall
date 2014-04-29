@@ -1,5 +1,7 @@
 <div class="text-left">
-
+<pre><?php var_dump($data['videos']); ?></pre>
+<pre><?php var_dump($data['videos']['items']); ?></pre>
+<pre><?php var_dump($data['videos']['items'][0]); ?></pre>
    <div>
       <h3>Series
          <a href="/admin/addSeries" class="btn btn-primary pull-right">
@@ -15,15 +17,15 @@
          </tr>
          </thead>
          <tbody>
-         <?php foreach ($data['series'] as $_series): ?>
+         <?php foreach ($data['videos'] as $_video): ?>
             <tr>
                <td>
-                  <a href="/admin/editSeries/?id=<?= $_series['id']; ?>&alias=<?= $_series['alias']; ?>"><?= $_series['title']; ?></a><br/>
-                  <?= $_series['alias']; ?>
+                  <a href="/admin/editSeries/?id=<?= $_video['id']; ?>&alias=<?= $_video['alias']; ?>"><?= $_video['title']; ?></a><br/>
+                  <?= $_video['alias']; ?>
                </td>
-               <td><?= $_series['description']; ?></td>
+               <td><?= $_video['description']; ?></td>
                <td>
-                  <img src="<?= $_series['img']; ?>" class="img-responsive"/>
+                  <img src="<?= $_video['img']; ?>" class="img-responsive"/>
                </td>
             </tr>
          <?php endforeach; ?>
