@@ -110,7 +110,7 @@ class Admin extends Fmg_Controller {
        */
       $videoService = $this->inj->getService('Video');
 
-      $data = $videoService->fetchPlaylistVideos($alias, 3);
+      $data = $videoService->fetchPlaylistVideos($alias, 50);
       $this->setData('videos', $data);
 
       $this->setActive('admin');

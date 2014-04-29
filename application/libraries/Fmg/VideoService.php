@@ -65,7 +65,6 @@ class VideoService {
     * @return array
     */
    public function fetchPlaylists($channel, $max = 3) {
-//      $action = 'playlists?part=id%2Csnippet&channelId=UCOmFcwNbdxxRXR6Xza0m4Ew&maxResults=2&fields=pageInfo%2Citems(id%2Csnippet(title%2Cdescription%2Cthumbnails(default)))&key={YOUR_API_KEY}';
       return $this->yt->fetchPlaylists($channel, $max);
    }
 
