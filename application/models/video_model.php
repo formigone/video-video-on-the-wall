@@ -183,7 +183,7 @@ class Video_model extends CI_Model {
       $id = (int)$id;
 
       $res = $this->db->query('
-         select v.title, v.created, v.resource_id, if(v.extra_description = "", v.description, v.extra_description) as extra_description,
+         select v.id, v.title, v.created, v.resource_id, if(v.extra_description = "", v.description, v.extra_description) as extra_description,
          s.title as series_title, s.id as series_id,
          vs.seq
          from video v
@@ -239,5 +239,17 @@ class Video_model extends CI_Model {
       ')->result_array();
 
       return array_pop($res) ? : array();
+   }
+
+   /**
+    * @param array $data
+    *
+    * @return bool
+    */
+   public function saveVideo(array $data){
+      $this->db->where('id', $data['id']);
+      unset($data['id']);
+
+      return $this->db->update('video', $data);
    }
 }

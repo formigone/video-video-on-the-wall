@@ -245,3 +245,23 @@ a:after {
     padding-left: 10px;
     padding-right: 10px;
 }
+
+.input-word {
+    padding: 5px;
+    width: 100%;
+    display: block;
+    min-height: 250px;
+}
+
+table.dash td {
+    vertical-align: top;
+    padding: 10px;
+}
+
+.subtle p {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.bald {
+    margin: 0 0 20px;
+}

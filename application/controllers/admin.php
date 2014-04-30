@@ -15,6 +15,7 @@ class Admin extends Fmg_Controller {
           * @var VideoService $videoServivce
           */
          $videoService = $this->inj->getService('Video');
+         $this->load->library('typography');
 
          $series = $videoService->listSeries();
          $this->setTitle('Welcome, Master!');
@@ -101,9 +102,9 @@ class Admin extends Fmg_Controller {
       $this->gotoIfNotLoggedIn('/admin');
 
       $this->load->helper('url');
+      $this->load->library('typography');
 
       $id = $this->input->get('id', 0);
-      $alias = $this->input->get('alias', 0);
 
       /**
        * @var VideoService $videoServivce
@@ -111,7 +112,6 @@ class Admin extends Fmg_Controller {
       $videoService = $this->inj->getService('Video');
 
       $data = $videoService->listVideoSeries($id);
-      $this->setData('alias', $alias);
       $this->setData('series', $data);
 
       $this->setActive('admin');
@@ -156,10 +156,69 @@ class Admin extends Fmg_Controller {
       $alias = $this->input->get('alias', 0);
 
       $data = $videoService->fetchPlaylistVideos($alias, 50);
+      $videoService->saveVideoSeries($id, $alias, $data['items'], false);
 
-      $res = $videoService->saveVideoSeries($id, $alias, $data['items'], false);
-
-      $this->load->helper('url');
       return redirect('/admin');
+   }
+
+   /**
+    *
+    */
+   public function updateVideo() {
+      $this->gotoIfNotLoggedIn('/admin');
+
+      /**
+       * @var VideoService $videoServivce
+       */
+      $videoService = $this->inj->getService('Video');
+      $this->load->helper('url');
+
+      $vid = $this->input->post('vid', 0);
+      $sid = $this->input->post('sid', 0);
+
+      if ($vid > 0) {
+         $this->load->library('security');
+         $extra = $this->input->post('extra_description');
+         $extra = $this->security->xss_clean($extra);
+         $extra = trim($extra);
+
+         $data = array(
+            'id' => $vid,
+            'extra_description' => $extra
+         );
+
+         $videoService->saveVideo($data);
+      }
+
+      if ($sid == 0) {
+         return redirect('/admin');
+      } else {
+         return redirect('/admin/editSeries/?id='.$sid);
+      }
+   }
+
+   /**
+    *
+    */
+   public function editVideo() {
+      $this->gotoIfNotLoggedIn('/admin');
+
+      /**
+       * @var VideoService $videoServivce
+       */
+      $videoService = $this->inj->getService('Video');
+      $this->load->helper('url');
+
+      $vid = $this->input->get('vid', 0);
+      $sid = $this->input->get('sid', 0);
+
+      $data = $videoService->getVideoDetails($vid);
+      $this->setData('video', $data);
+      $this->setData('sid', $sid);
+
+      $this->setActive('admin');
+      $this->loadSubview('admin', 'scripts/admin/edit-video');
+      $this->setView('scripts/admin/index');
+      $this->setLayout('layout/bootstrap');
    }
 }

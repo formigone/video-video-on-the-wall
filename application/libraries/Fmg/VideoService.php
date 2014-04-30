@@ -262,4 +262,13 @@ class VideoService {
          'prev' => $prev[0]
       );
    }
+
+   /**
+    * @param array $data
+    *
+    * @return bool
+    */
+   public function saveVideo(array $data){
+      return $this->db->saveVideo($data);
+   }
 }

@@ -9,7 +9,11 @@
             </small>
          </h3>
       <?php endif; ?>
+   </div>
+</div>
 
+<div id="skills">
+   <div class="container">
       <?= $subviews['admin']; ?>
    </div>
 </div>
