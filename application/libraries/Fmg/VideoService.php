@@ -185,7 +185,7 @@ class VideoService {
 
    protected function cleanTitle($title) {
       $title = strtolower(trim($title));
-      $title = str_replace(array('&', ':', '?', '!'), '', $title);
+      $title = str_replace(array('&', ':', '?', '!', '#', '|'), '', $title);
       $title = preg_replace('/\s+/', '-', $title);
       $title = preg_replace('/--+/', '-', $title);
 

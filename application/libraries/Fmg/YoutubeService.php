@@ -76,7 +76,7 @@ class YoutubeService {
     */
    public function fetchPlaylistVideos($playlist, $max = 3, $pageToken = '', array $_data = array()){
       $parts = 'id,snippet';
-      $fields = 'nextPageToken,pageInfo,items(id,snippet(publishedAt,title,position,description,thumbnails(default)))';
+      $fields = 'nextPageToken,pageInfo,items(id,snippet(resourceId(videoId),publishedAt,title,position,description,thumbnails(default)))';
       $extra = 'playlistId='.$playlist;
 
       if (!empty($pageToken)) {

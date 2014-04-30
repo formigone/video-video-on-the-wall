@@ -13,7 +13,9 @@
 
       <div class="mt"></div>
       <div class="col-md-push-2 col-md-8 col-sm-push-1 col-sm-10 text-center">
-         <h1>[video player here]</h1>
+         <div class="e-player">
+            <iframe width="420" height="315" src="//www.youtube.com/embed/<?= $data['video']['resource_id']; ?>?rel=0" frameborder="0" allowfullscreen></iframe>
+         </div>
 
          <p class="text-left pull-right">
             [SOCIAL SHARES]

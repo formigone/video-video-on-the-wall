@@ -37,7 +37,7 @@
       <div class="mt"></div>
       <?php foreach ($data['latest']['videos'] as $i => $_video): ?>
          <div class="col-lg-4">
-            <a href="/tutorial/?vt=<?= $_video['clean-title']; ?>&vid=<?= $data['latest']['series']['id']; ?>">
+            <a href="/tutorial/?vt=<?= $_video['clean-title']; ?>&vid=<?= $_video['id']; ?>">
                <img src="<?= $_video['img']; ?>" class="img-responsive"/>
             </a>
 

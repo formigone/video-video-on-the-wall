@@ -67,7 +67,8 @@ class Video_model extends CI_Model {
             'title' => $data['snippet']['title'],
             'description' => $data['snippet']['description'],
             'img' => $data['snippet']['thumbnails']['default']['url'],
-            'created' => $data['snippet']['publishedAt']
+            'created' => $data['snippet']['publishedAt'],
+            'resource_id' => $data['snippet']['resourceId']['videoId']
          )
       );
    }
@@ -103,7 +104,8 @@ class Video_model extends CI_Model {
             'alias' => $data['id'],
             'title' => $data['snippet']['title'],
             'description' => $data['snippet']['description'],
-            'img' => $data['snippet']['thumbnails']['default']['url']
+            'img' => $data['snippet']['thumbnails']['default']['url'],
+            'resource_id' => $data['snippet']['resourceId']['videoId']
          )
       );
    }
