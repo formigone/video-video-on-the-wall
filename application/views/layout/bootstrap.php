@@ -33,6 +33,9 @@
             <span class="icon-bar"></span>
          </button>
          <a class="navbar-brand" href="/"><i class="fa fa-bookmark-o"></i></a>
+         <div class="pull-right yt-widget hor-spacer hidden visible-xs">
+            <div class="g-ytsubscribe" data-channel="easylearntutorial" data-layout="default" data-count="default"></div>
+         </div>
       </div>
       <div class="navbar-collapse collapse">
          <ul class="nav navbar-nav navbar-right">
@@ -53,6 +56,10 @@
                   </li>
                <?php endif; ?>
             <?php endforeach; ?>
+            <li class="yt-widget">
+               <script src="https://apis.google.com/js/platform.js"></script>
+               <div class="g-ytsubscribe" data-channel="easylearntutorial" data-layout="default" data-count="default"></div>
+            </li>
          </ul>
       </div>
       <!--/.nav-collapse -->

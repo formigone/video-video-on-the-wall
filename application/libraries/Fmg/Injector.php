@@ -42,7 +42,8 @@ class Injector {
    protected function makeAuth($service){
       $CI =& get_instance();
       $CI->load->library('session');
-      $CI->load->library('Fmg/AuthService', array($CI->session), 'AuthService');
+      $CI->load->model('User_model', 'user');
+      $CI->load->library('Fmg/AuthService', array($CI->session, $CI->user), 'AuthService');
 
       $this->services[$service] = $CI->AuthService;
 

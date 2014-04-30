@@ -168,6 +168,7 @@ class Video_model extends CI_Model {
          from video v
          join video_series vs on vs.video_id = v.id
          join series s on vs.series_id = s.id
+         group by v.id
          order by created desc
          limit ' . $max
       )->result_array();

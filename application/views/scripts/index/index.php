@@ -64,7 +64,7 @@
 
       <div class="col-lg-3 mt">
          <p>
-            <button type="button" class="btn btn-theme btn-lg">Suggest tutorial series</button>
+            <a href="https://plus.google.com/+easylearntutorial/posts" class="btn btn-theme btn-lg">Suggest tutorial series</a>
          </p>
       </div>
    </div>

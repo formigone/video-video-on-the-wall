@@ -15,6 +15,11 @@ class AuthService {
     */
    protected $session;
 
+   /**
+    * @var User_model $db
+    */
+   protected $db;
+
    const SESS_MAX_ATTEMPTS = 3;
    const SESS_LOCK_TIMEOUT_SEC = 300;
 
@@ -28,6 +33,7 @@ class AuthService {
     */
    public function __construct(array $params) {
       $this->session = $params[0];
+      $this->db = $params[1];
    }
 
    /**
@@ -153,6 +159,18 @@ class AuthService {
     * @return bool
     */
    protected function validate($username, $password) {
-      return $username == 'user' && $password == 'password';
+      $user = $this->db->findByUsername($username);
+
+      if (empty($user)) {
+         return false;
+      }
+
+      $hSalt = md5($user['salt']);
+      $hPw = md5($password);
+      $hId = md5($user['id']);
+
+      $hash = md5($hPw.'@'.$hSalt.'+'.$hId).md5($password);
+
+      return $user['password'] === $hash;
    }
 }

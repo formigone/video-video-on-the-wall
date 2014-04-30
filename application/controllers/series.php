@@ -41,8 +41,6 @@ class Series extends Fmg_Controller {
          $this->setData('series', $data);
       }
 
-      // TODO: get video resourcdId
-      
       $this->setActive('series');
       $this->setTitle('Browse by Series | Easy Learn Tutorial');
       $this->setView('scripts/series/watch');

@@ -167,6 +167,12 @@ class VideoService {
       return $data;
    }
 
+   /**
+    * @param int $img
+    * @param int $quality
+    *
+    * @return string
+    */
    protected function getImageUrl($img, $quality) {
       $qMod = '';
       $filename = 'default.jpg';
@@ -183,6 +189,11 @@ class VideoService {
       return str_replace($filename, $qMod . $filename, $img);
    }
 
+   /**
+    * @param string $title
+    *
+    * @return string
+    */
    protected function cleanTitle($title) {
       $title = strtolower(trim($title));
       $title = str_replace(array('&', ':', '?', '!', '#', '|'), '', $title);
@@ -209,6 +220,11 @@ class VideoService {
       return $data;
    }
 
+   /**
+    * @param int $id
+    *
+    * @return array
+    */
    public function getVideoDetails($id) {
       $data = $this->db->getVideoDetails($id);
       $series = array(
@@ -228,6 +244,12 @@ class VideoService {
       return $data;
    }
 
+   /**
+    * @param int $series
+    * @param int $id
+    *
+    * @return array
+    */
    protected function getPlayback($series, $id) {
       $next = array($this->db->getNext($series, $id));
       $next = $this->processVideoSeriesList($next);
