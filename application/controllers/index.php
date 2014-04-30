@@ -38,5 +38,7 @@ class Index extends Fmg_Controller {
       $this->setTitle('Easy Learn Tutorial | Free Programming Lessons');
       $this->setView('scripts/index/index');
       $this->setLayout('layout/bootstrap');
+
+      $this->output->cache(5);
    }
 }

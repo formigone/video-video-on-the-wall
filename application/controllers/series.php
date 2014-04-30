@@ -22,6 +22,8 @@ class Series extends Fmg_Controller {
       $this->setTitle('Browse by Series | Easy Learn Tutorial');
       $this->setView('scripts/series/index');
       $this->setLayout('layout/bootstrap');
+
+      $this->output->cache(5);
    }
 
    /**
@@ -45,5 +47,7 @@ class Series extends Fmg_Controller {
       $this->setTitle('Browse by Series | Easy Learn Tutorial');
       $this->setView('scripts/series/watch');
       $this->setLayout('layout/bootstrap');
+
+      $this->output->cache(5);
    }
 }

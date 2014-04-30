@@ -25,5 +25,7 @@ class Tutorial extends Fmg_Controller {
       $this->setTitle($data['title'].' | Easy Learn Tutorial');
       $this->setView('scripts/tutorial/index');
       $this->setLayout('layout/bootstrap');
+
+      $this->output->cache(5);
    }
 }

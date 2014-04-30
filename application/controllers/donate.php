@@ -14,5 +14,7 @@ class Donate extends Fmg_Controller {
       $this->setTitle('Donate to support Easy Learn Tutorial | Free Programming Tutorials');
       $this->setView('scripts/donate/index');
       $this->setLayout('layout/bootstrap');
+
+      $this->output->cache(15);
    }
 }

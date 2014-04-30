@@ -14,5 +14,7 @@ class About extends Fmg_Controller {
       $this->setTitle('About Easy Learn Tutorial | Free Programming Tutorials');
       $this->setView('scripts/about/index');
       $this->setLayout('layout/bootstrap');
+
+      $this->output->cache(15);
    }
 }
