@@ -138,19 +138,19 @@ class Video_model extends CI_Model {
     *
     * @return array
     */
-   public function listVideoSeries($id){
+   public function listVideoSeries($id) {
       $id = (int)$id;
-      $res = $this->db->query('
+
+      return $this->db->query('
          select s.title as series_title, s.id as series_id, v.*
          from video_series vs
          join video v on v.id = vs.video_id
          join series s on s.id = vs.series_id
-         where vs.series_id = '.$id.'
+         where vs.series_id = ' . $id . '
          group by vs.video_id
          order by vs.seq
-      ');
-
-      return $res->result_array();
+      '
+      )->result_array();
    }
 
    /**
@@ -158,7 +158,7 @@ class Video_model extends CI_Model {
     *
     * @return array
     */
-   public function listLatestVideos($max){
+   public function listLatestVideos($max) {
       $max = (int)$max;
 
       return $this->db->query('
@@ -167,7 +167,74 @@ class Video_model extends CI_Model {
          join video_series vs on vs.video_id = v.id
          join series s on vs.series_id = s.id
          order by created desc
-         limit '.$max
+         limit ' . $max
       )->result_array();
+   }
+
+   /**
+    * @param int $id
+    *
+    * @return array
+    */
+   public function getVideoDetails($id) {
+      $id = (int)$id;
+
+      $res = $this->db->query('
+         select v.title, v.created, v.resource_id, if(v.extra_description = "", v.description, v.extra_description) as extra_description,
+         s.title as series_title, s.id as series_id,
+         vs.seq
+         from video v
+         join video_series vs on vs.video_id = v.id
+         join series s on vs.series_id = s.id
+         where v.id = ' . $id
+      )->result_array();
+
+      return array_pop($res) ? : array();
+   }
+
+   /**
+    * @param int $series
+    * @param int $id
+    *
+    * @return array
+    */
+   public function getNext($series, $id) {
+      $id = (int)$id;
+      $series = (int)$series;
+
+      $res = $this->db->query('
+         select v.id, v.title, v.created,
+         vs.seq
+         from video v
+         join video_series vs on vs.video_id = v.id
+         join series s on vs.series_id = s.id
+         where v.id > '.$id.' and s.id = '.$series.'
+         order by vs.seq asc limit 1
+      ')->result_array();
+
+      return array_pop($res) ? : array();
+   }
+
+   /**
+    * @param int $series
+    * @param int $id
+    *
+    * @return array
+    */
+   public function getPrevious($series, $id) {
+      $id = (int)$id;
+      $series = (int)$series;
+
+      $res = $this->db->query('
+         select v.id, v.title, v.created,
+         vs.seq
+         from video v
+         join video_series vs on vs.video_id = v.id
+         join series s on vs.series_id = s.id
+         where v.id < '.$id.' and s.id = '.$series.'
+         order by vs.seq desc limit 1
+      ')->result_array();
+
+      return array_pop($res) ? : array();
    }
 }

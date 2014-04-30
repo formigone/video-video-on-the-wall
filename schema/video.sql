@@ -18,12 +18,14 @@ CREATE TABLE video_src (
   ENGINE =innodb;
 
 CREATE TABLE video (
-  id          INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  alias       VARCHAR(128) NOT NULL,
-  title       VARCHAR(128) NOT NULL,
-  img         VARCHAR(256) NOT NULL,
-  created     DATETIME     NOT NULL,
-  description TEXT         NOT NULL,
+  id                INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  alias             VARCHAR(128) NOT NULL,
+  resource_id       VARCHAR(128) NOT NULL,
+  title             VARCHAR(128) NOT NULL,
+  img               VARCHAR(256) NOT NULL,
+  created           DATETIME     NOT NULL,
+  description       TEXT         NOT NULL,
+  extra_description TEXT         NOT NULL,
 
   UNIQUE (alias)
 )
@@ -37,6 +39,7 @@ CREATE TABLE video_series (
   seq       INT          NOT NULL DEFAULT 0,
 
   FOREIGN KEY (video_id) REFERENCES video (id),
-  FOREIGN KEY (series_id) REFERENCES series (id)
+  FOREIGN KEY (series_id) REFERENCES series (id),
+  INDEX (seq)
 )
   ENGINE =innodb;

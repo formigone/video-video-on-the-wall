@@ -138,7 +138,14 @@ class VideoService {
       return $data;
    }
 
-   protected function processVideoSeriesList(array &$data, $quality, array $keys = array()){
+   /**
+    * @param array $data
+    * @param int (optional) $quality
+    * @param array (optional) $keys
+    *
+    * @return array
+    */
+   protected function processVideoSeriesList(array &$data, $quality = self::THUMBNAIL_RES_LOW, array $keys = array()) {
       if (empty($keys)) {
          $keys = array(
             'img' => 'img',
@@ -147,9 +154,14 @@ class VideoService {
       }
 
       foreach ($data as &$row) {
-         $row['img'] = $this->getImageUrl($row[$keys['img']], $quality);
-         $row['clean-title'] = $this->cleanTitle($row[$keys['title']]);
-         $row['title'] = $row[$keys['title']];
+         if (array_key_exists('img', $row)) {
+            $row['img'] = $this->getImageUrl($row[$keys['img']], $quality);
+         }
+
+         if (array_key_exists('title', $row)) {
+            $row['clean-title'] = $this->cleanTitle($row[$keys['title']]);
+            $row['title'] = $row[$keys['title']];
+         }
       }
 
       return $data;
@@ -195,5 +207,37 @@ class VideoService {
       );
 
       return $data;
+   }
+
+   public function getVideoDetails($id) {
+      $data = $this->db->getVideoDetails($id);
+      $series = array(
+         array(
+            'id' => $data['series_id'],
+            'title' => $data['series_title']
+         )
+      );
+
+      $series = $this->processVideoSeriesList($series);
+      $data['series'] = $series[0];
+      $data['playback'] = $this->getPlayback($data['series']['id'], $id);
+
+      unset($data['series_id']);
+      unset($data['series_title']);
+
+      return $data;
+   }
+
+   protected function getPlayback($series, $id) {
+      $next = array($this->db->getNext($series, $id));
+      $next = $this->processVideoSeriesList($next);
+
+      $prev = array($this->db->getPrevious($series, $id));
+      $prev = $this->processVideoSeriesList($prev);
+
+      return array(
+         'next' => $next[0],
+         'prev' => $prev[0]
+      );
    }
 }
