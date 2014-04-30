@@ -1,0 +1,2 @@
+mysqldump -u root elt_2_0 > data.sql
+
