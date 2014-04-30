@@ -110,13 +110,13 @@ class Admin extends Fmg_Controller {
        */
       $videoService = $this->inj->getService('Video');
 
-      // TODO: LIST videoSeriesAssets
-//      $data = $videoService->fetchPlaylistVideos($alias, 50);
-      $data = array();
-      $this->setData('videos', $data);
+      $data = $videoService->listVideoSeries($id);
+      $this->setData('alias', $alias);
+      $this->setData('series', $data);
 
       $this->setActive('admin');
-      $this->setView('scripts/admin/edit');
+      $this->loadSubview('admin', 'scripts/admin/edit');
+      $this->setView('scripts/admin/index');
       $this->setLayout('layout/bootstrap');
    }
 

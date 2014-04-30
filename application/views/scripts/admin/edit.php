@@ -1,9 +1,7 @@
 <div class="text-left">
-<pre><?php var_dump($data['videos']); ?></pre>
-<pre><?php var_dump($data['videos']['items']); ?></pre>
-<pre><?php var_dump($data['videos']['items'][0]); ?></pre>
+
    <div>
-      <h3>Series
+      <h3><?= $data['series']['title']; ?>
          <a href="/admin/addSeries" class="btn btn-primary pull-right">
             <span class="fa fa-plus"></span>
          </a>
@@ -17,10 +15,10 @@
          </tr>
          </thead>
          <tbody>
-         <?php foreach ($data['videos'] as $_video): ?>
+         <?php foreach ($data['series']['videos'] as $_video): ?>
             <tr>
                <td>
-                  <a href="/admin/editSeries/?id=<?= $_video['id']; ?>&alias=<?= $_video['alias']; ?>"><?= $_video['title']; ?></a><br/>
+                  <a href="/admin/editVideo/?id=<?= $_video['id']; ?>&alias=<?= $_video['alias']; ?>"><?= $_video['title']; ?></a><br/>
                   <?= $_video['alias']; ?>
                </td>
                <td><?= $_video['description']; ?></td>

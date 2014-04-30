@@ -32,28 +32,12 @@ class VideoService {
 
    /**
     * @param int (optional) $quality
+    *
     * @return array
     */
    public function listSeries($quality = self::THUMBNAIL_RES_LOW) {
       $res = $this->db->listSeries();
-      $qMod = '';
-
-      switch ($quality) {
-         case self::THUMBNAIL_RES_MEDIUM:
-            $qMod = 'mq';
-            break;
-         case self::THUMBNAIL_RES_HIGH:
-            $qMod = 'hq';
-            break;
-      }
-
-      if ($quality === self::THUMBNAIL_RES_MEDIUM || $quality === self::THUMBNAIL_RES_HIGH) {
-         $filename = 'default.jpg';
-
-         foreach ($res as &$row) {
-            $row['img'] = str_replace($filename, $qMod.$filename, $row['img']);
-         }
-      }
+      $res = $this->processVideoSeriesList($res, $quality);
 
       return $res;
    }
@@ -133,5 +117,83 @@ class VideoService {
     */
    public function fetchPlaylistVideos($alias, $max = 3) {
       return $this->yt->fetchPlaylistVideos($alias, $max);
+   }
+
+   /**
+    * @param int $id
+    * @param int (optional) $quality
+    *
+    * @return array
+    */
+   public function listVideoSeries($id, $quality = self::THUMBNAIL_RES_LOW) {
+      $res = $this->db->listVideoSeries($id);
+      $data = array(
+         'id' => $res[0]['series_id'],
+         'title' => $res[0]['series_title'],
+         'videos' => $res
+      );
+
+      $data['videos'] = $this->processVideoSeriesList($data['videos'], $quality);
+
+      return $data;
+   }
+
+   protected function processVideoSeriesList(array &$data, $quality, array $keys = array()){
+      if (empty($keys)) {
+         $keys = array(
+            'img' => 'img',
+            'title' => 'title'
+         );
+      }
+
+      foreach ($data as &$row) {
+         $row['img'] = $this->getImageUrl($row[$keys['img']], $quality);
+         $row['clean-title'] = $this->cleanTitle($row[$keys['title']]);
+         $row['title'] = $row[$keys['title']];
+      }
+
+      return $data;
+   }
+
+   protected function getImageUrl($img, $quality) {
+      $qMod = '';
+      $filename = 'default.jpg';
+
+      switch ($quality) {
+         case self::THUMBNAIL_RES_MEDIUM:
+            $qMod = 'mq';
+            break;
+         case self::THUMBNAIL_RES_HIGH:
+            $qMod = 'hq';
+            break;
+      }
+
+      return str_replace($filename, $qMod . $filename, $img);
+   }
+
+   protected function cleanTitle($title) {
+      $title = strtolower(trim($title));
+      $title = str_replace(array('&', ':', '?', '!'), '', $title);
+      $title = preg_replace('/\s+/', '-', $title);
+      $title = preg_replace('/--+/', '-', $title);
+
+      return $title;
+   }
+
+   /**
+    * @param int $max
+    * @param int $quality
+    *
+    * @return array
+    */
+   public function listLatestVideos($max = 3, $quality = self::THUMBNAIL_RES_LOW) {
+      $res = $this->db->listLatestVideos($max);
+
+      $data = array(
+         'series' => array('id' => $res[0]['series_id']),
+         'videos' => $this->processVideoSeriesList($res, $quality)
+      );
+
+      return $data;
    }
 }

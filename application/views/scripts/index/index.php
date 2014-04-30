@@ -6,12 +6,9 @@
 
             <h2>PROGRAMMING & SOFTWARE DEVELOPMENT TUTORIALS</h2>
          </div>
-         <!-- /col-lg-8 -->
       </div>
-      <!-- /row -->
    </div>
-   <!-- /container -->
-</div><!-- /hello -->
+</div>
 
 <div id="green">
    <div class="container">
@@ -24,7 +21,7 @@
             <h1>MOST POPULAR SERIES</h1>
             <?php foreach ($data['series'] as $_serie): ?>
                <p>
-                  <?= $_serie; ?>
+                  <?= $_serie['title']; ?> <a href="<?= $_serie['href']; ?>" class="fa fa-youtube-play"></a>
                </p>
             <?php endforeach; ?>
 
@@ -38,28 +35,24 @@
       <h3>LATEST TUTORIALS</h3>
 
       <div class="mt"></div>
-      <div class="col-lg-4">
-         <a href="#"><img src="/public/img/01.jpg" alt=""></a>
-      </div>
-      <div class="col-lg-4">
-         <a href="#"><img src="/public/img/02.jpg" alt=""></a>
-      </div>
-      <div class="col-lg-4">
-         <a href="#"><img src="/public/img/03.jpg" alt=""></a>
-      </div>
-   </div>
+      <?php foreach ($data['latest']['videos'] as $i => $_video): ?>
+         <div class="col-lg-4">
+            <a href="/series/watch/?vt=<?= $_video['clean-title']; ?>&vid=<?= $data['latest']['series']['id']; ?>">
+               <img src="<?= $_video['img']; ?>" class="img-responsive"/>
+            </a>
 
-   <div class="row centered mt grid">
-      <div class="mt"></div>
-      <div class="col-lg-4">
-         <a href="#"><img src="/public/img/04.jpg" alt=""></a>
-      </div>
-      <div class="col-lg-4">
-         <a href="#"><img src="/public/img/05.jpg" alt=""></a>
-      </div>
-      <div class="col-lg-4">
-         <a href="#"><img src="/public/img/06.jpg" alt=""></a>
-      </div>
+            <h3>
+               <a href="/series/watch/?vt=<?= $_video['clean-title']; ?>&vid=<?= $_video['id']; ?>"
+                  style="color: inherit;">
+                  <?= $_video['title']; ?>
+               </a>
+            </h3>
+         </div>
+
+         <?php if ($i % 3 === 2): ?>
+            <div class="clearfix"></div>
+         <?php endif; ?>
+      <?php endforeach; ?>
    </div>
 
    <div class="row mt centered">

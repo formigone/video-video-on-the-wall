@@ -1,15 +1,3 @@
-<div id="hello">
-   <div class="container">
-      <div class="row">
-         <div class="col-lg-10 col-lg-offset-1 centered">
-            <h1>Easy Learn Tutorial</h1>
-
-            <h2>PROGRAMMING & SOFTWARE DEVELOPMENT TUTORIALS</h2>
-         </div>
-      </div>
-   </div>
-</div>
-
 <div id="green">
    <div class="container">
       <div class="row">
