@@ -104,7 +104,7 @@ class Admin extends Fmg_Controller {
       $this->load->helper('url');
       $this->load->library('typography');
 
-      $id = $this->input->get('id', 0);
+      $id = (int)$this->uri->segment('3', 0);
 
       /**
        * @var VideoService $videoServivce
@@ -193,7 +193,7 @@ class Admin extends Fmg_Controller {
       if ($sid == 0) {
          return redirect('/admin');
       } else {
-         return redirect('/admin/editSeries/?id='.$sid);
+         return redirect('/admin/editSeries/'.$sid);
       }
    }
 
@@ -209,8 +209,11 @@ class Admin extends Fmg_Controller {
       $videoService = $this->inj->getService('Video');
       $this->load->helper('url');
 
-      $vid = $this->input->get('vid', 0);
-      $sid = $this->input->get('sid', 0);
+//      $vid = $this->input->get('vid', 0);
+//      $sid = $this->input->get('sid', 0);
+
+      $vid = (int)$this->uri->segment(3, 0);
+      $sid = (int)$this->uri->segment(4, 0);
 
       $data = $videoService->getVideoDetails($vid);
       $this->setData('video', $data);

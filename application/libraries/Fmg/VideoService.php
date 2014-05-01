@@ -12,6 +12,10 @@ class VideoService {
    const THUMBNAIL_RES_MEDIUM = 1;
    const THUMBNAIL_RES_HIGH = 2;
 
+   const BASE_URL = 'http://www.easylearntutorial.com';
+   const SERIES_URL = '/series/watch/%d/%s';
+   const VIDEO_URL = '/tutorial/video/%d/%s';
+
    /**
     * @var Video_model $db
     */
@@ -122,11 +126,13 @@ class VideoService {
    /**
     * @param int $id
     * @param int (optional) $quality
+    * @param bool (optional) $byDate
     *
     * @return array
     */
-   public function listVideoSeries($id, $quality = self::THUMBNAIL_RES_LOW) {
-      $res = $this->db->listVideoSeries($id);
+   public function listVideoSeries($id, $quality = self::THUMBNAIL_RES_LOW, $byDate = false) {
+      $res = $this->db->listVideoSeries($id, $byDate);
+
       $data = array(
          'id' => $res[0]['series_id'],
          'title' => $res[0]['series_title'],
@@ -227,6 +233,7 @@ class VideoService {
     */
    public function getVideoDetails($id) {
       $data = $this->db->getVideoDetails($id);
+
       $series = array(
          array(
             'id' => $data['series_id'],
@@ -270,5 +277,21 @@ class VideoService {
     */
    public function saveVideo(array $data){
       return $this->db->saveVideo($data);
+   }
+
+   public function genSitemap(){
+      $series = $this->listSeries();
+      $data = array();
+
+      foreach ($series as $_series) {
+         $vids = $this->listVideoSeries($_series['id'], self::THUMBNAIL_RES_HIGH, true);
+         array_push($data, sprintf('%s'.self::SERIES_URL, self::BASE_URL, $_series['id'], $_series['clean-title']));
+
+         foreach ($vids['videos'] as $vid) {
+            array_push($data, sprintf('%s'.self::VIDEO_URL, self::BASE_URL, $vid['id'], $vid['clean-title']));
+         }
+      }
+
+      return $data;
    }
 }

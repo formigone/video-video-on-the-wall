@@ -137,22 +137,24 @@ class Video_model extends CI_Model {
 
    /**
     * @param int $id
+    * @param bool (optional) $byDate
     *
     * @return array
     */
-   public function listVideoSeries($id) {
+   public function listVideoSeries($id, $byDate = false) {
       $id = (int)$id;
+      $order = $byDate ? 'order by v.created desc' : 'order by vs.seq';
 
       return $this->db->query('
-         select s.title as series_title, s.id as series_id, v.id, v.title, v.img, v.alias, if(v.extra_description = "", v.description, v.extra_description) as description
+         select v.created, s.title as series_title, s.id as series_id, v.id, v.title, v.img, v.alias, if(v.extra_description = "", v.description, v.extra_description) as description,
+         v.description as raw_description, v.extra_description as raw_extra_description,
+         m.title as meta_title
          from video_series vs
          join video v on v.id = vs.video_id
          join series s on s.id = vs.series_id
+         left join video_meta m on m.video_id = v.id
          where vs.series_id = ' . $id . '
-         group by vs.video_id
-         order by vs.seq
-      '
-      )->result_array();
+         group by vs.video_id '.$order)->result_array();
    }
 
    /**
@@ -185,10 +187,12 @@ class Video_model extends CI_Model {
       $res = $this->db->query('
          select v.id, v.title, v.created, v.resource_id, if(v.extra_description = "", v.description, v.extra_description) as extra_description,
          s.title as series_title, s.id as series_id,
-         vs.seq
+         vs.seq,
+         m.title as meta_title
          from video v
          join video_series vs on vs.video_id = v.id
          join series s on vs.series_id = s.id
+         left join video_meta m on m.video_id = v.id
          where v.id = ' . $id
       )->result_array();
 

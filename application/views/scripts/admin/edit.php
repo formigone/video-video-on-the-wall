@@ -9,16 +9,17 @@
       <div class="row mt">
          <div class="col-md-3">
             <img src="<?= $_video['img']; ?>" class="img-responsive" style="width: 100%"/>
-            <a href="/admin/editVideo/?vid=<?= $_video['id']; ?>&sid=<?= $data['series']['id']; ?>"
+            <a href="/admin/editVideo/<?= $_video['id']; ?>/<?= $data['series']['id']; ?>"
                class="btn btn-primary">
                <span class="fa fa-edit"></span>
             </a>
          </div>
          <div class="col-md-9">
             <h3 class="bald"><?= $_video['title']; ?></h3>
+            <p class="lead"><?= $_video['meta_title'] ?: '<em class="text-muted">no meta title</em>'; ?></p>
 
-            <div class="text-lead"><?= $this->typography->auto_typography($_video['extra_description']); ?></div>
-            <div class="subtle"><small><?= $this->typography->auto_typography($_video['description']); ?></small></div>
+            <div class="text-lead"><?= $this->typography->auto_typography($_video['raw_extra_description']); ?></div>
+            <div class="subtle"><small><?= $this->typography->auto_typography($_video['raw_description']); ?></small></div>
          </div>
       </div>
    <?php endforeach; ?>

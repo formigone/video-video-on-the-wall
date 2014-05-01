@@ -21,8 +21,10 @@ class Tutorial extends Fmg_Controller {
       $data = $videoService->getVideoDetails($vid);
       $this->setData('video', $data);
 
+      $title = $data['meta_title'] ?: $data['title'].' | '. $data['series']['title'];
+
       $this->setActive('series');
-      $this->setTitle($data['title'].' | Easy Learn Tutorial');
+      $this->setTitle($title);
       $this->setView('scripts/tutorial/index');
       $this->setLayout('layout/bootstrap');
 

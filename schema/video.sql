@@ -43,3 +43,12 @@ CREATE TABLE video_series (
   INDEX (seq)
 )
   ENGINE =innodb;
+
+CREATE TABLE video_meta (
+  id       INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  video_id INT UNSIGNED NOT NULL,
+  title    VARCHAR(128) NOT NULL,
+
+  FOREIGN KEY (video_id) REFERENCES video (id)
+)
+  ENGINE =innodb;

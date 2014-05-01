@@ -9,7 +9,7 @@
       <div class="row mt">
          <div class="col-md-3">
             <img src="<?= $_series['img']; ?>" class="img-responsive" style="width: 100%"/>
-            <a href="/admin/editSeries/?id=<?= $_series['id']; ?>" class="btn btn-primary">
+            <a href="/admin/editSeries/<?= $_series['id']; ?>" class="btn btn-primary">
                <span class="fa fa-edit"></span>
             </a>
          </div>

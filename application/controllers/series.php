@@ -19,7 +19,7 @@ class Series extends Fmg_Controller {
       $this->setData('series', $data);
 
       $this->setActive('series');
-      $this->setTitle('Browse by Series | Easy Learn Tutorial');
+      $this->setTitle('Programming Videos | Browse by Series | Easy Learn Tutorial');
       $this->setView('scripts/series/index');
       $this->setLayout('layout/bootstrap');
 
@@ -43,8 +43,9 @@ class Series extends Fmg_Controller {
          $this->setData('series', $data);
       }
 
+      $ct = count($data['videos']);
       $this->setActive('series');
-      $this->setTitle('Browse by Series | Easy Learn Tutorial');
+      $this->setTitle($data['title'].' | '. $ct. ' video'. ($ct != 1 ? 's':''). ' in series | Easy Learn Tutorial');
       $this->setView('scripts/series/watch');
       $this->setLayout('layout/bootstrap');
 
