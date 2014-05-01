@@ -18,6 +18,11 @@ class Fmg_Controller extends CI_Controller {
    protected $inj;
 
    /**
+    * @var array
+    */
+   protected $params;
+
+   /**
     *
     */
    public function __construct() {
@@ -39,6 +44,8 @@ class Fmg_Controller extends CI_Controller {
          'inj' => &$this->inj,
          'isLoggedIn' => !empty($user)
       );
+
+      $this->params = $this->uri->uri_to_assoc();
    }
 
    /**

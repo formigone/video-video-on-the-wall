@@ -5,13 +5,13 @@
       <div class="mt"></div>
       <?php foreach ($data['series'] as $i => $series): ?>
          <div class="col-lg-4 col-md-4 col-sm-6">
-            <a href="/series/watch/?st=<?= $series['clean-title']; ?>&sid=<?= $series['id']; ?>">
+            <a href="/series/watch/<?= $series['id']; ?>/<?= $series['clean-title']; ?>">
                <img src="<?= $series['img']; ?>" class="img-responsive" alt="<?= $series['clean-title']; ?> Series"
                     style="width: 100%;">
             </a>
 
             <h3>
-               <a href="/series/watch/?st=<?= $series['clean-title']; ?>&sid=<?= $series['id']; ?>"
+               <a href="/series/watch/<?= $series['id']; ?>/<?= $series['clean-title']; ?>"
                   style="color: inherit">
                   <?= $series['title']; ?>
                </a>

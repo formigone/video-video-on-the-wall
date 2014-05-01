@@ -36,7 +36,7 @@ class Series extends Fmg_Controller {
       $videoService = $this->inj->getService('Video');
       $this->load->helper('url');
 
-      $sid = $this->input->get('sid', 0);
+      $sid = (int)$this->uri->segment(3);
 
       if ($sid > 0) {
          $data = $videoService->listVideoSeries($sid, VideoService::THUMBNAIL_RES_HIGH);

@@ -144,7 +144,7 @@ class Video_model extends CI_Model {
       $id = (int)$id;
 
       return $this->db->query('
-         select s.title as series_title, s.id as series_id, v.*
+         select s.title as series_title, s.id as series_id, v.id, v.title, v.img, v.alias, if(v.extra_description = "", v.description, v.extra_description) as description
          from video_series vs
          join video v on v.id = vs.video_id
          join series s on s.id = vs.series_id

@@ -37,12 +37,12 @@
       <div class="mt"></div>
       <?php foreach ($data['latest']['videos'] as $i => $_video): ?>
          <div class="col-lg-4">
-            <a href="/tutorial/?vt=<?= $_video['clean-title']; ?>&vid=<?= $_video['id']; ?>">
+            <a href="/tutorial/<?= $_video['id']; ?>/<?= $_video['clean-title']; ?>">
                <img src="<?= $_video['img']; ?>" class="img-responsive"/>
             </a>
 
             <h3>
-               <a href="/tutorial/?vt=<?= $_video['clean-title']; ?>&vid=<?= $_video['id']; ?>"
+               <a href="/tutorial/<?= $_video['id']; ?>/<?= $_video['clean-title']; ?>"
                   style="color: inherit;">
                   <?= $_video['title']; ?>
                </a>
@@ -102,25 +102,15 @@
                <p><?= $_topic['title']; ?></p>
                <br>
                <script>
-                  var doughnutData = [
-                     {
-                        value: <?= $_topic['total']; ?>,
-                        color: "#74cfae"
-                     },
-                     {
-                        value: <?= 100 - $_topic['total']; ?>,
-                        color: "#3c3c3c"
-                     }
-                  ];
+                  var doughnutData = [{ value: <?= $_topic['total']; ?>, color: "#74cfae" },{
+                        value: <?= 100 - $_topic['total']; ?>, color: "#3c3c3c" }];
                   var myDoughnut = new Chart(document.getElementById("cv_<?= $_topic['title']; ?>").getContext("2d")).Doughnut(doughnutData);
                </script>
             </div>
          <?php endforeach; ?>
       </div>
-      <!-- /row -->
    </div>
-   <!-- /container -->
-</div><!-- /skills -->
+</div>
 
 <section id="contact"></section>
 <div id="social">
@@ -152,5 +142,4 @@
          <?php endforeach; ?>
       </div>
    </div>
-   <!-- /container -->
-</div><!-- /social -->
+</div>

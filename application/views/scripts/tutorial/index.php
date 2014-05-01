@@ -4,7 +4,7 @@
 
       <p>
          <small>from
-            <a href="/series/watch/?st=<?= $data['video']['series']['clean-title']; ?>&sid=<?= $data['video']['series']['id']; ?>">
+            <a href="/series/watch/<?= $data['video']['series']['id']; ?>/<?= $data['video']['series']['clean-title']; ?>">
                <?= $data['video']['series']['title']; ?>
             </a>
             series
@@ -33,7 +33,7 @@
          <!-- AddThis Button END -->
 
          <div class="text-left">
-            <small>By <a href="#?GP-AUTHOR-LINK">Rodrigo Silveira</a>, <?= date('M d, Y @ H:m a', strtotime($data['video']['created'])); ?></small>
+            <small>By <a href="https://plus.google.com/103737161295645708507?rel=author">Rodrigo Silveira</a>, <?= date('M d, Y @ H:m a', strtotime($data['video']['created'])); ?></small>
          </div>
          <div class="clearfix"><br/>&nbsp;</div>
 
@@ -42,7 +42,7 @@
          <div class="clearfix"></div>
 
          <?php if (!empty($data['video']['playback']['prev'])): ?>
-            <a href="/tutorial/?vt=<?= $data['video']['playback']['prev']['clean-title']; ?>&vid=<?= $data['video']['playback']['prev']['id']; ?>"
+            <a href="/tutorial/video/<?= $data['video']['playback']['prev']['id']; ?>/<?= $data['video']['playback']['prev']['clean-title']; ?>"
                class="btn btn-success pull-left" alt="<?= $data['video']['playback']['prev']['title']; ?>"
                title="<?= $data['video']['playback']['prev']['title']; ?>">
                <span class="fa fa-arrow-left"></span> Previous tutorial
@@ -50,7 +50,7 @@
          <?php endif; ?>
 
          <?php if (!empty($data['video']['playback']['next'])): ?>
-            <a href="/tutorial/?vt=<?= $data['video']['playback']['next']['clean-title']; ?>&vid=<?= $data['video']['playback']['next']['id']; ?>"
+            <a href="/tutorial/video/<?= $data['video']['playback']['next']['id']; ?>/<?= $data['video']['playback']['next']['clean-title']; ?>"
                class="btn btn-success pull-right" alt="<?= $data['video']['playback']['next']['title']; ?>"
                title="<?= $data['video']['playback']['next']['title']; ?>">
                Next tutorial<span class="fa fa-arrow-right"></span>

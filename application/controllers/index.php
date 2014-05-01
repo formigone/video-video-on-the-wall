@@ -18,16 +18,16 @@ class Index extends Fmg_Controller {
       $series = array(
          array(
             'title' => 'Google Web Toolkit',
-            'href' => '/series/watch/?st=gwt-tutorials:-google-web-toolkit&sid=37'
+            'href' => '/series/watch/37/gwt-tutorials:-google-web-toolkit'
          ),array(
             'title' => 'JavaScript for Beginners',
-            'href' => '/series/watch/?st=javascript-for-beginners&sid=29'
+            'href' => '/series/watch/29/javascript-for-beginners'
          ),array(
             'title' => 'PHP Design Patterns',
-            'href' => '/series/watch/?st=php-programming-design-patterns&sid=36'
+            'href' => '/series/watch/36/php-programming-design-patterns'
          ),array(
             'title' => 'Nintendo Game Development',
-            'href' => '/series/watch/?st=nintendo-game-development&sid=28'
+            'href' => '/series/watch/28/nintendo-game-development'
          ),
       );
 

@@ -16,7 +16,7 @@ class Tutorial extends Fmg_Controller {
       $videoService = $this->inj->getService('Video');
       $this->load->helper('url');
 
-      $vid = $this->input->get('vid', 0);
+      $vid = $this->uri->segment(3);
 
       $data = $videoService->getVideoDetails($vid);
       $this->setData('video', $data);
@@ -27,5 +27,12 @@ class Tutorial extends Fmg_Controller {
       $this->setLayout('layout/bootstrap');
 
       $this->output->cache(5);
+   }
+
+   /**
+    *
+    */
+   public function video(){
+      return $this->index();
    }
 }
