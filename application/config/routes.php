@@ -41,6 +41,10 @@
 $route['default_controller'] = "index";
 $route['404_override'] = 'error';
 
+$route['atom.xml'] = 'sitemap/atom';
+$route['feeds'] = 'sitemap/feeds';
+$route['feeds/:any'] = 'sitemap/feeds';
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

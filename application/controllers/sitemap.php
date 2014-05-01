@@ -22,4 +22,12 @@ class Sitemap extends Fmg_Controller {
          echo $url, "\n";
       }
    }
+
+   public function atom() {
+      exit('/atom.xml');
+   }
+
+   public function feeds() {
+      exit('/feeds');
+   }
 }

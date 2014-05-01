@@ -73,8 +73,12 @@ class Injector {
     * @return string
     */
    public function loadKey($filename) {
-      $data = file_get_contents($filename);
-      $data = str_replace('\n', '', $data);
+      $data = '';
+
+      if (file_exists($filename)) {
+         $data = file_get_contents($filename);
+         $data = str_replace('\n', '', $data);
+      }
 
       return trim($data);
    }
