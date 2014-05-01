@@ -37,12 +37,12 @@
       <div class="mt"></div>
       <?php foreach ($data['latest']['videos'] as $i => $_video): ?>
          <div class="col-lg-4">
-            <a href="/tutorial/<?= $_video['id']; ?>/<?= $_video['clean-title']; ?>">
+            <a href="/tutorial/video/<?= $_video['id']; ?>/<?= $_video['clean-title']; ?>">
                <img src="<?= $_video['img']; ?>" class="img-responsive"/>
             </a>
 
             <h3>
-               <a href="/tutorial/<?= $_video['id']; ?>/<?= $_video['clean-title']; ?>"
+               <a href="/tutorial/video/<?= $_video['id']; ?>/<?= $_video['clean-title']; ?>"
                   style="color: inherit;">
                   <?= $_video['title']; ?>
                </a>

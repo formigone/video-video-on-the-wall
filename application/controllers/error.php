@@ -14,6 +14,8 @@ class Error extends Fmg_Controller {
       $this->setTitle('What if I told you... stop breaking Easy Learn Tutorial!');
       $this->setView('404');
       $this->setLayout('layout/bootstrap');
+
+      log_message('error', '404: '.$_SERVER['REQUEST_URI']);
    }
 
    public function e_500(){
