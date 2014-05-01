@@ -14,7 +14,7 @@ class Sitemap extends Fmg_Controller {
        * @var VideoService $videoServivce
        */
       $videoService = $this->inj->getService('Video');
-      $urls = $videoService->genSitemap();
+      $urls = $videoService->genSitemap(true);
 
       header("Content-Type: text/plain charset=UTF-8\r\n");
 
@@ -24,10 +24,20 @@ class Sitemap extends Fmg_Controller {
    }
 
    public function atom() {
-      exit('/atom.xml');
+      /**
+       * @var VideoService $videoServivce
+       */
+      $videoService = $this->inj->getService('Video');
+      $data = $videoService->genSitemap();
+
+      header('Content-Type: text/xml');
+
+      $this->setData('posts', $data);
+      $this->setView('scripts/feed/atom');
+      $this->setLayout('layout/clear');
    }
 
    public function feeds() {
-      exit('/feeds');
+      return $this->atom();
    }
 }

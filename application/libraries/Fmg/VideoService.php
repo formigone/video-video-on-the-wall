@@ -279,16 +279,44 @@ class VideoService {
       return $this->db->saveVideo($data);
    }
 
-   public function genSitemap(){
+   /**
+    * @param bool (optional) $urlOnly
+    * @return array
+    */
+   public function genSitemap($urlOnly = false){
       $series = $this->listSeries();
       $data = array();
 
       foreach ($series as $_series) {
          $vids = $this->listVideoSeries($_series['id'], self::THUMBNAIL_RES_HIGH, true);
-         array_push($data, sprintf('%s'.self::SERIES_URL, self::BASE_URL, $_series['id'], $_series['clean-title']));
+         $url = sprintf('%s'.self::SERIES_URL, self::BASE_URL, $_series['id'], $_series['clean-title']);
+
+         if ($urlOnly) {
+            array_push($data, $url);
+         } else {
+            array_push($data, array(
+                  'url' => $url,
+                  'title' => $_series['title'],
+                  'description' => $_series['description'],
+                  'img' => $_series['img']
+               )
+            );
+         }
 
          foreach ($vids['videos'] as $vid) {
-            array_push($data, sprintf('%s'.self::VIDEO_URL, self::BASE_URL, $vid['id'], $vid['clean-title']));
+            $url = sprintf('%s'.self::VIDEO_URL, self::BASE_URL, $vid['id'], $vid['clean-title']);
+
+            if ($urlOnly) {
+               array_push($data, $url);
+            } else {
+               array_push($data, array(
+                     'url' => $url,
+                     'title' => $vid['title'],
+                     'description' => $vid['description'],
+                     'img' => $vid['img']
+                  )
+               );
+            }
          }
       }
 
