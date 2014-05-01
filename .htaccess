@@ -6,17 +6,15 @@ Redirect 301 /2012/11/advanced-php-tutorial-databse-abstraction-layer.html http:
 Redirect 301 /2012/11/instant-search-advanced-php-tutorial-highlight-video.html http://www.easylearntutorial.com/tutorial/video/11/advanced-php-tutorial-6.1-instant-search-results
 Redirect 301 /2012/11/computer-programming-theory-best-practices-global-variables.html http://www.easylearntutorial.com/tutorial/video/16/programming-theory-fundamentals-global-variables
 Redirect 301 /2012/11/advanced-php-tutorial-package-namespace.html http://www.easylearntutorial.com/tutorial/video/3/advanced-php-tutorial-9-autoload-your-classes-psr-0
-
-#Redirect 301 /robots.txt ???????
-#    /2012/11/computer-programming-theory-best-practices-cohesion.html
-#    /2012/11/advanced-php-tutorial-series-introduction.html
-#    /2012/11/advanced-php-tutorial-instant-search-video.html
-#    /2012/11/code-completion-eclipse-power-user-tips..html
-#    /2012/11/how-to-make-your-website-mobile-friendly.html
-#    /2012/11/local-web-development-how-to-virtual-host-in-windows.html
-#    /feeds/4286708077600336099/comments/default
-#    /feeds/posts/default
-#    /atom.xml
+Redirect 301 /2012/11/computer-programming-theory-best-practices-cohesion.html http://www.easylearntutorial.com/tutorial/video/18/programming-theory-fundamentals-coupling
+Redirect 301 /2012/11/advanced-php-tutorial-series-introduction.html http://www.easylearntutorial.com/series/watch/42/advanced-php-tutorials
+Redirect 301 /2012/11/advanced-php-tutorial-instant-search-video.html http://www.easylearntutorial.com/tutorial/video/11/advanced-php-tutorial-6.1-instant-search-results
+Redirect 301 /2012/11/code-completion-eclipse-power-user-tips..html http://www.easylearntutorial.com/series/watch/41/eclipse-java-php-development-tips-for-power-users
+Redirect 301 /2012/11/how-to-make-your-website-mobile-friendly.html http://www.easylearntutorial.com/series/watch/44/local-web-development
+Redirect 301 /2012/11/local-web-development-how-to-virtual-host-in-windows.html http://www.easylearntutorial.com/tutorial/video/172/how-to-create-a-virtual-host-in-windows-virtual-domain-with-apache-wamp
+Redirect 301 /2012/11/computer-programming-theory-best-practices-function-variable-naming.html http://www.easylearntutorial.com/tutorial/video/16/programming-theory-fundamentals-global-variables
+Redirect 301 /2012/11/computer-programming-challenge-tic-tac-toe.html http://www.easylearntutorial.com/tutorial/video/38/programming-challenge-tic-tac-toe-tutorial-1-introduction
+Redirect 301 /2012/11/local-web-development-cdn.html http://www.easylearntutorial.com/series/watch/44/local-web-development
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
