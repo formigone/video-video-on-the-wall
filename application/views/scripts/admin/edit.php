@@ -18,8 +18,9 @@
             <h3 class="bald"><?= $_video['title']; ?></h3>
             <p class="lead"><?= $_video['meta_title'] ?: '<em class="text-muted">no meta title</em>'; ?></p>
 
-            <div class="text-lead"><?= $this->typography->auto_typography($_video['raw_extra_description']); ?></div>
-            <div class="subtle"><small><?= $this->typography->auto_typography($_video['raw_description']); ?></small></div>
+            <div class="raw_extra"><?= $this->typography->auto_typography($_video['raw_extra_description']); ?></div>
+            <hr/>
+            <div class="raw_desc"><?= $this->typography->auto_typography($_video['raw_description']); ?></div>
          </div>
       </div>
    <?php endforeach; ?>

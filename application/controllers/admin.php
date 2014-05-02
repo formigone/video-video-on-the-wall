@@ -173,8 +173,8 @@ class Admin extends Fmg_Controller {
       $videoService = $this->inj->getService('Video');
       $this->load->helper('url');
 
-      $vid = $this->input->post('vid', 0);
-      $sid = $this->input->post('sid', 0);
+      $vid = (int)$this->input->post('vid', 0);
+      $sid = (int)$this->input->post('sid', 0);
 
       if ($vid > 0) {
          $this->load->library('security');
@@ -182,12 +182,22 @@ class Admin extends Fmg_Controller {
          $extra = $this->security->xss_clean($extra);
          $extra = trim($extra);
 
+         $title = $this->input->post('meta_title');
+         $title = $this->security->xss_clean($title);
+         $title = trim($title);
+
          $data = array(
             'id' => $vid,
             'extra_description' => $extra
          );
 
+         $meta = array(
+            'video_id' => $vid,
+            'title' => $title
+         );
+
          $videoService->saveVideo($data);
+         $videoService->saveVideoMeta($meta);
       }
 
       if ($sid == 0) {
@@ -224,4 +234,49 @@ class Admin extends Fmg_Controller {
       $this->setView('scripts/admin/index');
       $this->setLayout('layout/bootstrap');
    }
+
+   public function cleanInBulk() {
+      exit('off');
+      /**
+       * @var VideoService $videoServivce
+       */
+      $videoService = $this->inj->getService('Video');
+      $res = $videoService->removeByRegex(array("\n\n"), '');
+      $res = $videoService->removeByRegex(
+         array(
+            'Copyright (c) 2013 Rodrigo Silveira http://www.easylearntutorial.com',
+            '--------------------------------
+Other links of interest
+--------------------------------',
+            '-- http://www.easylearntutorial.com Our official websites. Check out for more text and video tutorials, updates, and upcoming tutorial articles and events.',
+            "-- http://www.facebook.com/easylearntutorialonline Join us on Facebook and share our computer programming tutorials and how to's with your friends. Social learning is not only easy learning, but fun learning.",
+            '-- http://www.twitter.com/easylearntuts Follow us on Twitter to receive the latest news and updates from us, as well as other relevant and interesting links to other useful software-related tutorials, classes, and lessons.',
+            '-- Our YouTube channel http://www.youtube.com/user/easylearntutorial ',
+            '-- Visit our website http://www.easylearntutorial.com for more text and video tutorials, updates, and upcoming tutorial articles and events',
+            '-- Like us on Facebook http://www.facebook.com/easylearntutorialonline',
+            '-- Follow us on Twitter http://www.twitter.com/easylearntuts',
+            'For more HTML 5 tutorial videos, check out the complete playlist at http://www.youtube.com/playlist?list=PLGJDCzBP5j3xua7wZxIN-AJGvIwPdZ_eX',
+            'Other links of interest:',
+            '=====================',
+            '----------------------------------
+Complete Source Code
+----------------------------------',
+            'The complete source code for the computer programming challenge: tic tac toe edition is found at https://github.com/formigone/tictactoe-challenge',
+            'For more information about my programming challenge, checkout my GitHub repository at http://github.com/formigone/tictactoe-challenge to access the complete source code for this programming series.',
+            '============',
+            'Submit your best times by posting a comment in any one of the tutorial videos.',
+            '* * * * * * * * * * * * * * * * * * * *
+http://www.rodrigo-silveira.com
+* * * * * * * * * * * * * * * * * * * *',
+            'Other links of interest:',
+'-- Our YouTube channel http://www.youtube.com/user/easylearntutorial',
+'-- Visit our website http://www.easylearntutorial.com for more text and video tutorials, updates, and upcoming tutorial articles and events',
+'-- Like us on Facebook http://www.facebook.com/easylearntutorialonline',
+'- Follow us on Twitter http://www.twitter.com/easylearntuts'
+         ), ''
+      );
+//      var_dump($res);
+   }
 }
+
+

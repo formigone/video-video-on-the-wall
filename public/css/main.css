@@ -265,3 +265,11 @@ table.dash td {
 .bald {
     margin: 0 0 20px;
 }
+
+#skills .raw_extra {
+    color: #fff !important;
+}
+
+#skills .raw_desc * {
+    color: #aaa !important;
+}

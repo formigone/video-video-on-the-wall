@@ -280,6 +280,15 @@ class VideoService {
    }
 
    /**
+    * @param array $data
+    *
+    * @return bool
+    */
+   public function saveVideoMeta(array $data){
+      return $this->db->saveVideoMeta($data);
+   }
+
+   /**
     * @param bool (optional) $urlOnly
     * @return array
     */
@@ -318,6 +327,56 @@ class VideoService {
                );
             }
          }
+      }
+
+      return $data;
+   }
+
+   public function removeByRegex(array $vals, $rep) {
+      $rep = $rep ?: '';
+      $data = $this->genSitemap();
+//      var_dump($data);exit;
+      foreach ($data as $i => &$row) {
+         $id = 0;
+         $type = 0;
+
+         $row['description'] = trim(str_replace($vals, $rep, $row['description']));
+
+         preg_match('|series/watch/(\d+)/|', $row['url'], $id);
+         if (count($id) === 2) {
+            $id = $id[1];
+            $type = 'series';
+            $row['description'] = trim(str_replace($vals, $rep, $row['description']));
+
+//            $this->db->saveSeries(
+//               array(
+//                  'id' => $id,
+//                  'description' => $row['description']
+//               )
+//            );
+         } else {
+            preg_match('|tutorial/video/(\d+)/|', $row['url'], $id);
+            if (count($id) === 2) {
+               $id = $id[1];
+               $type = 'video';
+
+               $this->db->saveVideo(
+                  array(
+                     'id' => $id,
+                     'extra_description' => $row['description'],
+                     'description' => $row['description']
+                  )
+               );
+            } else {
+               var_dump($row);
+               continue;
+            }
+         }
+
+         echo '<h3> #'.$i.' ('.$id.') '.$type.'</h3>';
+         echo '<p><b>'.$row['title'].'</b></p>';
+         echo '<p><pre>'.$row['description'].'</pre></p>';
+         echo '<hr/>';
       }
 
       return $data;

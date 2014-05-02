@@ -256,4 +256,34 @@ class Video_model extends CI_Model {
 
       return $this->db->update('video', $data);
    }
+
+   /**
+    * @param array $data
+    *
+    * @return bool
+    */
+   public function saveVideoMeta(array $data){
+      $this->db->set('video_id', $data['video_id']);
+      $this->db->set('title', $data['title']);
+
+      $res = $this->db->get_where('video_meta', array('video_id' => $data['video_id']), 1);
+
+      if ($res->num_rows()) {
+         return $this->db->update('video_meta');
+      } else {
+         return $this->db->insert('video_meta');
+      }
+   }
+
+   /**
+    * @param array $data
+    *
+    * @return bool
+    */
+   public function saveSeries(array $data){
+      $this->db->where('id', $data['id']);
+      unset($data['id']);
+
+      return $this->db->update('series', $data);
+   }
 }
