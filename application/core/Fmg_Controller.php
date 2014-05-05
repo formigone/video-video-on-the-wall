@@ -35,7 +35,8 @@ class Fmg_Controller extends CI_Controller {
       $this->view = array(
          'page' => array(
             'title' => 'Powered by Formigone',
-            'active' => ''
+            'active' => '',
+            'canonical' => ''
          ),
          'data' => array(
             'subviews' => array()
@@ -70,6 +71,13 @@ class Fmg_Controller extends CI_Controller {
     */
    protected function setTitle($title) {
       $this->view['page']['title'] = $title;
+   }
+
+   /**
+    * @param string $url
+    */
+   protected function setCanonical($url) {
+      $this->view['page']['canonical'] = $url;
    }
 
    /**

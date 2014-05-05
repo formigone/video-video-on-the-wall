@@ -7,9 +7,13 @@
 
    <title><?= $page['title']; ?></title>
 
-   <link href="/public/css/bootstrap.css" rel="stylesheet">
-   <link href="/public/css/main.css" rel="stylesheet">
-   <link href="/public/css/font-awesome.min.css" rel="stylesheet">
+   <?php if (!empty($page['canonical'])): ?>
+   <link href="<?= $page['canonical']; ?>" rel="canonical" />
+   <?php endif; ?>
+
+   <link href="/public/css/bootstrap.css" rel="stylesheet" />
+   <link href="/public/css/main.css" rel="stylesheet" />
+   <link href="/public/css/font-awesome.min.css" rel="stylesheet" />
 
    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
    <script src="/public/js/bootstrap.js"></script>

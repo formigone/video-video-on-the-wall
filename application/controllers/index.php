@@ -31,11 +31,14 @@ class Index extends Fmg_Controller {
          ),
       );
 
+      $canonical = trim($this->config->item('base_url'), '/') ?: '/';
+
       $this->setData('series', $series);
       $this->setData('latest', $videoService->listLatestVideos(6, VideoService::THUMBNAIL_RES_HIGH));
 
       $this->setActive('home');
       $this->setTitle('Easy Learn Tutorial | Free Programming Lessons');
+      $this->setCanonical($canonical);
       $this->setView('scripts/index/index');
       $this->setLayout('layout/bootstrap');
 

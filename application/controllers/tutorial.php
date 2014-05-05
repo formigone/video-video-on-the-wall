@@ -16,15 +16,17 @@ class Tutorial extends Fmg_Controller {
       $videoService = $this->inj->getService('Video');
       $this->load->helper('url');
 
-      $vid = $this->uri->segment(3);
+      $vid = (int)$this->uri->segment(3);
 
       $data = $videoService->getVideoDetails($vid);
       $this->setData('video', $data);
 
       $title = $data['meta_title'] ?: $data['title'].' | '. $data['series']['title'];
+      $canonical = $videoService->genCanonical('video', $vid, $this->config->item('base_url') ?: '/');
 
       $this->setActive('series');
       $this->setTitle($title);
+      $this->setCanonical($canonical);
       $this->setView('scripts/tutorial/index');
       $this->setLayout('layout/bootstrap');
 

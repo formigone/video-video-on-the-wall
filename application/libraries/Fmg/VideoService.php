@@ -252,6 +252,18 @@ class VideoService {
    }
 
    /**
+    * @param int $id
+    *
+    * @return array
+    */
+   public function getSeriesDetails($id) {
+      $series = $this->db->getSeriesDetails($id);
+      $series['clean-title'] = $this->cleanTitle($series['title']);
+
+      return $series;
+   }
+
+   /**
     * @param int $series
     * @param int $id
     *
@@ -332,6 +344,39 @@ class VideoService {
       return $data;
    }
 
+   /**
+    * @param string $type
+    * @param int|string $id
+    * @param string (optional) $baseUrl
+    *
+    * @return string
+    */
+   public function genCanonical($type, $id, $baseUrl = '/') {
+      $baseUrl = trim($baseUrl, '/');
+      $url = '';
+
+      switch ($type) {
+         case 'video':
+            $id = (int)$id;
+            $vid = $this->getVideoDetails($id);
+            $vid['clean-title'] = $this->cleanTitle($vid['title']);
+
+            $url = sprintf('%s/tutorial/video/%d/%s', $baseUrl, $vid['id'], $vid['clean-title']);
+            break;
+         case 'series':
+            $id = (int)$id;
+            $series = $this->getSeriesDetails($id);
+
+            $url = sprintf('%s/series/watch/%d/%s', $baseUrl, $series['id'], $series['clean-title']);
+            break;
+         case 'page':
+            $url = sprintf('%s/%s', $baseUrl, $id);
+            break;
+      }
+
+      return $url;;
+   }
+/*
    public function removeByRegex(array $vals, $rep) {
       $rep = $rep ?: '';
       $data = $this->genSitemap();
@@ -380,5 +425,5 @@ class VideoService {
       }
 
       return $data;
-   }
+   } */
 }

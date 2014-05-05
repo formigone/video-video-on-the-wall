@@ -200,6 +200,20 @@ class Video_model extends CI_Model {
    }
 
    /**
+    * @param int $id
+    *
+    * @return array
+    */
+   public function getSeriesDetails($id) {
+      $id = (int)$id;
+
+      $this->db->select('id, title');
+      $res = $this->db->get_where('series', array('id' => $id), 1);
+
+      return array_pop($res->result_array()) ? : array();
+   }
+
+   /**
     * @param int $series
     * @param int $id
     *

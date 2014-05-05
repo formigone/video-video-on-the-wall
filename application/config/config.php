@@ -14,7 +14,13 @@
 | path to your installation.
 |
 */
-$config['base_url'] = '';
+//$config['base_url'] = '';
+
+if (getenv('APPLICATION_ENV') === 'development') {
+   $config['base_url'] = 'http://dev.easylearntutorial.com';
+} else {
+   $config['base_url'] = 'http://easylearntutorial.com';
+}
 
 /*
 |--------------------------------------------------------------------------

@@ -43,9 +43,12 @@ class Series extends Fmg_Controller {
          $this->setData('series', $data);
       }
 
+      $canonical = $videoService->genCanonical('series', $sid, $this->config->item('base_url') ?: '/');
+
       $ct = count($data['videos']);
       $this->setActive('series');
       $this->setTitle($data['title'].' | '. $ct. ' video'. ($ct != 1 ? 's':''). ' in series | Easy Learn Tutorial');
+      $this->setCanonical($canonical);
       $this->setView('scripts/series/watch');
       $this->setLayout('layout/bootstrap');
 
