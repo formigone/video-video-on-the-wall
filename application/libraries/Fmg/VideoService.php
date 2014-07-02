@@ -57,6 +57,16 @@ class VideoService {
    }
 
    /**
+    * @param string $channel
+    * @param int (optional) $max
+    *
+    * @return array
+    */
+   public function fetchVideos($channel, $max = 3) {
+      return $this->yt->fetchVideos($channel, $max);
+   }
+
+   /**
     * @param array $data
     * @param bool (optional) $override
     *

@@ -11,6 +11,7 @@ class YoutubeService {
    const URL = 'https://www.googleapis.com/youtube/v3/';
    const ACTION_PLAYLIST = 'playlists';
    const ACTION_PLAYLIST_ITEMS = 'playlistItems';
+   const ACTION_VIDEOS = 'videos';
 
    /** @var string $key */
    protected $key;

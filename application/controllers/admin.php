@@ -123,6 +123,23 @@ class Admin extends Fmg_Controller {
    /**
     *
     */
+   public function grabFromYoutube() {
+      $this->gotoIfNotLoggedIn('/admin');
+
+      /**
+       * @var VideoService $videoServivce
+       */
+      $videoService = $this->inj->getService('Video');
+
+      $channel = $this->inj->loadKey('/usr/local/ids/youtube-myfitnessmap.id');
+      $data = $videoService->fetchPlaylists($channel, 50);
+
+      var_dump($data);exit;
+   }
+
+   /**
+    *
+    */
    public function syncSeries() {
       $this->gotoIfNotLoggedIn('/admin');
 
