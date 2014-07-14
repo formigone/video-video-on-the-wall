@@ -120,6 +120,17 @@ class Admin extends Fmg_Controller {
       $this->setLayout('layout/bootstrap');
    }
 
+   public function playlistDump() {
+      $data = file_get_contents('/tmp/youtube-dump.json');
+      $data = json_decode($data, true);
+      foreach ($data['items'] as $item) {
+         if($item['snippet']['title'][0] != ':') {
+            var_dump($item);
+         }
+      }
+      exit;
+   }
+
    /**
     *
     */
@@ -131,10 +142,10 @@ class Admin extends Fmg_Controller {
        */
       $videoService = $this->inj->getService('Video');
 
-      $channel = $this->inj->loadKey('/usr/local/ids/youtube-myfitnessmap.id');
+      $channel = $this->inj->loadKey('/usr/local/ids/youtube-easylearntutorial.id');
       $data = $videoService->fetchPlaylists($channel, 50);
 
-      var_dump($data);exit;
+      echo json_encode($data);exit;
    }
 
    /**
@@ -148,8 +159,15 @@ class Admin extends Fmg_Controller {
        */
       $videoService = $this->inj->getService('Video');
 
-      $channel = $this->inj->loadKey('/usr/local/ids/youtube-easylearntutorial.id');
-      $data = $videoService->fetchPlaylists($channel, 50);
+//      $file = file_get_contents('/tmp/youtube-pl-dump.json');
+//      if (!empty($file)) {
+//         $data = json_decode($file, true);
+//      }
+
+      if (empty($data)) {
+         $channel = $this->inj->loadKey('/usr/local/ids/youtube-easylearntutorial.id');
+         $data = $videoService->fetchPlaylists($channel, 5);
+      }
 
       $videoService->saveSeries($data['items'], false);
 
@@ -173,6 +191,7 @@ class Admin extends Fmg_Controller {
       $alias = $this->input->get('alias', 0);
 
       $data = $videoService->fetchPlaylistVideos($alias, 50);
+
       $videoService->saveVideoSeries($id, $alias, $data['items'], false);
 
       return redirect('/admin');

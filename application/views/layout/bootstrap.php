@@ -14,10 +14,12 @@
    <link href="/public/css/bootstrap.css" rel="stylesheet" />
    <link href="/public/css/main.css" rel="stylesheet" />
    <link href="/public/css/font-awesome.min.css" rel="stylesheet" />
+   <link href="/public/css/prettify.css" rel="stylesheet" />
 
    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
    <script src="/public/js/bootstrap.js"></script>
    <script src="/public/js/chart.js"></script>
+   <script src="/public/js/run_prettify.js"></script>
    <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
 
    <!--[if lt IE 9]>
@@ -83,6 +85,7 @@
 </div>
 
 <script>
+
    (function(i, s, o, g, r, a, m) {
       i['GoogleAnalyticsObject'] = r;
       i[r] = i[r] || function() {

@@ -62,7 +62,12 @@ class YoutubeService {
       }
 
       $res = $data;
-      $res['items'] = array_merge($res['items'], $_data['items']);
+      $_data['items'] = @$_data['items'] ?: [];
+      $res['items'] = @$res['items'] ?: [];
+
+      $res['items'] = array_merge(
+         $res['items'],
+         $_data['items']);
 
       return $res;
    }
