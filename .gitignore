@@ -12,4 +12,5 @@ application/logs/*
 config/*
 
 dump.xml
+out.sql
 

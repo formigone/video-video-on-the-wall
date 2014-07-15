@@ -33,6 +33,8 @@ Redirect 301 /2012/11/local-web-development-cdn.html /series/watch/44/local-web-
 Redirect 301 /2012/11/how-to-run-php-from-command-line-in-windows.html /tutorial/video/4/php-command-line-how-to-run-php-from-command-line-in-windows
 Redirect 301 /2012/11/local-web-development-mustache-template-engine.html /tutorial/video/173/how-to-use-mustache.js-template-system
 
+Redirect 301 /dump.xml /
+
 Redirect 301 /p/current-series.html /series
 Redirect 301 /p/about-us.html /about
 
