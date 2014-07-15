@@ -1,2 +1,2 @@
-mysqldump -u root elt_2_0 > data.sql
+mysqldump -u root elt_2_0 series video video_meta video_series video_src --complete-insert --xml
 
