@@ -273,3 +273,7 @@ table.dash td {
 #skills .raw_desc * {
     color: #aaa !important;
 }
+
+.prettyprint, .leftitup {
+    text-align: left !important;
+}
