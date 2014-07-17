@@ -7,6 +7,7 @@
    <title>Pathfinding Algorithm - Breadth First Search - Demo</title>
    <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
 <body>
+<div style="display:none"><img src='img/zelda-spritesheet.png'></div>
 <style>
    html, body {
       width: 100%;
@@ -74,15 +75,28 @@ Cell.dummy.init = true;
  * @param {number} y
  * @param {number} width
  * @param {number} height
- * @param {string} color
+ * @param {Material} material
  * @constructor
  */
-var Player = function(x, y, width, height, color) {
+var Player = function(x, y, width, height, material) {
    this.x = x;
    this.y = y;
    this.width = width;
    this.height = height;
-   this.color = color;
+   this.material = material;
+
+   this.view = 0;
+   this.lastTime = 0;
+   this.animSpeed = 1000 / 6;
+};
+
+Player.prototype.update = function(time){
+   var now = time - this.lastTime;
+
+   if (now > this.animSpeed) {
+      this.view = (this.view + 1) % this.material.length;
+      this.lastTime = time
+   }
 };
 
 /**
@@ -294,8 +308,10 @@ Board.prototype.canMove = function(hero, dx, dy, dir, back) {
  * @param {Object.<string|number>} options
  * @constructor
  */
-var MapRenderer = function(map, options) {
+var MapRenderer = function(map, hero, target, options) {
    this.map = map;
+   this.hero = hero;
+   this.target = target;
 
    this.tileWidth = options.tileWidth;
    this.tileHeight = options.tileHeight;
@@ -311,9 +327,6 @@ var MapRenderer = function(map, options) {
    this.fps = options.fps || 32;
    this.delay = 1000 / this.fps;
    this.lastTime = 0;
-
-   this.target = options.target;
-   this.hero = options.hero;
 
    this.canvas = document.createElement('canvas');
    this.canvas.width = this.width;
@@ -332,9 +345,7 @@ MapRenderer.prototype.render = function(time) {
    var material = null;
 
    if (now > this.delay) {
-      this.ctx.fillStyle = this.colors.wall;
-      this.ctx.fillRect(0, 0, this.width, this.height);
-      this.ctx.fillStyle = this.colors.bg;
+      this.ctx.clearRect(0, 0, this.width, this.height);
 
       for (var i = 0, len = tiles.length; i < len; i++) {
          x = i % this.map.width;
@@ -345,6 +356,16 @@ MapRenderer.prototype.render = function(time) {
             material.sx, material.sy, material.width, material.height,
             x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
       }
+
+      this.ctx.drawImage(this.target.material[this.target.view].img,
+         this.target.material[this.target.view].sx, this.target.material[this.target.view].sy,
+         this.target.material[this.target.view].width, this.target.material[this.target.view].height,
+         this.target.x * this.target.width, this.target.y * this.target.height, this.target.width, this.target.height);
+
+      this.ctx.drawImage(this.hero.material[this.hero.view].img,
+         this.hero.material[this.hero.view].sx, this.hero.material[this.hero.view].sy,
+         this.hero.material[this.hero.view].width, this.hero.material[this.hero.view].height,
+         this.hero.x * this.hero.width, this.hero.y * this.hero.height, this.hero.width, this.hero.height);
 
       this.lastTime = now;
    }
@@ -378,40 +399,10 @@ var Map = function(width, height, _init) {
 
 Map.prototype.parseBoard = function(board, mats) {
    /*
-    Bw = 2
-    Bh = 2
-    Mw = 5 => 2n + 1
-    Mh = 5 => 2n + 1
-
     Co = 6 => Mw + 1
-
-    for: i.. in Board
-    Cx,i0 = 0
-    Cy,i0 = 0
-
-    Cx,i1 = 1
-    Cy,i1 = 0
-
-    Cx,i2 = 0
-    Cy,i2 = 1
-
-    Cx,i3 = 1
-    Cy,i3 = 1
-
-    => x = i % Bw (0, 1, 0, 1)
-    => y = i / Bw (0, 0, 1, 1)
-
-    Ci0 = 6  => Co + 2i + Co * y => 6 + 0 + 0 = 6
-    Ci1 = 8  => Co + 2i + Co * y => 6 + 2 + 0 = 8
-    Ci2 = 16 => Co + 2i + Co * y => 6 + 4 + 6 = 16
-    Ci3 = 18 => Co + 2i + Co * y => 6 + 6 + 6 = 18
-
-    (*, 0) (*,    1) (*, 2) (*,    3) (*, 4)
-    (*, 5) (_m_0, 6) (*, 7) (_m_1, 8) (*, 9)
-    (*,10) (*,   11) (*,12) (*,   13) (*,14)
-    (*,15) (_m_2,16) (*,17) (_m_3,18) (*,19)
-    (*,20) (*,   21) (*,22) (*,   23) (*,24)
-
+    Ci => Co + 2i + Co * y
+    x => i % Bw (0, 1, 0, 1)
+    y => i / Bw (0, 0, 1, 1)
     */
    var offset = this.width + 1;
    var y = 0;
@@ -422,7 +413,7 @@ Map.prototype.parseBoard = function(board, mats) {
    if (mats instanceof Array === false) {
       mats = [mats];
    }
-   console.log(mats);
+
    var mat = mats[0];
 
    for (var i = 0, len = board.cells.length; i < len; i++) {
@@ -455,204 +446,258 @@ Map.prototype.parseBoard = function(board, mats) {
       }
    }
 };
+
+var Controller = function() {
+   this.keys = {};
+};
+
+Controller.Keys = {
+   LEFT: 37,
+   UP: 38,
+   RIGHT: 39,
+   DOWN: 40
+};
 </script>
 
 <script>
-   /**
-    * Copyright (c) 2014 Rodrigo Silveira. All rights reserved.
-    * http://www.rodrigo-silveira.com
-    */
-   var main = function() {
-      var WIDTH_CELLS = 45;
-      var HEIGHT_CELLS = 20;
-      var board = new Board(WIDTH_CELLS, HEIGHT_CELLS);
-      board.generate();
-      var map = new Map(WIDTH_CELLS * 2 + 1, HEIGHT_CELLS * 2 + 1, materialGrassCb);
+/**
+ * Copyright (c) 2014 Rodrigo Silveira. All rights reserved.
+ * http://www.rodrigo-silveira.com
+ */
+var main = function() {
+   var WIDTH_CELLS = 15;
+   var HEIGHT_CELLS = 10;
+   var board = new Board(WIDTH_CELLS, HEIGHT_CELLS);
+   board.generate();
+   var map = new Map(WIDTH_CELLS * 2 + 1, HEIGHT_CELLS * 2 + 1, materialGrassCb);
 
-      var points = board.seed();
-      var target = new Player(points.start.x, points.start.y, window.innerWidth / board.tileWidth, window.innerHeight / board.tileHeight, '#ff0');
-      var hero = new Player(points.end.x, points.end.y, window.innerWidth / board.tileWidth * 0.5, window.innerHeight / board.tileHeight * 0.5, '#c00');
+   var hero = new Player(1, 1, 32, 32, getLinkMaterial());
+   var target = new Player(map.width - 2, map.height - 2, 32, 32, getTargetMaterial());
 
-      map.parseBoard(board, getMaterialGrassFloors());
+   map.parseBoard(board, getMaterialGrassFloors());
 
-      var renderer = new MapRenderer(map, {
-         tileWidth: 16,
-         tileHeight: 16,
-         bgColor: '#fff',
-         wallColor: '#000',
-         fps: 2,
+   var renderer = new MapRenderer(map, hero, target, {
+      tileWidth: 32,
+      tileHeight: 32,
+      bgColor: '#fff',
+      wallColor: '#000',
+      fps: 2
+   });
 
-         target: target,
-         hero: hero
-      });
+   var ctrl = new Controller();
 
-      var gameLoop = function(time) {
-         renderer.render(time);
-         requestAnimationFrame(gameLoop);
-      };
+   document.body.addEventListener('keydown', function(e) {
+      ctrl.keys[e.keyCode] = true;
+   });
 
-      gameLoop(999);
+   document.body.addEventListener('keyup', function(e) {
+      ctrl.keys[e.keyCode] = false;
+   });
+
+   var gameLoop = function(time) {
+      target.update(time);
+      hero.update(time);
+      renderer.render(time);
+      requestAnimationFrame(gameLoop);
    };
 
-   var materialWoodCb = function() {
-      var imgWall = new Image();
-      imgWall.src = 'img/zelda-gba-tileset.png';
+   gameLoop(0);
+};
 
-      var mat = new Material(imgWall, 16 * 33 + 34 + 3, 16 * 8 + 9 - 2, 16, 16);
-      var matTL = new Material(imgWall, 16 * 0 + 1, 16 * 0 + 1, 16, 16);
-      var matTR = new Material(imgWall, 16 * 5 + 6, 16 * 0 + 1, 16, 16);
-      var matBL = new Material(imgWall, 16 * 0 + 1, 16 * 4 + 5, 16, 16);
-      var matBR = new Material(imgWall, 16 * 5 + 6, 16 * 4 + 5, 16, 16);
-      var matT = new Material(imgWall, 16 * 1 + 2, 16 * 0 + 1, 16, 16);
-      var matB = new Material(imgWall, 16 * 1 + 2, 16 * 4 + 5, 16, 16);
-      var matL = new Material(imgWall, 16 * 0 + 1, 16 * 3 + 4, 16, 16);
-      var matR = new Material(imgWall, 16 * 5 + 6, 16 * 3 + 4, 16, 16);
-      var tile = null;
-      var x = 0;
-      var y = 0;
+var getLinkMaterial = function() {
+   var img = new Image();
+   img.src = 'img/link-spritesheet.png';
 
-      for (var i = 0, len = this.width * this.height; i < len; i++) {
-         x = i % this.width;
-         y = parseInt(i / this.width);
+   return [
+      new Material(img, 0, 0, 50, 50),
+      new Material(img, 50, 0, 50, 50),
+      new Material(img, 100, 0, 50, 50),
 
-         if (x === 0) {
-            tile = new Tile(matL);
-         } else if (x === this.width - 1) {
-            tile = new Tile(matR);
-         } else if (y === 0) {
-            tile = new Tile(matT);
-         } else if (y === this.height - 1) {
-            tile = new Tile(matB);
-         } else {
-            tile = new Tile(mat);
-         }
+      new Material(img, 50, 50, 50, 50),
+      new Material(img, 100, 50, 50, 50),
+      new Material(img, 50, 50, 50, 50),
 
-         this.tiles.push(tile);
+      new Material(img, 100, 100, 50, 50),
+      new Material(img, 50, 100, 50, 50),
+      new Material(img, 100, 100, 50, 50),
+
+      new Material(img, 100, 150, 50, 50),
+      new Material(img, 50, 150, 50, 50),
+      new Material(img, 100, 150, 50, 50),
+   ];
+};
+
+var getTargetMaterial = function() {
+   var img = new Image();
+   img.src = 'img/zelda-spritesheet.png';
+
+   return [
+      new Material(img, 211, 84, 30, 30),
+      new Material(img, 242, 84, 30, 30),
+      new Material(img, 275, 84, 30, 30),
+   ];
+};
+
+
+var materialWoodCb = function() {
+   var imgWall = new Image();
+   imgWall.src = 'img/zelda-gba-tileset.png';
+
+   var mat = new Material(imgWall, 16 * 33 + 34 + 3, 16 * 8 + 9 - 2, 16, 16);
+   var matTL = new Material(imgWall, 16 * 0 + 1, 16 * 0 + 1, 16, 16);
+   var matTR = new Material(imgWall, 16 * 5 + 6, 16 * 0 + 1, 16, 16);
+   var matBL = new Material(imgWall, 16 * 0 + 1, 16 * 4 + 5, 16, 16);
+   var matBR = new Material(imgWall, 16 * 5 + 6, 16 * 4 + 5, 16, 16);
+   var matT = new Material(imgWall, 16 * 1 + 2, 16 * 0 + 1, 16, 16);
+   var matB = new Material(imgWall, 16 * 1 + 2, 16 * 4 + 5, 16, 16);
+   var matL = new Material(imgWall, 16 * 0 + 1, 16 * 3 + 4, 16, 16);
+   var matR = new Material(imgWall, 16 * 5 + 6, 16 * 3 + 4, 16, 16);
+   var tile = null;
+   var x = 0;
+   var y = 0;
+
+   for (var i = 0, len = this.width * this.height; i < len; i++) {
+      x = i % this.width;
+      y = parseInt(i / this.width);
+
+      if (x === 0) {
+         tile = new Tile(matL);
+      } else if (x === this.width - 1) {
+         tile = new Tile(matR);
+      } else if (y === 0) {
+         tile = new Tile(matT);
+      } else if (y === this.height - 1) {
+         tile = new Tile(matB);
+      } else {
+         tile = new Tile(mat);
       }
 
-      this.tiles[0] = new Tile(matTL);
-      this.tiles[this.width - 1] = new Tile(matTR);
-      this.tiles[this.width * this.height - this.width] = new Tile(matBL);
-      this.tiles[this.width * this.height - 1] = new Tile(matBR);
-   };
+      this.tiles.push(tile);
+   }
 
-   var getMaterialWoodFloors = function() {
-      var img = new Image();
-      img.src = 'img/zelda-gba-tileset.png';
+   this.tiles[0] = new Tile(matTL);
+   this.tiles[this.width - 1] = new Tile(matTR);
+   this.tiles[this.width * this.height - this.width] = new Tile(matBL);
+   this.tiles[this.width * this.height - 1] = new Tile(matBR);
+};
 
-      return [
-         new Material(img, 16 * 1 + 2, 16 * 1 + 2, 16, 16)
-      ];
-   };
+var getMaterialWoodFloors = function() {
+   var img = new Image();
+   img.src = 'img/zelda-gba-tileset.png';
+
+   return [
+      new Material(img, 16 * 1 + 2, 16 * 1 + 2, 16, 16)
+   ];
+};
 
 
-   var materialStoneCb = function() {
-      var img = new Image();
-      img.src = 'img/zelda-gba-tileset.png';
+var materialStoneCb = function() {
+   var img = new Image();
+   img.src = 'img/zelda-gba-tileset.png';
 
-      var mat = new Material(img, 16 * 10 + 11 - 8, 16 * 7 + 8, 16, 16);
-      var matTL = new Material(img, 16 * 9 + 10 - 8, 16 * 6 + 7, 16, 16);
-      var matTR = new Material(img, 16 * 11 + 12 - 8, 16 * 6 + 7, 16, 16);
-      var matBL = new Material(img, 16 * 9 + 10 - 8, 16 * 8 + 9, 16, 16);
-      var matBR = new Material(img, 16 * 11 + 12 - 8, 16 * 8 + 9, 16, 16);
-      var matT = new Material(img, 16 * 10 + 11 - 8, 16 * 6 + 7, 16, 16);
-      var matB = new Material(img, 16 * 10 + 11 - 8, 16 * 8 + 9, 16, 16);
+   var mat = new Material(img, 16 * 10 + 11 - 8, 16 * 7 + 8, 16, 16);
+   var matTL = new Material(img, 16 * 9 + 10 - 8, 16 * 6 + 7, 16, 16);
+   var matTR = new Material(img, 16 * 11 + 12 - 8, 16 * 6 + 7, 16, 16);
+   var matBL = new Material(img, 16 * 9 + 10 - 8, 16 * 8 + 9, 16, 16);
+   var matBR = new Material(img, 16 * 11 + 12 - 8, 16 * 8 + 9, 16, 16);
+   var matT = new Material(img, 16 * 10 + 11 - 8, 16 * 6 + 7, 16, 16);
+   var matB = new Material(img, 16 * 10 + 11 - 8, 16 * 8 + 9, 16, 16);
 
-      var matL = new Material(img, 16 * 9 + 10 - 8, 16 * 7 + 8, 16, 16)
-      var matR = new Material(img, 16 * 11 + 12 - 8, 16 * 7 + 8, 16, 16)
+   var matL = new Material(img, 16 * 9 + 10 - 8, 16 * 7 + 8, 16, 16)
+   var matR = new Material(img, 16 * 11 + 12 - 8, 16 * 7 + 8, 16, 16)
 
-      var tile = null;
-      var x = 0;
-      var y = 0;
+   var tile = null;
+   var x = 0;
+   var y = 0;
 
-      for (var i = 0, len = this.width * this.height; i < len; i++) {
-         x = i % this.width;
-         y = parseInt(i / this.width);
+   for (var i = 0, len = this.width * this.height; i < len; i++) {
+      x = i % this.width;
+      y = parseInt(i / this.width);
 
-         if (x === 0) {
-            tile = new Tile(matL);
-         } else if (x === this.width - 1) {
-            tile = new Tile(matR);
-         } else if (y === 0) {
-            tile = new Tile(matT);
-         } else if (y === this.height - 1) {
-            tile = new Tile(matB);
-         } else {
-            tile = new Tile(mat);
-         }
-
-         this.tiles.push(tile);
+      if (x === 0) {
+         tile = new Tile(matL);
+      } else if (x === this.width - 1) {
+         tile = new Tile(matR);
+      } else if (y === 0) {
+         tile = new Tile(matT);
+      } else if (y === this.height - 1) {
+         tile = new Tile(matB);
+      } else {
+         tile = new Tile(mat);
       }
 
-      this.tiles[0] = new Tile(matTL);
-      this.tiles[this.width - 1] = new Tile(matTR);
-      this.tiles[this.width * this.height - this.width] = new Tile(matBL);
-      this.tiles[this.width * this.height - 1] = new Tile(matBR);
-   };
+      this.tiles.push(tile);
+   }
 
-   var getMaterialStoneFloors = function() {
-      var img = new Image();
-      img.src = 'img/zelda-gba-tileset.png';
+   this.tiles[0] = new Tile(matTL);
+   this.tiles[this.width - 1] = new Tile(matTR);
+   this.tiles[this.width * this.height - this.width] = new Tile(matBL);
+   this.tiles[this.width * this.height - 1] = new Tile(matBR);
+};
 
-      return [
-         new Material(img, 16 * 25 + 26 + 3, 16 * 8 + 9 - 2, 16, 16)
-      ];
-   };
+var getMaterialStoneFloors = function() {
+   var img = new Image();
+   img.src = 'img/zelda-gba-tileset.png';
+
+   return [
+      new Material(img, 16 * 25 + 26 + 3, 16 * 8 + 9 - 2, 16, 16)
+   ];
+};
 
 
-   var materialGrassCb = function() {
-      var img = new Image();
-      img.src = 'img/zelda-gba-tileset.png';
+var materialGrassCb = function() {
+   var img = new Image();
+   img.src = 'img/zelda-gba-tileset.png';
 
-      var mat = new Material(img, 16 * 33 + 34 + 3, 16 * 8 + 9 - 2, 16, 16);
+   var mat = new Material(img, 16 * 33 + 34 + 3, 16 * 8 + 9 - 2, 16, 16);
 
-      var matTL = new Material(img, 16 * 39 + 40 + 3, 16 * 12 + 13 - 2, 16, 16);
-      var matT = new Material(img, 16 * 40 + 41 + 3, 16 * 12 + 13 - 2, 16, 16);
-      var matTR = new Material(img, 16 * 41 + 42 + 3, 16 * 12 + 13 - 2, 16, 16);
-      var matL = new Material(img, 16 * 39 + 40 + 3, 16 * 13 + 14 - 2, 16, 16);
+   var matTL = new Material(img, 16 * 39 + 40 + 3, 16 * 12 + 13 - 2, 16, 16);
+   var matT = new Material(img, 16 * 40 + 41 + 3, 16 * 12 + 13 - 2, 16, 16);
+   var matTR = new Material(img, 16 * 41 + 42 + 3, 16 * 12 + 13 - 2, 16, 16);
+   var matL = new Material(img, 16 * 39 + 40 + 3, 16 * 13 + 14 - 2, 16, 16);
 
-      var matBL = new Material(img, 16 * 39 + 40 + 3, 16 * 14 + 15 - 2, 16, 16);
-      var matB = new Material(img, 16 * 40 + 41 + 3, 16 * 14 + 15 - 2, 16, 16);
-      var matBR = new Material(img, 16 * 41 + 42 + 3, 16 * 14 + 15 - 2, 16, 16);
-      var matR = new Material(img, 16 * 41 + 42 + 3, 16 * 13 + 14 - 2, 16, 16);
+   var matBL = new Material(img, 16 * 39 + 40 + 3, 16 * 14 + 15 - 2, 16, 16);
+   var matB = new Material(img, 16 * 40 + 41 + 3, 16 * 14 + 15 - 2, 16, 16);
+   var matBR = new Material(img, 16 * 41 + 42 + 3, 16 * 14 + 15 - 2, 16, 16);
+   var matR = new Material(img, 16 * 41 + 42 + 3, 16 * 13 + 14 - 2, 16, 16);
 
-      var tile = null;
-      var x = 0;
-      var y = 0;
+   var tile = null;
+   var x = 0;
+   var y = 0;
 
-      for (var i = 0, len = this.width * this.height; i < len; i++) {
-         x = i % this.width;
-         y = parseInt(i / this.width);
+   for (var i = 0, len = this.width * this.height; i < len; i++) {
+      x = i % this.width;
+      y = parseInt(i / this.width);
 
-         if (x === 0) {
-            tile = new Tile(matL);
-         } else if (x === this.width - 1) {
-            tile = new Tile(matR);
-         } else if (y === 0) {
-            tile = new Tile(matT);
-         } else if (y === this.height - 1) {
-            tile = new Tile(matB);
-         } else {
-            tile = new Tile(mat);
-         }
-
-         this.tiles.push(tile);
+      if (x === 0) {
+         tile = new Tile(matL);
+      } else if (x === this.width - 1) {
+         tile = new Tile(matR);
+      } else if (y === 0) {
+         tile = new Tile(matT);
+      } else if (y === this.height - 1) {
+         tile = new Tile(matB);
+      } else {
+         tile = new Tile(mat);
       }
 
-      this.tiles[0] = new Tile(matTL);
-      this.tiles[this.width - 1] = new Tile(matTR);
-      this.tiles[this.width * this.height - this.width] = new Tile(matBL);
-      this.tiles[this.width * this.height - 1] = new Tile(matBR);
-   };
+      this.tiles.push(tile);
+   }
 
-   var getMaterialGrassFloors = function() {
-      var img = new Image();
-      img.src = 'img/zelda-gba-tileset.png';
+   this.tiles[0] = new Tile(matTL);
+   this.tiles[this.width - 1] = new Tile(matTR);
+   this.tiles[this.width * this.height - this.width] = new Tile(matBL);
+   this.tiles[this.width * this.height - 1] = new Tile(matBR);
+};
 
-      return [
-         new Material(img, 16 * 21 + 22 + 3, 16 * 14 + 15 - 2, 16, 16)
-      ];
-   };
+var getMaterialGrassFloors = function() {
+   var img = new Image();
+   img.src = 'img/zelda-gba-tileset.png';
+
+   return [
+      new Material(img, 16 * 21 + 22 + 3, 16 * 14 + 15 - 2, 16, 16)
+   ];
+};
 </script>
 
 <script>
