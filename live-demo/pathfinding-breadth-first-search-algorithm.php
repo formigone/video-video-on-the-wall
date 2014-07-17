@@ -78,7 +78,7 @@ Cell.dummy.init = true;
  * @param {Material} material
  * @constructor
  */
-var Player = function(x, y, width, height, material) {
+var Player = function(x, y, width, height, material, _update) {
    this.x = x;
    this.y = y;
    this.width = width;
@@ -88,6 +88,9 @@ var Player = function(x, y, width, height, material) {
    this.view = 0;
    this.lastTime = 0;
    this.animSpeed = 1000 / 6;
+
+   this.dir = Controller.Keys.RIGHT;
+   this.update = _update || this.update;
 };
 
 Player.prototype.update = function(time){
@@ -449,6 +452,7 @@ Map.prototype.parseBoard = function(board, mats) {
 
 var Controller = function() {
    this.keys = {};
+   this.pressed = 0;
 };
 
 Controller.Keys = {
@@ -456,6 +460,13 @@ Controller.Keys = {
    UP: 38,
    RIGHT: 39,
    DOWN: 40
+};
+
+Controller.Codes = {
+   37: 'LEFT',
+   38: 'UP',
+   39: 'RIGHT',
+   40: 'DOWN'
 };
 </script>
 
@@ -471,27 +482,67 @@ var main = function() {
    board.generate();
    var map = new Map(WIDTH_CELLS * 2 + 1, HEIGHT_CELLS * 2 + 1, materialGrassCb);
 
-   var hero = new Player(1, 1, 32, 32, getLinkMaterial());
-   var target = new Player(map.width - 2, map.height - 2, 32, 32, getTargetMaterial());
-
    map.parseBoard(board, getMaterialGrassFloors());
 
+   var ctrl = new Controller();
+
+   document.body.addEventListener('keydown', function(e) {
+      if (Controller.Codes[e.keyCode]) {
+         e.preventDefault();
+
+         if(!ctrl.keys[e.keyCode]){
+            ctrl.pressed++;
+            ctrl.keys[e.keyCode] = true;
+            hero.dir = e.keyCode;
+         }
+      }
+   });
+
+   document.body.addEventListener('keyup', function(e) {
+      if (Controller.Codes[e.keyCode]) {
+         e.preventDefault();
+
+         ctrl.keys[e.keyCode] = false;
+         ctrl.pressed--;
+      }
+   });
+
+   var updateHero = function(time) {
+      if (ctrl.pressed === 0) {
+         if (this.dir === Controller.Keys.RIGHT) {
+            this.view = 0;
+         } else if (this.dir === Controller.Keys.LEFT) {
+            this.view = 3;
+         } else if (this.dir === Controller.Keys.UP) {
+            this.view = 6;
+         } else if (this.dir === Controller.Keys.DOWN) {
+            this.view = 9;
+         }
+      } else {
+         var now = time - this.lastTime;
+         if (now > this.animSpeed) {
+            if (this.dir === Controller.Keys.RIGHT) {
+               this.view = (this.view + 1) % 3;
+            } else if (this.dir === Controller.Keys.LEFT) {
+               this.view = ((this.view + 1) % 3) + 3;
+            } else if (this.dir === Controller.Keys.UP) {
+               this.view = ((this.view + 1) % 3) + 6;
+            } else if (this.dir === Controller.Keys.DOWN) {
+               this.view = ((this.view + 1) % 3) + 9;
+            }
+            this.lastTime = time
+         }
+      }
+   };
+
+   var hero = new Player(1, 1, 32, 32, getLinkMaterial(), updateHero);
+   var target = new Player(map.width - 2, map.height - 2, 32, 32, getTargetMaterial());
    var renderer = new MapRenderer(map, hero, target, {
       tileWidth: 32,
       tileHeight: 32,
       bgColor: '#fff',
       wallColor: '#000',
       fps: 2
-   });
-
-   var ctrl = new Controller();
-
-   document.body.addEventListener('keydown', function(e) {
-      ctrl.keys[e.keyCode] = true;
-   });
-
-   document.body.addEventListener('keyup', function(e) {
-      ctrl.keys[e.keyCode] = false;
    });
 
    var gameLoop = function(time) {
@@ -513,15 +564,15 @@ var getLinkMaterial = function() {
       new Material(img, 50, 0, 50, 50),
       new Material(img, 100, 0, 50, 50),
 
+      new Material(img, 0, 50, 50, 50),
       new Material(img, 50, 50, 50, 50),
       new Material(img, 100, 50, 50, 50),
-      new Material(img, 50, 50, 50, 50),
 
-      new Material(img, 100, 100, 50, 50),
+      new Material(img, 0, 100, 50, 50),
       new Material(img, 50, 100, 50, 50),
       new Material(img, 100, 100, 50, 50),
 
-      new Material(img, 100, 150, 50, 50),
+      new Material(img, 0, 150, 50, 50),
       new Material(img, 50, 150, 50, 50),
       new Material(img, 100, 150, 50, 50),
    ];
