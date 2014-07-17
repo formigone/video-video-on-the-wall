@@ -78,7 +78,7 @@ Cell.dummy.init = true;
  * @param {Material} material
  * @constructor
  */
-var Player = function(x, y, width, height, material, _update) {
+var Player = function(x, y, width, height, speed, material, _update) {
    this.x = x;
    this.y = y;
    this.width = width;
@@ -87,13 +87,15 @@ var Player = function(x, y, width, height, material, _update) {
 
    this.view = 0;
    this.lastTime = 0;
-   this.animSpeed = 1000 / 6;
+   this.animSpeed = 1000 / 8;
+
+   this.speed = speed || 3;
 
    this.dir = Controller.Keys.RIGHT;
    this.update = _update || this.update;
 };
 
-Player.prototype.update = function(time){
+Player.prototype.update = function(time) {
    var now = time - this.lastTime;
 
    if (now > this.animSpeed) {
@@ -360,15 +362,15 @@ MapRenderer.prototype.render = function(time) {
             x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
       }
 
-      this.ctx.drawImage(this.target.material[this.target.view].img,
-         this.target.material[this.target.view].sx, this.target.material[this.target.view].sy,
-         this.target.material[this.target.view].width, this.target.material[this.target.view].height,
-         this.target.x * this.target.width, this.target.y * this.target.height, this.target.width, this.target.height);
-
       this.ctx.drawImage(this.hero.material[this.hero.view].img,
          this.hero.material[this.hero.view].sx, this.hero.material[this.hero.view].sy,
          this.hero.material[this.hero.view].width, this.hero.material[this.hero.view].height,
          this.hero.x * this.hero.width, this.hero.y * this.hero.height, this.hero.width, this.hero.height);
+
+      this.ctx.drawImage(this.target.material[this.target.view].img,
+         this.target.material[this.target.view].sx, this.target.material[this.target.view].sy,
+         this.target.material[this.target.view].width, this.target.material[this.target.view].height,
+         this.target.x * this.target.width, this.target.y * this.target.height, this.target.width, this.target.height);
 
       this.lastTime = now;
    }
@@ -451,8 +453,8 @@ Map.prototype.parseBoard = function(board, mats) {
 };
 
 var Controller = function() {
-   this.keys = {};
    this.pressed = 0;
+   this.keys = {};
 };
 
 Controller.Keys = {
@@ -475,9 +477,9 @@ Controller.Codes = {
  * Copyright (c) 2014 Rodrigo Silveira. All rights reserved.
  * http://www.rodrigo-silveira.com
  */
-var main = function() {
-   var WIDTH_CELLS = 15;
-   var HEIGHT_CELLS = 10;
+var main = function(__w, __h) {
+   var WIDTH_CELLS = __w || 2;
+   var HEIGHT_CELLS = __h || 2;
    var board = new Board(WIDTH_CELLS, HEIGHT_CELLS);
    board.generate();
    var map = new Map(WIDTH_CELLS * 2 + 1, HEIGHT_CELLS * 2 + 1, materialGrassCb);
@@ -485,27 +487,50 @@ var main = function() {
    map.parseBoard(board, getMaterialGrassFloors());
 
    var ctrl = new Controller();
+   var levelUp = function(){
+      setTimeout(function() {
+         document.body.removeChild(renderer.canvas);
+         renderer = null;
+         hero = null;
+         target = null;
+         board = null;
+         map = null;
+         ctrl = null;
 
-   document.body.addEventListener('keydown', function(e) {
+         document.body.removeEventListener('keydown', onKeyDown, false);
+         document.body.removeEventListener('keyup', onKeyUp, false);
+
+         return main(WIDTH_CELLS < 23 ? WIDTH_CELLS+= 1 : 23, HEIGHT_CELLS < 9 ? HEIGHT_CELLS += 1 : 9);
+      }, 100);
+   };
+
+   var onKeyDown = function(e) {
       if (Controller.Codes[e.keyCode]) {
          e.preventDefault();
 
-         if(!ctrl.keys[e.keyCode]){
+         if (!ctrl.keys[e.keyCode]) {
             ctrl.pressed++;
             ctrl.keys[e.keyCode] = true;
             hero.dir = e.keyCode;
          }
       }
-   });
 
-   document.body.addEventListener('keyup', function(e) {
+      if (e.keyCode === 192 && e.shiftKey) {
+         levelUp();
+      }
+   };
+
+   var onKeyUp = function(e) {
       if (Controller.Codes[e.keyCode]) {
          e.preventDefault();
 
          ctrl.keys[e.keyCode] = false;
          ctrl.pressed--;
       }
-   });
+   };
+
+   document.body.addEventListener('keydown', onKeyDown, false);
+   document.body.addEventListener('keyup', onKeyUp, false);
 
    var updateHero = function(time) {
       if (ctrl.pressed === 0) {
@@ -520,6 +545,7 @@ var main = function() {
          }
       } else {
          var now = time - this.lastTime;
+         var diff = now > 128 ? 128 : now;
          if (now > this.animSpeed) {
             if (this.dir === Controller.Keys.RIGHT) {
                this.view = (this.view + 1) % 3;
@@ -530,25 +556,62 @@ var main = function() {
             } else if (this.dir === Controller.Keys.DOWN) {
                this.view = ((this.view + 1) % 3) + 9;
             }
+
             this.lastTime = time
+         }
+
+         if (this.dir === Controller.Keys.RIGHT) {
+            if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x) + 1].type === Tile.Type.OPEN) {
+               this.x += this.speed * diff;
+//            } else {
+//               this.x = parseInt(this.x);
+            }
+         } else if (this.dir === Controller.Keys.LEFT) {
+            if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x)].type === Tile.Type.OPEN) {
+               this.x -= this.speed * diff;
+            } else {
+               this.x = parseInt(this.x + 0.5);
+            }
+         } else if (this.dir === Controller.Keys.UP) {
+            if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x)].type === Tile.Type.OPEN) {
+               this.y -= this.speed * diff;
+            } else {
+               this.y = parseInt(this.y + 0.5);
+            }
+         } else if (this.dir === Controller.Keys.DOWN) {
+            if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x) + map.width].type === Tile.Type.OPEN) {
+               this.y += this.speed * diff;
+            } else {
+               this.y = parseInt(this.y);
+            }
          }
       }
    };
 
-   var hero = new Player(1, 1, 32, 32, getLinkMaterial(), updateHero);
-   var target = new Player(map.width - 2, map.height - 2, 32, 32, getTargetMaterial());
+   var hero = new Player(1, 1, 32, 32, 1.75 / 1000, getLinkMaterial(), updateHero);
+   var target = new Player(map.width - 2, map.height - 2, 32, 32, 3, getTargetMaterial());
    var renderer = new MapRenderer(map, hero, target, {
       tileWidth: 32,
       tileHeight: 32,
       bgColor: '#fff',
       wallColor: '#000',
-      fps: 2
+      fps: 32
    });
+
+   var halfWidth = renderer.tileWidth * 0.5;
+   var halfHeight = renderer.tileHeight * 0.5;
 
    var gameLoop = function(time) {
       target.update(time);
       hero.update(time);
       renderer.render(time);
+
+      if (parseInt(hero.x) === parseInt(target.x) && parseInt(hero.y) === parseInt(target.y)) {
+         alert('Thanks for saving me, Link!');
+         levelUp();
+         return;
+      }
+
       requestAnimationFrame(gameLoop);
    };
 
