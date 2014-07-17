@@ -368,57 +368,15 @@ Tile.Type = {
    WALL: 1
 };
 
-var Map = function(width, height) {
+var Map = function(width, height, _init) {
    this.width = width;
    this.height = height;
    this.tiles = [];
 
-   this.init();
+   _init.call(this);
 };
 
-Map.prototype.init = function() {
-   var imgWall = new Image();
-   imgWall.src = 'img/zelda-gba-tileset.png';
-
-   var mat = new Material(imgWall, 16 * 33 + 34 + 3, 16 * 8 + 9 - 2, 16, 16);
-   var matTL = new Material(imgWall, 16 * 0 + 1, 16 * 0 + 1, 16, 16);
-   var matTR = new Material(imgWall, 16 * 5 + 6, 16 * 0 + 1, 16, 16);
-   var matBL = new Material(imgWall, 16 * 0 + 1, 16 * 4 + 5, 16, 16);
-   var matBR = new Material(imgWall, 16 * 5 + 6, 16 * 4 + 5, 16, 16);
-   var matT = new Material(imgWall, 16 * 1 + 2, 16 * 0 + 1, 16, 16);
-   var matB = new Material(imgWall, 16 * 1 + 2, 16 * 4 + 5, 16, 16);
-   var matL = new Material(imgWall, 16 * 0 + 1, 16 * 3 + 4, 16, 16);
-   var matR = new Material(imgWall, 16 * 5 + 6, 16 * 3 + 4, 16, 16);
-   var tile = null;
-   var x = 0;
-   var y = 0;
-
-   for (var i = 0, len = this.width * this.height; i < len; i++) {
-      x = i % this.width;
-      y = parseInt(i / this.width);
-
-      if (x === 0) {
-         tile = new Tile(matL);
-      } else if (x === this.width - 1) {
-         tile = new Tile(matR);
-      } else if (y === 0) {
-         tile = new Tile(matT);
-      } else if (y === this.height - 1) {
-         tile = new Tile(matB);
-      } else {
-         tile = new Tile(mat);
-      }
-
-      this.tiles.push(tile);
-   }
-
-   this.tiles[0] = new Tile(matTL);
-   this.tiles[this.width - 1] = new Tile(matTR);
-   this.tiles[this.width * this.height - this.width] = new Tile(matBL);
-   this.tiles[this.width * this.height - 1] = new Tile(matBR);
-};
-
-Map.prototype.parseBoard = function(board) {
+Map.prototype.parseBoard = function(board, mats) {
    /*
     Bw = 2
     Bh = 2
@@ -460,9 +418,12 @@ Map.prototype.parseBoard = function(board) {
    var x = 0;
    var w = 0;
    var cell = null;
-   var imgWall = new Image();
-   imgWall.src = 'img/zelda-gba-tileset.png';
-   var mat = new Material(imgWall, 16 * 1 + 2, 16 * 1 + 2, 16, 16);
+
+   if (mats instanceof Array === false) {
+      mats = [mats];
+   }
+   console.log(mats);
+   var mat = mats[0];
 
    for (var i = 0, len = board.cells.length; i < len; i++) {
       x = i % board.width;
@@ -506,19 +467,19 @@ Map.prototype.parseBoard = function(board) {
       var HEIGHT_CELLS = 20;
       var board = new Board(WIDTH_CELLS, HEIGHT_CELLS);
       board.generate();
-      var map = new Map(WIDTH_CELLS * 2 + 1, HEIGHT_CELLS * 2 + 1);
+      var map = new Map(WIDTH_CELLS * 2 + 1, HEIGHT_CELLS * 2 + 1, materialGrassCb);
 
       var points = board.seed();
       var target = new Player(points.start.x, points.start.y, window.innerWidth / board.tileWidth, window.innerHeight / board.tileHeight, '#ff0');
       var hero = new Player(points.end.x, points.end.y, window.innerWidth / board.tileWidth * 0.5, window.innerHeight / board.tileHeight * 0.5, '#c00');
 
-      map.parseBoard(board);
+      map.parseBoard(board, getMaterialGrassFloors());
 
       var renderer = new MapRenderer(map, {
          tileWidth: 16,
          tileHeight: 16,
-         bgColor: '#000',
-         wallColor: '#0c0',
+         bgColor: '#fff',
+         wallColor: '#000',
          fps: 2,
 
          target: target,
@@ -531,6 +492,166 @@ Map.prototype.parseBoard = function(board) {
       };
 
       gameLoop(999);
+   };
+
+   var materialWoodCb = function() {
+      var imgWall = new Image();
+      imgWall.src = 'img/zelda-gba-tileset.png';
+
+      var mat = new Material(imgWall, 16 * 33 + 34 + 3, 16 * 8 + 9 - 2, 16, 16);
+      var matTL = new Material(imgWall, 16 * 0 + 1, 16 * 0 + 1, 16, 16);
+      var matTR = new Material(imgWall, 16 * 5 + 6, 16 * 0 + 1, 16, 16);
+      var matBL = new Material(imgWall, 16 * 0 + 1, 16 * 4 + 5, 16, 16);
+      var matBR = new Material(imgWall, 16 * 5 + 6, 16 * 4 + 5, 16, 16);
+      var matT = new Material(imgWall, 16 * 1 + 2, 16 * 0 + 1, 16, 16);
+      var matB = new Material(imgWall, 16 * 1 + 2, 16 * 4 + 5, 16, 16);
+      var matL = new Material(imgWall, 16 * 0 + 1, 16 * 3 + 4, 16, 16);
+      var matR = new Material(imgWall, 16 * 5 + 6, 16 * 3 + 4, 16, 16);
+      var tile = null;
+      var x = 0;
+      var y = 0;
+
+      for (var i = 0, len = this.width * this.height; i < len; i++) {
+         x = i % this.width;
+         y = parseInt(i / this.width);
+
+         if (x === 0) {
+            tile = new Tile(matL);
+         } else if (x === this.width - 1) {
+            tile = new Tile(matR);
+         } else if (y === 0) {
+            tile = new Tile(matT);
+         } else if (y === this.height - 1) {
+            tile = new Tile(matB);
+         } else {
+            tile = new Tile(mat);
+         }
+
+         this.tiles.push(tile);
+      }
+
+      this.tiles[0] = new Tile(matTL);
+      this.tiles[this.width - 1] = new Tile(matTR);
+      this.tiles[this.width * this.height - this.width] = new Tile(matBL);
+      this.tiles[this.width * this.height - 1] = new Tile(matBR);
+   };
+
+   var getMaterialWoodFloors = function() {
+      var img = new Image();
+      img.src = 'img/zelda-gba-tileset.png';
+
+      return [
+         new Material(img, 16 * 1 + 2, 16 * 1 + 2, 16, 16)
+      ];
+   };
+
+
+   var materialStoneCb = function() {
+      var img = new Image();
+      img.src = 'img/zelda-gba-tileset.png';
+
+      var mat = new Material(img, 16 * 10 + 11 - 8, 16 * 7 + 8, 16, 16);
+      var matTL = new Material(img, 16 * 9 + 10 - 8, 16 * 6 + 7, 16, 16);
+      var matTR = new Material(img, 16 * 11 + 12 - 8, 16 * 6 + 7, 16, 16);
+      var matBL = new Material(img, 16 * 9 + 10 - 8, 16 * 8 + 9, 16, 16);
+      var matBR = new Material(img, 16 * 11 + 12 - 8, 16 * 8 + 9, 16, 16);
+      var matT = new Material(img, 16 * 10 + 11 - 8, 16 * 6 + 7, 16, 16);
+      var matB = new Material(img, 16 * 10 + 11 - 8, 16 * 8 + 9, 16, 16);
+
+      var matL = new Material(img, 16 * 9 + 10 - 8, 16 * 7 + 8, 16, 16)
+      var matR = new Material(img, 16 * 11 + 12 - 8, 16 * 7 + 8, 16, 16)
+
+      var tile = null;
+      var x = 0;
+      var y = 0;
+
+      for (var i = 0, len = this.width * this.height; i < len; i++) {
+         x = i % this.width;
+         y = parseInt(i / this.width);
+
+         if (x === 0) {
+            tile = new Tile(matL);
+         } else if (x === this.width - 1) {
+            tile = new Tile(matR);
+         } else if (y === 0) {
+            tile = new Tile(matT);
+         } else if (y === this.height - 1) {
+            tile = new Tile(matB);
+         } else {
+            tile = new Tile(mat);
+         }
+
+         this.tiles.push(tile);
+      }
+
+      this.tiles[0] = new Tile(matTL);
+      this.tiles[this.width - 1] = new Tile(matTR);
+      this.tiles[this.width * this.height - this.width] = new Tile(matBL);
+      this.tiles[this.width * this.height - 1] = new Tile(matBR);
+   };
+
+   var getMaterialStoneFloors = function() {
+      var img = new Image();
+      img.src = 'img/zelda-gba-tileset.png';
+
+      return [
+         new Material(img, 16 * 25 + 26 + 3, 16 * 8 + 9 - 2, 16, 16)
+      ];
+   };
+
+
+   var materialGrassCb = function() {
+      var img = new Image();
+      img.src = 'img/zelda-gba-tileset.png';
+
+      var mat = new Material(img, 16 * 33 + 34 + 3, 16 * 8 + 9 - 2, 16, 16);
+
+      var matTL = new Material(img, 16 * 39 + 40 + 3, 16 * 12 + 13 - 2, 16, 16);
+      var matT = new Material(img, 16 * 40 + 41 + 3, 16 * 12 + 13 - 2, 16, 16);
+      var matTR = new Material(img, 16 * 41 + 42 + 3, 16 * 12 + 13 - 2, 16, 16);
+      var matL = new Material(img, 16 * 39 + 40 + 3, 16 * 13 + 14 - 2, 16, 16);
+
+      var matBL = new Material(img, 16 * 39 + 40 + 3, 16 * 14 + 15 - 2, 16, 16);
+      var matB = new Material(img, 16 * 40 + 41 + 3, 16 * 14 + 15 - 2, 16, 16);
+      var matBR = new Material(img, 16 * 41 + 42 + 3, 16 * 14 + 15 - 2, 16, 16);
+      var matR = new Material(img, 16 * 41 + 42 + 3, 16 * 13 + 14 - 2, 16, 16);
+
+      var tile = null;
+      var x = 0;
+      var y = 0;
+
+      for (var i = 0, len = this.width * this.height; i < len; i++) {
+         x = i % this.width;
+         y = parseInt(i / this.width);
+
+         if (x === 0) {
+            tile = new Tile(matL);
+         } else if (x === this.width - 1) {
+            tile = new Tile(matR);
+         } else if (y === 0) {
+            tile = new Tile(matT);
+         } else if (y === this.height - 1) {
+            tile = new Tile(matB);
+         } else {
+            tile = new Tile(mat);
+         }
+
+         this.tiles.push(tile);
+      }
+
+      this.tiles[0] = new Tile(matTL);
+      this.tiles[this.width - 1] = new Tile(matTR);
+      this.tiles[this.width * this.height - this.width] = new Tile(matBL);
+      this.tiles[this.width * this.height - 1] = new Tile(matBR);
+   };
+
+   var getMaterialGrassFloors = function() {
+      var img = new Image();
+      img.src = 'img/zelda-gba-tileset.png';
+
+      return [
+         new Material(img, 16 * 21 + 22 + 3, 16 * 14 + 15 - 2, 16, 16)
+      ];
    };
 </script>
 
