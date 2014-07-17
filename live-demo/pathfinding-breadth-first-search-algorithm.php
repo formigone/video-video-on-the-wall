@@ -340,7 +340,7 @@ MapRenderer.prototype.render = function(time) {
 };
 
 var Tile = function() {
-   this.type = Tile.Type.OPEN;
+   this.type = Tile.Type.CLOSED;
 };
 
 Tile.Type = {
@@ -411,7 +411,23 @@ Map.prototype.parseBoard = function(board) {
       w = offset + 2 * i + offset * y;
 
       cell = board.cells[i];
-      this.tiles[w].type = Tile.Type.CLOSED;
+      this.tiles[w].type = Tile.Type.OPEN;
+
+      if ((cell.walls & Cell.walls.UP) === 0) {
+         this.tiles[w - this.width].type = Tile.Type.OPEN;
+      }
+
+      if ((cell.walls & Cell.walls.DOWN) === 0) {
+         this.tiles[w + this.width].type = Tile.Type.OPEN;
+      }
+
+      if ((cell.walls & Cell.walls.LEFT) === 0) {
+         this.tiles[w - 1].type = Tile.Type.OPEN;
+      }
+
+      if ((cell.walls & Cell.walls.RIGHT) === 0) {
+         this.tiles[w + 1].type = Tile.Type.OPEN;
+      }
    }
 };
 </script>
@@ -422,8 +438,8 @@ Map.prototype.parseBoard = function(board) {
     * http://www.rodrigo-silveira.com
     */
    var main = function() {
-      var WIDTH_CELLS = 16;
-      var HEIGHT_CELLS = 16;
+      var WIDTH_CELLS = 20;
+      var HEIGHT_CELLS = 20;
       var board = new Board(WIDTH_CELLS, HEIGHT_CELLS);
       board.generate();
       var map = new Map(WIDTH_CELLS * 2 + 1, HEIGHT_CELLS * 2 + 1);
