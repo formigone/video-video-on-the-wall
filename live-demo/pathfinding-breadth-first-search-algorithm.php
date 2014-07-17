@@ -13,12 +13,21 @@
       height: 100%;
       margin: 0;
       padding: 0;
+      background: #aaa;
    }
 
    canvas {
-      margin: 0;
+      margin: 20px auto;
       padding: 0;
       display: block;
+      box-shadow: 0 10px 70px #333;
+
+      image-rendering: optimizeSpeed;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: -o-crisp-edges;
+      image-rendering: optimize-contrast;
+      -ms-interpolation-mode: nearest-neighbor;
    }
 
    #notice {
@@ -320,27 +329,38 @@ MapRenderer.prototype.render = function(time) {
    var tiles = this.map.tiles;
    var x = 0;
    var y = 0;
+   var material = null;
 
    if (now > this.delay) {
-      this.ctx.fillStyle = this.colors.bg;
-      this.ctx.fillRect(0, 0, this.width, this.height);
       this.ctx.fillStyle = this.colors.wall;
+      this.ctx.fillRect(0, 0, this.width, this.height);
+      this.ctx.fillStyle = this.colors.bg;
 
       for (var i = 0, len = tiles.length; i < len; i++) {
-         if (tiles[i].type === Tile.Type.OPEN) {
-            x = i % this.map.width;
-            y = parseInt(i / this.map.width);
+         x = i % this.map.width;
+         y = parseInt(i / this.map.width);
 
-            this.ctx.fillRect(x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
-         }
+         material = tiles[i].material;
+         this.ctx.drawImage(material.img,
+            material.sx, material.sy, material.width, material.height,
+            x * this.tileWidth, y * this.tileHeight, this.tileWidth, this.tileHeight);
       }
 
       this.lastTime = now;
    }
 };
 
-var Tile = function() {
-   this.type = Tile.Type.CLOSED;
+var Material = function(img, sx, sy, w, h) {
+   this.img = img;
+   this.sx = sx;
+   this.sy = sy;
+   this.width = w;
+   this.height = h;
+};
+
+var Tile = function(material, type) {
+   this.material = material;
+   this.type = type || Tile.Type.WALL;
 };
 
 Tile.Type = {
@@ -357,9 +377,45 @@ var Map = function(width, height) {
 };
 
 Map.prototype.init = function() {
+   var imgWall = new Image();
+   imgWall.src = 'img/zelda-gba-tileset.png';
+
+   var mat = new Material(imgWall, 16 * 33 + 34 + 3, 16 * 8 + 9 - 2, 16, 16);
+   var matTL = new Material(imgWall, 16 * 0 + 1, 16 * 0 + 1, 16, 16);
+   var matTR = new Material(imgWall, 16 * 5 + 6, 16 * 0 + 1, 16, 16);
+   var matBL = new Material(imgWall, 16 * 0 + 1, 16 * 4 + 5, 16, 16);
+   var matBR = new Material(imgWall, 16 * 5 + 6, 16 * 4 + 5, 16, 16);
+   var matT = new Material(imgWall, 16 * 1 + 2, 16 * 0 + 1, 16, 16);
+   var matB = new Material(imgWall, 16 * 1 + 2, 16 * 4 + 5, 16, 16);
+   var matL = new Material(imgWall, 16 * 0 + 1, 16 * 3 + 4, 16, 16);
+   var matR = new Material(imgWall, 16 * 5 + 6, 16 * 3 + 4, 16, 16);
+   var tile = null;
+   var x = 0;
+   var y = 0;
+
    for (var i = 0, len = this.width * this.height; i < len; i++) {
-      this.tiles.push(new Tile());
+      x = i % this.width;
+      y = parseInt(i / this.width);
+
+      if (x === 0) {
+         tile = new Tile(matL);
+      } else if (x === this.width - 1) {
+         tile = new Tile(matR);
+      } else if (y === 0) {
+         tile = new Tile(matT);
+      } else if (y === this.height - 1) {
+         tile = new Tile(matB);
+      } else {
+         tile = new Tile(mat);
+      }
+
+      this.tiles.push(tile);
    }
+
+   this.tiles[0] = new Tile(matTL);
+   this.tiles[this.width - 1] = new Tile(matTR);
+   this.tiles[this.width * this.height - this.width] = new Tile(matBL);
+   this.tiles[this.width * this.height - 1] = new Tile(matBR);
 };
 
 Map.prototype.parseBoard = function(board) {
@@ -404,6 +460,9 @@ Map.prototype.parseBoard = function(board) {
    var x = 0;
    var w = 0;
    var cell = null;
+   var imgWall = new Image();
+   imgWall.src = 'img/zelda-gba-tileset.png';
+   var mat = new Material(imgWall, 16 * 1 + 2, 16 * 1 + 2, 16, 16);
 
    for (var i = 0, len = board.cells.length; i < len; i++) {
       x = i % board.width;
@@ -412,21 +471,26 @@ Map.prototype.parseBoard = function(board) {
 
       cell = board.cells[i];
       this.tiles[w].type = Tile.Type.OPEN;
+      this.tiles[w].material = mat;
 
       if ((cell.walls & Cell.walls.UP) === 0) {
          this.tiles[w - this.width].type = Tile.Type.OPEN;
+         this.tiles[w - this.width].material = mat;
       }
 
       if ((cell.walls & Cell.walls.DOWN) === 0) {
          this.tiles[w + this.width].type = Tile.Type.OPEN;
+         this.tiles[w + this.width].material = mat;
       }
 
       if ((cell.walls & Cell.walls.LEFT) === 0) {
          this.tiles[w - 1].type = Tile.Type.OPEN;
+         this.tiles[w - 1].material = mat;
       }
 
       if ((cell.walls & Cell.walls.RIGHT) === 0) {
          this.tiles[w + 1].type = Tile.Type.OPEN;
+         this.tiles[w + 1].material = mat;
       }
    }
 };
@@ -438,7 +502,7 @@ Map.prototype.parseBoard = function(board) {
     * http://www.rodrigo-silveira.com
     */
    var main = function() {
-      var WIDTH_CELLS = 20;
+      var WIDTH_CELLS = 45;
       var HEIGHT_CELLS = 20;
       var board = new Board(WIDTH_CELLS, HEIGHT_CELLS);
       board.generate();
@@ -463,7 +527,7 @@ Map.prototype.parseBoard = function(board) {
 
       var gameLoop = function(time) {
          renderer.render(time);
-//            requestAnimationFrame(gameLoop);
+         requestAnimationFrame(gameLoop);
       };
 
       gameLoop(999);
