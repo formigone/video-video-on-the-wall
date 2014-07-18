@@ -85,6 +85,9 @@ var Player = function(x, y, width, height, speed, material, _update) {
    this.height = height;
    this.material = material;
 
+   this.divWidth = 1 / this.width;
+   this.divHeight = 1 / this.height;
+
    this.view = 0;
    this.lastTime = 0;
    this.animSpeed = 1000 / 8;
@@ -480,6 +483,8 @@ Controller.Codes = {
 var main = function(__w, __h) {
    var WIDTH_CELLS = __w || 2;
    var HEIGHT_CELLS = __h || 2;
+   var TILE_WIDTH_PX = 32;
+   var TILE_HEIGHT_PX = 32;
    var board = new Board(WIDTH_CELLS, HEIGHT_CELLS);
    board.generate();
    var map = new Map(WIDTH_CELLS * 2 + 1, HEIGHT_CELLS * 2 + 1, materialGrassCb);
@@ -500,7 +505,7 @@ var main = function(__w, __h) {
          document.body.removeEventListener('keydown', onKeyDown, false);
          document.body.removeEventListener('keyup', onKeyUp, false);
 
-         return main(WIDTH_CELLS < 23 ? WIDTH_CELLS+= 1 : 23, HEIGHT_CELLS < 9 ? HEIGHT_CELLS += 1 : 9);
+         return main(WIDTH_CELLS < 42 ? WIDTH_CELLS+= 1 : 42, HEIGHT_CELLS < 15 ? HEIGHT_CELLS += 1 : 15);
       }, 100);
    };
 
@@ -546,6 +551,11 @@ var main = function(__w, __h) {
       } else {
          var now = time - this.lastTime;
          var diff = now > 128 ? 128 : now;
+         var tileX = 0;
+         var tileX2 = 0;
+         var tileY = 0;
+         var tileY2 = 0;
+
          if (now > this.animSpeed) {
             if (this.dir === Controller.Keys.RIGHT) {
                this.view = (this.view + 1) % 3;
@@ -560,6 +570,25 @@ var main = function(__w, __h) {
             this.lastTime = time
          }
 
+         if (this.dir === Controller.Keys.RIGHT) {
+            this.x += this.speed * diff;
+
+            tileX = parseInt(map.width * this.y + this.x);
+            tileX2 = parseInt(map.width * this.y + this.x + 0.5);
+            tileY = parseInt(map.width * (this.y + 0.5) + this.x);
+            tileY2 = parseInt(map.width * (this.y + 0.5) + this.x + 0.5);
+
+            if (map.tiles[tileX2].type === Tile.Type.WALL) {
+               
+            }
+         } else if (this.dir === Controller.Keys.LEFT) {
+            this.x -= this.speed * diff;
+         } else if (this.dir === Controller.Keys.UP) {
+            this.y -= this.speed * diff;
+         } else if (this.dir === Controller.Keys.DOWN) {
+            this.y += this.speed * diff;
+         }
+/*
          if (this.dir === Controller.Keys.RIGHT) {
             if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x) + 1].type === Tile.Type.OPEN) {
                this.x += this.speed * diff;
@@ -585,14 +614,15 @@ var main = function(__w, __h) {
                this.y = parseInt(this.y);
             }
          }
+*/
       }
    };
 
-   var hero = new Player(1, 1, 32, 32, 1.75 / 1000, getLinkMaterial(), updateHero);
-   var target = new Player(map.width - 2, map.height - 2, 32, 32, 3, getTargetMaterial());
+   var hero = new Player(1, 1, TILE_WIDTH_PX, TILE_HEIGHT_PX, 1.75 / 1000, getLinkMaterial(), updateHero);
+   var target = new Player(map.width - 2, map.height - 2, TILE_WIDTH_PX, TILE_HEIGHT_PX, 3, getTargetMaterial());
    var renderer = new MapRenderer(map, hero, target, {
-      tileWidth: 32,
-      tileHeight: 32,
+      tileWidth: TILE_WIDTH_PX,
+      tileHeight: TILE_HEIGHT_PX,
       bgColor: '#fff',
       wallColor: '#000',
       fps: 32
