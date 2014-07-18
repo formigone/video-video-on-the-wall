@@ -537,6 +537,28 @@ var main = function(__w, __h) {
    document.body.addEventListener('keydown', onKeyDown, false);
    document.body.addEventListener('keyup', onKeyUp, false);
 
+    /**
+     * @param {Player} entity
+     * @param {Map} map
+     */
+   var getBoundingBoxPoints = function(entity, map) {
+       var x = parseInt(entity.x);
+       var x2 = parseInt((entity.x * entity.width + entity.width) / entity.width);
+       var y = parseInt(entity.y);
+       var y2 = parseInt((entity.y * entity.height + entity.height - 5) / entity.height);
+
+       return {
+          topLeft: map.width * y + x,
+          topRight: map.width * y + x2,
+          bottomLeft: parseInt(map.width * (entity.y + (1 / entity.height)) + entity.x),
+          bottomRight: map.width * y2 + x2,
+          x: x,
+          x2: x2,
+          y: y,
+          y2: y2
+       };
+    };
+
    var updateHero = function(time) {
       if (ctrl.pressed === 0) {
          if (this.dir === Controller.Keys.RIGHT) {
@@ -550,11 +572,9 @@ var main = function(__w, __h) {
          }
       } else {
          var now = time - this.lastTime;
-         var diff = now > 128 ? 128 : now;
-         var tileX = 0;
-         var tileX2 = 0;
-         var tileY = 0;
-         var tileY2 = 0;
+         var elapsed = now > 128 ? 128 : now;
+         var box;
+         var displace = this.speed * elapsed;
 
          if (now > this.animSpeed) {
             if (this.dir === Controller.Keys.RIGHT) {
@@ -571,45 +591,60 @@ var main = function(__w, __h) {
          }
 
          if (this.dir === Controller.Keys.RIGHT) {
-            this.x += this.speed * diff;
-
-            tileX = parseInt(map.width * this.y + this.x);
-            tileX2 = parseInt(map.width * this.y + this.x + 0.5);
-            tileY = parseInt(map.width * (this.y + 0.5) + this.x);
-            tileY2 = parseInt(map.width * (this.y + 0.5) + this.x + 0.5);
-
-            if (map.tiles[tileX2].type === Tile.Type.WALL) {
-               
+            this.x += displace;
+            box = getBoundingBoxPoints(this, map);
+//console.log('('+this.x +','+ this.y+') => [' + box.topLeft +','+ box.topRight+']:['+box.bottomLeft+','+box.bottomRight+']');
+            if (map.tiles[box.topRight].type === Tile.Type.WALL ||
+               map.tiles[box.bottomRight].type === Tile.Type.WALL) {
+               this.x = box.x;
             }
          } else if (this.dir === Controller.Keys.LEFT) {
-            this.x -= this.speed * diff;
+            this.x -= displace;
+            box = getBoundingBoxPoints(this, map);
+
+            if (map.tiles[box.topLeft].type === Tile.Type.WALL ||
+               map.tiles[box.bottomLeft].type === Tile.Type.WALL) {
+               this.x = box.x2;
+            }
          } else if (this.dir === Controller.Keys.UP) {
-            this.y -= this.speed * diff;
+            this.y -= displace;
+            box = getBoundingBoxPoints(this, map);
+
+            if (map.tiles[box.topRight].type === Tile.Type.WALL ||
+               map.tiles[box.topLeft].type === Tile.Type.WALL) {
+//               this.y = box.y2
+            }
          } else if (this.dir === Controller.Keys.DOWN) {
-            this.y += this.speed * diff;
+            this.y += displace;
+            box = getBoundingBoxPoints(this, map);
+
+            if (map.tiles[box.bottomLeft].type === Tile.Type.WALL ||
+               map.tiles[box.bottomRight].type === Tile.Type.WALL) {
+//               this.y = box.y;
+            }
          }
 /*
          if (this.dir === Controller.Keys.RIGHT) {
             if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x) + 1].type === Tile.Type.OPEN) {
-               this.x += this.speed * diff;
+               this.x += this.speed * elapsed;
 //            } else {
 //               this.x = parseInt(this.x);
             }
          } else if (this.dir === Controller.Keys.LEFT) {
             if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x)].type === Tile.Type.OPEN) {
-               this.x -= this.speed * diff;
+               this.x -= this.speed * elapsed;
             } else {
                this.x = parseInt(this.x + 0.5);
             }
          } else if (this.dir === Controller.Keys.UP) {
             if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x)].type === Tile.Type.OPEN) {
-               this.y -= this.speed * diff;
+               this.y -= this.speed * elapsed;
             } else {
                this.y = parseInt(this.y + 0.5);
             }
          } else if (this.dir === Controller.Keys.DOWN) {
             if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x) + map.width].type === Tile.Type.OPEN) {
-               this.y += this.speed * diff;
+               this.y += this.speed * elapsed;
             } else {
                this.y = parseInt(this.y);
             }
