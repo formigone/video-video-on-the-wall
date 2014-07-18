@@ -543,14 +543,14 @@ var main = function(__w, __h) {
      */
    var getBoundingBoxPoints = function(entity, map) {
        var x = parseInt(entity.x);
-       var x2 = parseInt((entity.x * entity.width + entity.width) / entity.width);
+       var x2 = parseInt((entity.x * entity.width + entity.width - 2) / entity.width);
        var y = parseInt(entity.y);
-       var y2 = parseInt((entity.y * entity.height + entity.height - 5) / entity.height);
+       var y2 = parseInt((entity.y * entity.height + entity.height - 2) / entity.height);
 
        return {
           topLeft: map.width * y + x,
           topRight: map.width * y + x2,
-          bottomLeft: parseInt(map.width * (entity.y + (1 / entity.height)) + entity.x),
+          bottomLeft: map.width * y2 + x,
           bottomRight: map.width * y2 + x2,
           x: x,
           x2: x2,
@@ -612,15 +612,15 @@ var main = function(__w, __h) {
 
             if (map.tiles[box.topRight].type === Tile.Type.WALL ||
                map.tiles[box.topLeft].type === Tile.Type.WALL) {
-//               this.y = box.y2
+               this.y = box.y2
             }
          } else if (this.dir === Controller.Keys.DOWN) {
             this.y += displace;
             box = getBoundingBoxPoints(this, map);
-
+//   console.log('('+this.x +','+ this.y+') => [' + box.topLeft +','+ box.topRight+']:['+box.bottomLeft+','+box.bottomRight+']');
             if (map.tiles[box.bottomLeft].type === Tile.Type.WALL ||
                map.tiles[box.bottomRight].type === Tile.Type.WALL) {
-//               this.y = box.y;
+               this.y = box.y;
             }
          }
 /*
