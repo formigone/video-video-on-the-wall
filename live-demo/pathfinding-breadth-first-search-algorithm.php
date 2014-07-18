@@ -584,9 +584,9 @@ var main = function(__w, __h) {
      */
    var getBoundingBoxPoints = function(entity, map) {
        var x = parseInt(entity.x);
-       var x2 = parseInt((entity.x * entity.width + entity.width - 2) / entity.width);
+       var x2 = parseInt((entity.x * entity.width + entity.width - 1) / entity.width);
        var y = parseInt(entity.y);
-       var y2 = parseInt((entity.y * entity.height + entity.height - 2) / entity.height);
+       var y2 = parseInt((entity.y * entity.height + entity.height - 1) / entity.height);
 
        return {
           topLeft: map.width * y + x,
