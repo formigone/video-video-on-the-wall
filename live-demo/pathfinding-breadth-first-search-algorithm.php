@@ -2,6 +2,47 @@
 <html lang="en">
 <head>
    <meta charset="utf-8">
+<!--
+
+                        ___           ___           ___
+                       /\__\         /\  \         /\__\
+                      /:/ _/_       /::\  \       /:/ _/_         ___
+                     /:/ /\__\     /:/\:\  \     /:/ /\  \       /|  |
+                    /:/ /:/ _/_   /:/ /::\  \   /:/ /::\  \     |:|  |
+                   /:/_/:/ /\__\ /:/_/:/\:\__\ /:/_/:/\:\__\    |:|  |
+                   \:\/:/ /:/  / \:\/:/  \/__/ \:\/:/ /:/  /  __|:|__|
+                    \::/_/:/  /   \::/__/       \::/ /:/  /  /::::\  \
+                     \:\/:/  /     \:\  \        \/_/:/  /   ~~~~\:\  \
+                      \::/  /       \:\__\         /:/  /         \:\__\
+                       \/__/         \/__/         \/__/           \/__/
+                             ___           ___           ___           ___
+                            /\__\         /\  \         /\  \         /\  \
+                           /:/ _/_       /::\  \       /::\  \        \:\  \
+                          /:/ /\__\     /:/\:\  \     /:/\:\__\        \:\  \
+           ___     ___   /:/ /:/ _/_   /:/ /::\  \   /:/ /:/  /    _____\:\  \
+          /\  \   /\__\ /:/_/:/ /\__\ /:/_/:/\:\__\ /:/_/:/__/___ /::::::::\__\
+          \:\  \ /:/  / \:\/:/ /:/  / \:\/:/  \/__/ \:\/:::::/  / \:\~~\~~\/__/
+           \:\  /:/  /   \::/_/:/  /   \::/__/       \::/~~/~~~~   \:\  \
+            \:\/:/  /     \:\/:/  /     \:\  \        \:\~~\        \:\  \
+             \::/  /       \::/  /       \:\__\        \:\__\        \:\__\
+              \/__/         \/__/         \/__/         \/__/         \/__/
+                    ___                         ___           ___                       ___
+                   /\  \                       /\  \         /\  \                     /\  \
+      ___          \:\  \         ___         /::\  \       /::\  \       ___         /::\  \
+     /\__\          \:\  \       /\__\       /:/\:\  \     /:/\:\__\     /\__\       /:/\:\  \
+    /:/  /      ___  \:\  \     /:/  /      /:/  \:\  \   /:/ /:/  /    /:/__/      /:/ /::\  \   ___     ___
+   /:/__/      /\  \  \:\__\   /:/__/      /:/__/ \:\__\ /:/_/:/__/___ /::\  \     /:/_/:/\:\__\ /\  \   /\__\
+  /::\  \      \:\  \ /:/  /  /::\  \      \:\  \ /:/  / \:\/:::::/  / \/\:\  \__  \:\/:/  \/__/ \:\  \ /:/  /
+ /:/\:\  \      \:\  /:/  /  /:/\:\  \      \:\  /:/  /   \::/~~/~~~~   ~~\:\/\__\  \::/__/       \:\  /:/  /
+ \/__\:\  \      \:\/:/  /   \/__\:\  \      \:\/:/  /     \:\~~\          \::/  /   \:\  \        \:\/:/  /
+      \:\__\      \::/  /         \:\__\      \::/  /       \:\__\         /:/  /     \:\__\        \::/  /
+       \/__/       \/__/           \/__/       \/__/         \/__/         \/__/       \/__/         \/__/
+
+  + + + + + + +----------------------  http://www.easylearntutorial.com  ----------------------+ + + + + + +
+
+(c) 2014 Rodrigo Silveira. All rights reserved. Graphics and music by Nintendo and/or their respective copyright owners.
+
+-->
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Pathfinding Algorithm - Breadth First Search - Demo</title>
@@ -483,8 +524,8 @@ Controller.Codes = {
 var main = function(__w, __h) {
    var WIDTH_CELLS = __w || 2;
    var HEIGHT_CELLS = __h || 2;
-   var TILE_WIDTH_PX = 32;
-   var TILE_HEIGHT_PX = 32;
+   var TILE_WIDTH_PX = 20;
+   var TILE_HEIGHT_PX = 20;
    var board = new Board(WIDTH_CELLS, HEIGHT_CELLS);
    board.generate();
    var map = new Map(WIDTH_CELLS * 2 + 1, HEIGHT_CELLS * 2 + 1, materialGrassCb);
@@ -593,7 +634,6 @@ var main = function(__w, __h) {
          if (this.dir === Controller.Keys.RIGHT) {
             this.x += displace;
             box = getBoundingBoxPoints(this, map);
-//console.log('('+this.x +','+ this.y+') => [' + box.topLeft +','+ box.topRight+']:['+box.bottomLeft+','+box.bottomRight+']');
             if (map.tiles[box.topRight].type === Tile.Type.WALL ||
                map.tiles[box.bottomRight].type === Tile.Type.WALL) {
                this.x = box.x;
@@ -617,39 +657,11 @@ var main = function(__w, __h) {
          } else if (this.dir === Controller.Keys.DOWN) {
             this.y += displace;
             box = getBoundingBoxPoints(this, map);
-//   console.log('('+this.x +','+ this.y+') => [' + box.topLeft +','+ box.topRight+']:['+box.bottomLeft+','+box.bottomRight+']');
             if (map.tiles[box.bottomLeft].type === Tile.Type.WALL ||
                map.tiles[box.bottomRight].type === Tile.Type.WALL) {
                this.y = box.y;
             }
          }
-/*
-         if (this.dir === Controller.Keys.RIGHT) {
-            if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x) + 1].type === Tile.Type.OPEN) {
-               this.x += this.speed * elapsed;
-//            } else {
-//               this.x = parseInt(this.x);
-            }
-         } else if (this.dir === Controller.Keys.LEFT) {
-            if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x)].type === Tile.Type.OPEN) {
-               this.x -= this.speed * elapsed;
-            } else {
-               this.x = parseInt(this.x + 0.5);
-            }
-         } else if (this.dir === Controller.Keys.UP) {
-            if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x)].type === Tile.Type.OPEN) {
-               this.y -= this.speed * elapsed;
-            } else {
-               this.y = parseInt(this.y + 0.5);
-            }
-         } else if (this.dir === Controller.Keys.DOWN) {
-            if (map.tiles[parseInt(this.y) * map.width + parseInt(this.x) + map.width].type === Tile.Type.OPEN) {
-               this.y += this.speed * elapsed;
-            } else {
-               this.y = parseInt(this.y);
-            }
-         }
-*/
       }
    };
 
@@ -663,16 +675,13 @@ var main = function(__w, __h) {
       fps: 32
    });
 
-   var halfWidth = renderer.tileWidth * 0.5;
-   var halfHeight = renderer.tileHeight * 0.5;
-
    var gameLoop = function(time) {
       target.update(time);
       hero.update(time);
       renderer.render(time);
 
       if (parseInt(hero.x) === parseInt(target.x) && parseInt(hero.y) === parseInt(target.y)) {
-         alert('Thanks for saving me, Link!');
+         alert("Our princess is playing hard to get... now she wants to be saved in another castle.");
          levelUp();
          return;
       }
