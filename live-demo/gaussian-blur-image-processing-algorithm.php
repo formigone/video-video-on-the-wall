@@ -119,9 +119,7 @@
          var px = data.data;
          var tmpPx = new Uint8ClampedArray(px.length);
 
-         for (var i = 0, len = px.length; i < len; i++) {
-            tmpPx[i] = px[i];
-         }
+         tmpPx.set(px);
 
          for (var i = 0, len = px.length; i < len; i++) {
             if (i % 4 === 3) {
