@@ -40,7 +40,7 @@
 
      + + + + + + +----------------------  http://www.easylearntutorial.com  ----------------------+ + + + + + +
 
-   (c) 2014 Rodrigo Silveira. All rights reserved. Graphics and music by Nintendo and/or their respective copyright owners.
+   (c) 2014 Rodrigo Silveira. All rights reserved.
 
    -->
    <meta http-equiv="X-UA-Compatible" content="IE=edge">

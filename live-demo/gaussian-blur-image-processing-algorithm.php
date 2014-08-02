@@ -40,7 +40,7 @@
 
      + + + + + + +----------------------  http://www.easylearntutorial.com  ----------------------+ + + + + + +
 
-   (c) 2014 Rodrigo Silveira. All rights reserved. Graphics and music by Nintendo and/or their respective copyright owners.
+   (c) 2014 Rodrigo Silveira. All rights reserved.
 
    -->
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -150,7 +150,7 @@
       var btnBlur = document.getElementById('blur');
       var img = new Image();
       img.onload = init;
-      img.src = 'img/forest.jpg';
+      img.src = 'img/kate-mara.jpg';
 
       document.getElementById('canvas').appendChild(canvas);
    }());
@@ -176,6 +176,7 @@
 <div id="notice">
    <p>
       &copy; <?= date('Y', time()); ?> <a href="/">EasyLearnTutorial</a>. All rights reserved.
+      <a href="https://www.youtube.com/watch?v=7LW_75E3A1Q" style="float: right">Back to tutorial</a>
    </p>
 </div>
 </body>
