@@ -1,6 +1,6 @@
 <?php
 
-ini_set('memory_limit', '5M');
+ini_set('memory_limit', '5m');
 
 define('CHUNKING_PATH', '/tmp/');
 define('MEDIA_LIB_URL', '/var/www/medialib/');
