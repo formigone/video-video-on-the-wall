@@ -12,7 +12,7 @@ class Video_model extends CI_Model {
     */
    public function listSeries() {
       return $this->db->query('
-         select * from series order by alias
+         select * from series order by title asc
       '
       )->result_array();
    }
